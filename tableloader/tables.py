@@ -540,7 +540,7 @@ def metadataCreator(schema):
     invTypes =  Table('invTypes', metadata,
             Column('typeID', INTEGER(), primary_key=True, autoincrement=False, nullable=False),
             Column('groupID', INTEGER(),index=True),
-            Column('typeName', VARCHAR(length=100)),
+            Column('typeName', VARCHAR(length=200)),
             Column('description',UnicodeText()),
             Column('mass', FLOAT(precision=53)),
             Column('volume', FLOAT(precision=53)),
