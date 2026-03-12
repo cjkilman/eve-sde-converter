@@ -32,11 +32,11 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
+      - name: Install dependencies (Lightweight)
         run: |
           sudo apt-get update
           sudo apt-get install -y libyaml-dev
-          pip install -r requirements.txt
+          # Note: requirements.txt skipped here to save time on the initial check.
 
       - name: Get previous build from latest release
         id: get_previous_sde
@@ -52,7 +52,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
-      # --- THE MULTI-LINE PYTHON FIX ---
       - name: Get latest SDE build number from CCP
         id: get_latest_sde
         run: |
@@ -122,24 +121,27 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Download SDE artifact
         uses: actions/download-artifact@v4
         with:
           name: sde-data
           path: sde/
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: 'pip'
+
       - name: Install dependencies
         run: |
           sudo apt-get install -y libyaml-dev
           pip install -r requirements.txt
       
       - name: Run Load.py
-        run: python3 Load.py sqlite en --create-stripped
+        run: python3 -u Load.py sqlite en --create-stripped
 
-      # --- THE AUTOMATED CSV EXPORT ---
       - name: Export Tables to CSV
         run: |
           mkdir -p csv-exports
@@ -179,17 +181,31 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: 'pip'
+
       - name: Download SDE artifact
         uses: actions/download-artifact@v4
         with:
           name: sde-data
           path: sde/
-      - name: Run Load.py (MySQL)
+
+      - name: Install dependencies
         run: |
-          pip install -r requirements.txt
-          python3 Load.py mysql en
+          sudo apt-get update
+          sudo apt-get install -y libyaml-dev
+          pip install --no-input -q -r requirements.txt
+
+      - name: Run Load.py (MySQL)
+        run: python3 -u Load.py mysql en
+
       - name: Export MySQL Dump
         run: mysqldump -h 127.0.0.1 -u evesde -pevesdepass evesde | gzip > eve-mysql.sql.gz
+
       - name: Upload MySQL artifact
         uses: actions/upload-artifact@v4
         with:
@@ -205,6 +221,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: artifacts/
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
