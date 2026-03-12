@@ -2,9 +2,8 @@ name: Update EVE SDE and Release DBs
 
 on:
   schedule:
-    # Run once per day at 12:00 UTC
     - cron: "0 12 * * *"
-  workflow_dispatch:       # Manual trigger for the Schenectady Squeeze
+  workflow_dispatch: 
 
 jobs:
   check-and-update-sde:
@@ -27,21 +26,16 @@ jobs:
           else
             echo "is_manual=false" >> "$GITHUB_OUTPUT"
           fi
-        shell: bash
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Install system dependencies
+      - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libyaml-dev
-
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Get previous build from latest release
@@ -68,9 +62,7 @@ jobs:
       - name: Decide whether to update
         id: compare
         run: |
-          latest="${{ steps.get_latest_sde.outputs.latest_build }}"
-          previous="${{ steps.get_previous_sde.outputs.previous_build }}"
-          if [ "${{ steps.trigger_type.outputs.is_manual }}" = "true" ] || [ "$latest" != "$previous" ]; then
+          if [ "${{ steps.trigger_type.outputs.is_manual }}" = "true" ] || [ "${{ steps.get_latest_sde.outputs.latest_build }}" != "${{ steps.get_previous_sde.outputs.previous_build }}" ]; then
             echo "update_needed=true" >> "$GITHUB_OUTPUT"
           else
             echo "update_needed=false" >> "$GITHUB_OUTPUT"
@@ -98,7 +90,7 @@ jobs:
           BUILD="${{ steps.get_latest_sde.outputs.latest_build }}"
           VERSION_TAG="sde-${BUILD}.$(date +%H%M)"
           echo "version_tag=${VERSION_TAG}" >> "$GITHUB_OUTPUT"
-          echo "version_name=SDE ${BUILD}" >> "$GITHUB_OUTPUT"
+          echo "version_name=SDE ${BUILD} (Auto-Export)" >> "$GITHUB_OUTPUT"
 
   build-sqlite:
     needs: check-and-update-sde
@@ -120,16 +112,24 @@ jobs:
         run: |
           sudo apt-get install -y libyaml-dev
           pip install -r requirements.txt
+      
       - name: Run Load.py
         run: python3 Load.py sqlite en --create-stripped
-      
-      # --- EXPORT CSVs IMMEDIATELY AFTER SQLITE BUILD ---
+
+      # --- THE AUTOMATED CSV EXPORT ---
       - name: Export Tables to CSV
         run: |
           mkdir -p csv-exports
+          # Script looks for eve.db in the root
           python3 export_csvs.py
-          mv ../eve-sde-dump/*.csv ./csv-exports/
-          
+          # Safely move CSVs from the directory specified in your config
+          if [ -d "../eve-sde-dump" ]; then
+            mv ../eve-sde-dump/*.csv ./csv-exports/
+          else
+            echo "Export directory not found!"
+            exit 1
+          fi
+
       - name: Upload database and CSV artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -152,7 +152,6 @@ jobs:
           MYSQL_DATABASE: evesde
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -166,15 +165,12 @@ jobs:
           pip install -r requirements.txt
           python3 Load.py mysql en
       - name: Export MySQL Dump
-        run: |
-          mysqldump -h 127.0.0.1 -u root -prootpassword evesde | gzip > eve-mysql.sql.gz
+        run: mysqldump -h 127.0.0.1 -u root -prootpassword evesde | gzip > eve-mysql.sql.gz
       - name: Upload MySQL artifact
         uses: actions/upload-artifact@v4
         with:
           name: sde-mysql
           path: eve-mysql.sql.gz
-
-  # (Jobs for Postgres and MSSQL would follow same pattern)
 
   create-release:
     runs-on: ubuntu-latest
