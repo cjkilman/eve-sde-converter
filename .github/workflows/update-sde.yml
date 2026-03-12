@@ -57,7 +57,8 @@ jobs:
         run: |
           BASE="https://developers.eveonline.com/static-data"
           curl -s "$BASE/tranquility/latest.jsonl" > latest.jsonl
-          python3 -c 'import json, os; f=open("latest.jsonl"); [os.system(f"echo latest_build={json.loads(l)[\"buildNumber\"]} >> $GITHUB_OUTPUT") for l in f if json.loads(l).get(\"_key\")==\"sde\"]'
+          # Fixed the quotes on buildNumber to avoid the SyntaxError
+          python3 -c 'import json, os; f=open("latest.jsonl"); [os.system(f"echo latest_build={json.loads(l)[\"buildNumber\"]} >> {os.environ[\"GITHUB_OUTPUT\"]}") for l in f if json.loads(l).get(\"_key\")==\"sde\"]'
 
       - name: Decide whether to update
         id: compare
