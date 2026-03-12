@@ -1,0 +1,843 @@
+science_id,science_type,datacore_id,datacore_name,agentID,agent_name,agent_level
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012843,Pisarpir Rooshan,4
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012845,Qerray Cherti,4
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012877,Yekatah Naman,4
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012883,Bummiri Nadaneh,4
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012885,Jalshinden Sharemi,4
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012846,Hoteviba Balete,3
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012852,Ashrat Mod,3
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012863,Girned Suzihyaz,3
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012866,Aher Shevooz,3
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3013408,Kudfa Qeritan,3
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3014465,Eveh Pomar,3
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3014466,Gatan Falboudih,3
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3014474,Parud Vakirokiki,3
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3017100,Reau Rachesiaen,3
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012841,Zasma Mimime,2
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012844,Mesen Ghathmik,2
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012874,Thappa Neesher,2
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012875,Zegon Gairdefe,2
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012882,Erghir Paja,2
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012886,Zaiden Tatsa,2
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012888,Araral Joase,2
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012892,Lipreneh Bela,2
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012963,Keseya Falian,2
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3014468,Yonal Janonah,2
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3014471,Bouf Chelul,2
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3014473,Fened Mazelen,2
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3014475,Sahmat Doshu,2
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3015993,Ohulainen Pesabato,2
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3015994,Reigen Ornolfer,2
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012850,Zasrike Poona,1
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012857,Ilisaferz Jihrahan,1
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012868,Raleya Inkaseemie,1
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012884,Yoti Yahta,1
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012889,Kilures Massih,1
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012893,Shiv Fasi,1
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3012897,Arveler Ihra,1
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3013405,Tharva Zarvinis,1
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3014469,Guhden Hahran,1
+11444,Amarr Starship Engineering,20421,Datacore - Amarrian Starship Engineering,3014472,Anatha Houn,1
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011165,Nakelaiken Obanmaka,4
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011459,Ekulela Siakkawai,4
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011470,Ya Alhunaya,4
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011524,Sakkatokka Limsen,4
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011526,Elanoda Popas,4
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011531,Kokanogi Hayeda,4
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011534,Panakiya Nakkilen,4
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3016560,Arvalen Reurmanen,4
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3016569,Anuken Urpalen,4
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011154,Vasti Sashobaira,3
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011462,Kannanen Harpas,3
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011473,Karnuras Ulalima,3
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011481,Kaseshita Vuorila,3
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011484,Toma Iwahira,3
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011491,Poirmavas Isoya,3
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011494,Viritie Arata,3
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011510,Aulamon Ahtulen,3
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011527,Ahtamon Pavanakka,3
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011530,Mislolen Issazainen,3
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011536,Olonashi Nokka,3
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011546,Harroken Shinunula,3
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011548,Eistenen Arveras,3
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011551,Hielukka Kajanainen,3
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3016559,Kajayeda Ernalen,3
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3016571,Irila Issakai,3
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011099,Iena Pahalo,2
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011111,Hamimaitoh Asanishi,2
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011145,Kaivonpaa Tuikakino,2
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011457,Orulen Arala,2
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011461,Sakehama Kannainen,2
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011464,Kangas Suori,2
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011466,Ichomala Nakilola,2
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011467,Ariken Kutsu,2
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011482,Aikawa Ren,2
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011501,Kotsiainen Unenailen,2
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011507,Hyononeki Maan,2
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011520,Okila Tsurvalen,2
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3016561,Ookirai Kurkashin,2
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3016566,Airatomon Kidurouchi,2
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011156,Utilusa Nurose,1
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011456,Eronpaa Aaromon,1
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011478,Ahudoki Imola,1
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011506,Arpoken Okakola,1
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011513,Isantani Igas,1
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3011547,Mulanta Kikuyaki,1
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3013568,Iena Tano,1
+11454,Caldari Starship Engineering,25887,Datacore - Caldari Starship Engineering,3016558,Taksabe Jishadan,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3009329,Clel Syctonerier,4
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3009368,Orlevreze Charloller,4
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011115,Kibayasu Jimmulen,4
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011165,Nakelaiken Obanmaka,4
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011524,Sakkatokka Limsen,4
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011531,Kokanogi Hayeda,4
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011534,Panakiya Nakkilen,4
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3012659,Kasukell Bjaren,4
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3013455,Aetaksan Reitufung,4
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3013461,Heidirdria Bord,4
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014200,Huren Hir,4
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014211,Eindolf Fer,4
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3015332,Doppepuette Ciete,4
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3016560,Arvalen Reurmanen,4
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3016569,Anuken Urpalen,4
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3009320,Emmire Esmoote,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3009336,Plandolis Lylouron,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3009357,Masalle Ambrette,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3009371,Yvandele Benic,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011113,Hakkonnonmaa Kunken,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011527,Ahtamon Pavanakka,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011530,Mislolen Issazainen,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011536,Olonashi Nokka,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011546,Harroken Shinunula,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011548,Eistenen Arveras,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011551,Hielukka Kajanainen,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3012601,Skuind Aettad,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3013458,Wingvontzen Urata,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014198,Aikellulf Raudadard,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014205,Adrek Reigeko,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014212,Olikia Ergreid,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014213,Gettogur Aemoin,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014218,Svamenzo Onibrard,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3015339,Avelelle Aubyrasse,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3016559,Kajayeda Ernalen,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3016562,Oichontiras Chikaroda,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3016564,Virtoh Raukomon,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3016571,Irila Issakai,3
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3009346,Clie Bempiery,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3009356,Isaugnedan Presetin,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3009358,Aunes Isolette,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3009364,Abins Apere,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011141,Asken Kuusamon,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011143,Shimano Uusasheken,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011541,Paara Nikkaken,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3012573,Gudkogi Aellelar,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3012612,Evrina Odboko,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3012638,Aldolbod Adran,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3012654,Redurosso Sotana,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014202,Akredold Teir,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014203,Siramer Aldynbjar,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014206,Malfit Bermedard,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014207,Wutild Alikia,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014208,Atige Otrin,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014215,Erorbert Andslar,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014220,Badik Skangt,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014476,Nikpipa Amben,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3015337,Roomfennan Ambettin,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3015338,Boungyes Ronier,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3015341,Aets Auretin,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3015432,Maulckaert Arje,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3015993,Ohulainen Pesabato,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3016561,Ookirai Kurkashin,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3016567,Hageken Ku,2
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3009318,Loiceloittin Arier,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3009326,Aderon Arde,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3009335,Anserguria Clue,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3009352,Wemire Ghynosseil,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3009373,Harcarin Angamuere,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011151,Homokoilen Kattanen,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3011517,Erokura Mikata,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3012647,Wikodlin Aren,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3012856,Marma Jada,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3013710,Bourard Yvenckbrault,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014204,Gadagufert Svetestet,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014210,Brattawold Redber,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014216,Liallemann Askanher,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014217,Marviduin Eigen,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3014221,Oswosmer Yrmasgur,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3015333,Dentchroose Audaille,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3015334,Bouveseuston Orvyllerier,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3015336,Blaysene Rhin,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3016558,Taksabe Jishadan,1
+11448,Electromagnetic Physics,20417,Datacore - Electromagnetic Physics,3016570,Kiukkaa Virtoh,1
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3009329,Clel Syctonerier,4
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3009329,Clel Syctonerier,4
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3009368,Orlevreze Charloller,4
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3009368,Orlevreze Charloller,4
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011524,Sakkatokka Limsen,4
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011524,Sakkatokka Limsen,4
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011526,Elanoda Popas,4
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011526,Elanoda Popas,4
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011531,Kokanogi Hayeda,4
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011531,Kokanogi Hayeda,4
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011534,Panakiya Nakkilen,4
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011534,Panakiya Nakkilen,4
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3012659,Kasukell Bjaren,4
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3012659,Kasukell Bjaren,4
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3012845,Qerray Cherti,4
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3012845,Qerray Cherti,4
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3013455,Aetaksan Reitufung,4
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3013455,Aetaksan Reitufung,4
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3014200,Huren Hir,4
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3014200,Huren Hir,4
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3014211,Eindolf Fer,4
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3014211,Eindolf Fer,4
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3014222,Rervedia Adgrat,4
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3014222,Rervedia Adgrat,4
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3015332,Doppepuette Ciete,4
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3015332,Doppepuette Ciete,4
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3016560,Arvalen Reurmanen,4
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3016560,Arvalen Reurmanen,4
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3016569,Anuken Urpalen,4
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3016569,Anuken Urpalen,4
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3009320,Emmire Esmoote,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3009320,Emmire Esmoote,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3009336,Plandolis Lylouron,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3009336,Plandolis Lylouron,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3009357,Masalle Ambrette,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3009357,Masalle Ambrette,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3009371,Yvandele Benic,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3009371,Yvandele Benic,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011154,Vasti Sashobaira,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011154,Vasti Sashobaira,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011491,Poirmavas Isoya,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011491,Poirmavas Isoya,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011510,Aulamon Ahtulen,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011510,Aulamon Ahtulen,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011527,Ahtamon Pavanakka,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011527,Ahtamon Pavanakka,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011536,Olonashi Nokka,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011536,Olonashi Nokka,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011546,Harroken Shinunula,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011546,Harroken Shinunula,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011551,Hielukka Kajanainen,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011551,Hielukka Kajanainen,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3013458,Wingvontzen Urata,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3013458,Wingvontzen Urata,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3014198,Aikellulf Raudadard,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3014198,Aikellulf Raudadard,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3014199,Edreid Lurmur,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3014199,Edreid Lurmur,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3014212,Olikia Ergreid,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3014212,Olikia Ergreid,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3014213,Gettogur Aemoin,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3014213,Gettogur Aemoin,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3015339,Avelelle Aubyrasse,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3015339,Avelelle Aubyrasse,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3016559,Kajayeda Ernalen,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3016559,Kajayeda Ernalen,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3016562,Oichontiras Chikaroda,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3016562,Oichontiras Chikaroda,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3016571,Irila Issakai,3
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3016571,Irila Issakai,3
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3009346,Clie Bempiery,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3009346,Clie Bempiery,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3009356,Isaugnedan Presetin,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3009356,Isaugnedan Presetin,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3009364,Abins Apere,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3009364,Abins Apere,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3009396,Apouttemes Lonraires,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3009396,Apouttemes Lonraires,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011457,Orulen Arala,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011457,Orulen Arala,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011498,Versanen Osoni,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011498,Versanen Osoni,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011520,Okila Tsurvalen,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011520,Okila Tsurvalen,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011541,Paara Nikkaken,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011541,Paara Nikkaken,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3012571,Bremmur Ensen,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3012571,Bremmur Ensen,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3012612,Evrina Odboko,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3012612,Evrina Odboko,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3012617,Arngur Idulf,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3012617,Arngur Idulf,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3012628,Bamfurmulf Govuden,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3012628,Bamfurmulf Govuden,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3012638,Aldolbod Adran,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3012638,Aldolbod Adran,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3014206,Malfit Bermedard,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3014206,Malfit Bermedard,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3014208,Atige Otrin,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3014208,Atige Otrin,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3014209,Zakt Alvald,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3014209,Zakt Alvald,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3014214,Ewelfill Eskar,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3014214,Ewelfill Eskar,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3014219,Hinember Vattosbod,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3014219,Hinember Vattosbod,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3015337,Roomfennan Ambettin,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3015337,Roomfennan Ambettin,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3015338,Boungyes Ronier,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3015338,Boungyes Ronier,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3015343,Virrelina Exenaert,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3015343,Virrelina Exenaert,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3015994,Reigen Ornolfer,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3015994,Reigen Ornolfer,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3016563,Shitsu Ashoma,2
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3016563,Shitsu Ashoma,2
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3009335,Anserguria Clue,1
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3009335,Anserguria Clue,1
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3009352,Wemire Ghynosseil,1
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3009352,Wemire Ghynosseil,1
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011504,Raussinen Hastoh,1
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011504,Raussinen Hastoh,1
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011547,Mulanta Kikuyaki,1
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011547,Mulanta Kikuyaki,1
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011550,Armie Hinashushi,1
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011550,Armie Hinashushi,1
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3011552,Itirikko Innishi,1
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3011552,Itirikko Innishi,1
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3012631,Alpur Stanuard,1
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3012631,Alpur Stanuard,1
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3012644,Skaer Bernild,1
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3012644,Skaer Bernild,1
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3012656,Avald Teuttewlf,1
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3012656,Avald Teuttewlf,1
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3014216,Liallemann Askanher,1
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3014216,Liallemann Askanher,1
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3014217,Marviduin Eigen,1
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3014217,Marviduin Eigen,1
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3015335,Gouey Orvempare,1
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3015335,Gouey Orvempare,1
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3015340,Pesteneye Onfraville,1
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3015340,Pesteneye Onfraville,1
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3015342,Auflaerdt Blala,1
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3015342,Auflaerdt Blala,1
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3016565,Irras Unanaitoh,1
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3016565,Irras Unanaitoh,1
+11453,Electronic Engineering,20116,Datacore - Electronic Subsystems Engineering,3016568,Ansunainen Miken,1
+11453,Electronic Engineering,20418,Datacore - Electronic Engineering,3016568,Ansunainen Miken,1
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009329,Clel Syctonerier,4
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009368,Orlevreze Charloller,4
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009390,Mastance Seillaerdt,4
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009397,Vlan Peloelus,4
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009566,Rias Luisauir,4
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009586,Ruborraude Eyghelet,4
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3013747,Sitaleere Beene,4
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3015332,Doppepuette Ciete,4
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3015430,Josvis Veveranne,4
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009320,Emmire Esmoote,3
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009336,Plandolis Lylouron,3
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009357,Masalle Ambrette,3
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009371,Yvandele Benic,3
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009375,Aid Hieur,3
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009378,Houvire Takaerne,3
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009560,Gryncelbois Erris,3
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009581,Aynstie Wentisagnel,3
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009582,Aleyvriman Elgent,3
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3013751,Charie Porelotta,3
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3015339,Avelelle Aubyrasse,3
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3015357,Allouppaire Chaldisemeur,3
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009346,Clie Bempiery,2
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009356,Isaugnedan Presetin,2
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009358,Aunes Isolette,2
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009364,Abins Apere,2
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009380,Pant Arbone,2
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009400,Zobydene Manc,2
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3015337,Roomfennan Ambettin,2
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3015338,Boungyes Ronier,2
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3015341,Aets Auretin,2
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3015343,Virrelina Exenaert,2
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3015432,Maulckaert Arje,2
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009318,Loiceloittin Arier,1
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009323,Orsetta Lexmoreau,1
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009326,Aderon Arde,1
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009373,Harcarin Angamuere,1
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3009578,Ollon Dumes,1
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3013710,Bourard Yvenckbrault,1
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3015334,Bouveseuston Orvyllerier,1
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3015336,Blaysene Rhin,1
+11450,Gallente Starship Engineering,20410,Datacore - Gallentean Starship Engineering,3015342,Auflaerdt Blala,1
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011115,Kibayasu Jimmulen,4
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011165,Nakelaiken Obanmaka,4
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011459,Ekulela Siakkawai,4
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011524,Sakkatokka Limsen,4
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011526,Elanoda Popas,4
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011531,Kokanogi Hayeda,4
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011534,Panakiya Nakkilen,4
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3016560,Arvalen Reurmanen,4
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3016569,Anuken Urpalen,4
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011096,Nalvola Nimmoda,3
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011113,Hakkonnonmaa Kunken,3
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011154,Vasti Sashobaira,3
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011491,Poirmavas Isoya,3
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011494,Viritie Arata,3
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011527,Ahtamon Pavanakka,3
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011536,Olonashi Nokka,3
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011548,Eistenen Arveras,3
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3012866,Aher Shevooz,3
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3016562,Oichontiras Chikaroda,3
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3016564,Virtoh Raukomon,3
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3017100,Reau Rachesiaen,3
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3017101,Pucherie Pidis,3
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011099,Iena Pahalo,2
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011141,Asken Kuusamon,2
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011143,Shimano Uusasheken,2
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011145,Kaivonpaa Tuikakino,2
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011467,Ariken Kutsu,2
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011474,Heinulaila Suola,2
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011486,Nuosiken Raulmanen,2
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011520,Okila Tsurvalen,2
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011541,Paara Nikkaken,2
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3014219,Hinember Vattosbod,2
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3016561,Ookirai Kurkashin,2
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3016563,Shitsu Ashoma,2
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3016567,Hageken Ku,2
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011105,Marttatoh Tiukiski,1
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011151,Homokoilen Kattanen,1
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3011156,Utilusa Nurose,1
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3016565,Irras Unanaitoh,1
+11446,Graviton Physics,20419,Datacore - Graviton Physics,3016568,Ansunainen Miken,1
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3009566,Rias Luisauir,4
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3009586,Ruborraude Eyghelet,4
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3011115,Kibayasu Jimmulen,4
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3011165,Nakelaiken Obanmaka,4
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3011459,Ekulela Siakkawai,4
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3012666,Aldilbet Sotisarin,4
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3012843,Pisarpir Rooshan,4
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3013461,Heidirdria Bord,4
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3013747,Sitaleere Beene,4
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3015430,Josvis Veveranne,4
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3009336,Plandolis Lylouron,3
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3009560,Gryncelbois Erris,3
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3009581,Aynstie Wentisagnel,3
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3009582,Aleyvriman Elgent,3
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3011096,Nalvola Nimmoda,3
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3011113,Hakkonnonmaa Kunken,3
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3011154,Vasti Sashobaira,3
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3012601,Skuind Aettad,3
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3012668,Beomilar Ofakilur,3
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3012863,Girned Suzihyaz,3
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3013462,Teurodedik Uarmelo,3
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3013751,Charie Porelotta,3
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3016564,Virtoh Raukomon,3
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3009579,Porchomette Chandrard,2
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3011111,Hamimaitoh Asanishi,2
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3011143,Shimano Uusasheken,2
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3012667,Zeireinn Olruin,2
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3012670,Amattold Ullbjell,2
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3012671,Agar Edonbald,2
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3012860,Khadboud Bin,2
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3015341,Aets Auretin,2
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3015431,Oerman Aroo,2
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3009574,Rilz Annaschaert,1
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3009575,Nayette Rorena,1
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3009578,Ollon Dumes,1
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3010615,Kidakaestur Isangrede,1
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3011123,Manamuwa Kurrisen,1
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3012660,Andur Oaldald,1
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3012664,Urondsuard Wititur,1
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3013460,Mardore Haunelfard,1
+11433,High Energy Physics,20411,Datacore - High Energy Physics,3015335,Gouey Orvempare,1
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011115,Kibayasu Jimmulen,4
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011459,Ekulela Siakkawai,4
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011470,Ya Alhunaya,4
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3013455,Aetaksan Reitufung,4
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011096,Nalvola Nimmoda,3
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011462,Kannanen Harpas,3
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011473,Karnuras Ulalima,3
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011481,Kaseshita Vuorila,3
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011484,Toma Iwahira,3
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011494,Viritie Arata,3
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011510,Aulamon Ahtulen,3
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011530,Mislolen Issazainen,3
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3013458,Wingvontzen Urata,3
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3014466,Gatan Falboudih,3
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3014467,Bikan Uanen,3
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3014474,Parud Vakirokiki,3
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011457,Orulen Arala,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011461,Sakehama Kannainen,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011464,Kangas Suori,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011466,Ichomala Nakilola,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011467,Ariken Kutsu,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011474,Heinulaila Suola,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011482,Aikawa Ren,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011486,Nuosiken Raulmanen,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011501,Kotsiainen Unenailen,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011507,Hyononeki Maan,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3012888,Araral Joase,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3014468,Yonal Janonah,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3014471,Bouf Chelul,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3014473,Fened Mazelen,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3014475,Sahmat Doshu,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3014476,Nikpipa Amben,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3016566,Airatomon Kidurouchi,2
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011456,Eronpaa Aaromon,1
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011460,Olkkenen Osa,1
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011478,Ahudoki Imola,1
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011487,Kabe Haunanen,1
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011504,Raussinen Hastoh,1
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011506,Arpoken Okakola,1
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3011513,Isantani Igas,1
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3012643,Omnolfan Pialt,1
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3012655,Erulf Eudar,1
+11443,Hydromagnetic Physics,20171,Datacore - Hydromagnetic Physics,3013568,Iena Tano,1
+11447,Laser Physics,20413,Datacore - Laser Physics,3012843,Pisarpir Rooshan,4
+11447,Laser Physics,20413,Datacore - Laser Physics,3012845,Qerray Cherti,4
+11447,Laser Physics,20413,Datacore - Laser Physics,3012877,Yekatah Naman,4
+11447,Laser Physics,20413,Datacore - Laser Physics,3012883,Bummiri Nadaneh,4
+11447,Laser Physics,20413,Datacore - Laser Physics,3012885,Jalshinden Sharemi,4
+11447,Laser Physics,20413,Datacore - Laser Physics,3012846,Hoteviba Balete,3
+11447,Laser Physics,20413,Datacore - Laser Physics,3012852,Ashrat Mod,3
+11447,Laser Physics,20413,Datacore - Laser Physics,3012863,Girned Suzihyaz,3
+11447,Laser Physics,20413,Datacore - Laser Physics,3012866,Aher Shevooz,3
+11447,Laser Physics,20413,Datacore - Laser Physics,3013408,Kudfa Qeritan,3
+11447,Laser Physics,20413,Datacore - Laser Physics,3014465,Eveh Pomar,3
+11447,Laser Physics,20413,Datacore - Laser Physics,3017100,Reau Rachesiaen,3
+11447,Laser Physics,20413,Datacore - Laser Physics,3017101,Pucherie Pidis,3
+11447,Laser Physics,20413,Datacore - Laser Physics,3012841,Zasma Mimime,2
+11447,Laser Physics,20413,Datacore - Laser Physics,3012860,Khadboud Bin,2
+11447,Laser Physics,20413,Datacore - Laser Physics,3012874,Thappa Neesher,2
+11447,Laser Physics,20413,Datacore - Laser Physics,3012875,Zegon Gairdefe,2
+11447,Laser Physics,20413,Datacore - Laser Physics,3012882,Erghir Paja,2
+11447,Laser Physics,20413,Datacore - Laser Physics,3012886,Zaiden Tatsa,2
+11447,Laser Physics,20413,Datacore - Laser Physics,3012888,Araral Joase,2
+11447,Laser Physics,20413,Datacore - Laser Physics,3012892,Lipreneh Bela,2
+11447,Laser Physics,20413,Datacore - Laser Physics,3013716,Mesch Ouc,2
+11447,Laser Physics,20413,Datacore - Laser Physics,3015431,Oerman Aroo,2
+11447,Laser Physics,20413,Datacore - Laser Physics,3015993,Ohulainen Pesabato,2
+11447,Laser Physics,20413,Datacore - Laser Physics,3015994,Reigen Ornolfer,2
+11447,Laser Physics,20413,Datacore - Laser Physics,3012669,Uolbeta Teonusude,1
+11447,Laser Physics,20413,Datacore - Laser Physics,3012856,Marma Jada,1
+11447,Laser Physics,20413,Datacore - Laser Physics,3012864,Etsyah Labih,1
+11447,Laser Physics,20413,Datacore - Laser Physics,3012869,Pedoorah Dedan,1
+11447,Laser Physics,20413,Datacore - Laser Physics,3012880,Deen Madselkika,1
+11447,Laser Physics,20413,Datacore - Laser Physics,3012893,Shiv Fasi,1
+11447,Laser Physics,20413,Datacore - Laser Physics,3012897,Arveler Ihra,1
+11447,Laser Physics,20413,Datacore - Laser Physics,3013405,Tharva Zarvinis,1
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3011115,Kibayasu Jimmulen,4
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3011165,Nakelaiken Obanmaka,4
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3012659,Kasukell Bjaren,4
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3012666,Aldilbet Sotisarin,4
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3012883,Bummiri Nadaneh,4
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3012885,Jalshinden Sharemi,4
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3013461,Heidirdria Bord,4
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3013747,Sitaleere Beene,4
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3014020,Oggand Viftuin,4
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3014222,Rervedia Adgrat,4
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3011096,Nalvola Nimmoda,3
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3011113,Hakkonnonmaa Kunken,3
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3011154,Vasti Sashobaira,3
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3011473,Karnuras Ulalima,3
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3011491,Poirmavas Isoya,3
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3011530,Mislolen Issazainen,3
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3012668,Beomilar Ofakilur,3
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3013462,Teurodedik Uarmelo,3
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3013751,Charie Porelotta,3
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3014213,Gettogur Aemoin,3
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3010612,Saerdald Oblikkur,2
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3010624,Eladizo Ansfriken,2
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3010639,Ebasger Arsvald,2
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3011099,Iena Pahalo,2
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3011111,Hamimaitoh Asanishi,2
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3011145,Kaivonpaa Tuikakino,2
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3012662,Adrald Evalfolf,2
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3014468,Yonal Janonah,2
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3015337,Roomfennan Ambettin,2
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3015343,Virrelina Exenaert,2
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3016566,Airatomon Kidurouchi,2
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3010615,Kidakaestur Isangrede,1
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3010620,Mannekar Daleder,1
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3010638,Ebiluard Stylera,1
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3011105,Marttatoh Tiukiski,1
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3011123,Manamuwa Kurrisen,1
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3011552,Itirikko Innishi,1
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3012665,Husk Alfur,1
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3012669,Uolbeta Teonusude,1
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3012850,Zasrike Poona,1
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3012889,Kilures Massih,1
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3013405,Tharva Zarvinis,1
+11452,Mechanical Engineering,20424,Datacore - Mechanical Engineering,3015342,Auflaerdt Blala,1
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3012659,Kasukell Bjaren,4
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3012666,Aldilbet Sotisarin,4
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3013455,Aetaksan Reitufung,4
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3013461,Heidirdria Bord,4
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3014020,Oggand Viftuin,4
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3014200,Huren Hir,4
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3014211,Eindolf Fer,4
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3014222,Rervedia Adgrat,4
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3012601,Skuind Aettad,3
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3012668,Beomilar Ofakilur,3
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3013458,Wingvontzen Urata,3
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3013462,Teurodedik Uarmelo,3
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3014198,Aikellulf Raudadard,3
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3014199,Edreid Lurmur,3
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3014205,Adrek Reigeko,3
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3014212,Olikia Ergreid,3
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3010612,Saerdald Oblikkur,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3010624,Eladizo Ansfriken,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3012612,Evrina Odboko,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3012617,Arngur Idulf,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3012628,Bamfurmulf Govuden,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3012638,Aldolbod Adran,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3012654,Redurosso Sotana,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3012662,Adrald Evalfolf,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3012667,Zeireinn Olruin,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3012670,Amattold Ullbjell,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3012671,Agar Edonbald,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3014201,Gnia Ebrunur,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3014202,Akredold Teir,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3014203,Siramer Aldynbjar,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3014209,Zakt Alvald,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3014214,Ewelfill Eskar,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3014215,Erorbert Andslar,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3014220,Badik Skangt,2
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3010611,Teurodedik Eodlan,1
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3012660,Andur Oaldald,1
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3012664,Urondsuard Wititur,1
+11445,Minmatar Starship Engineering,20172,Datacore - Minmatar Starship Engineering,3014221,Oswosmer Yrmasgur,1
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3011526,Elanoda Popas,4
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3011531,Kokanogi Hayeda,4
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3012845,Qerray Cherti,4
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3013455,Aetaksan Reitufung,4
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3014020,Oggand Viftuin,4
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3013458,Wingvontzen Urata,3
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3014218,Svamenzo Onibrard,3
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3014465,Eveh Pomar,3
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3014466,Gatan Falboudih,3
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3014467,Bikan Uanen,3
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3014474,Parud Vakirokiki,3
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3017101,Pucherie Pidis,3
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3010612,Saerdald Oblikkur,2
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3010624,Eladizo Ansfriken,2
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3010639,Ebasger Arsvald,2
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3012571,Bremmur Ensen,2
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3012662,Adrald Evalfolf,2
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3012963,Keseya Falian,2
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3014476,Nikpipa Amben,2
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3015343,Virrelina Exenaert,2
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3009394,Lean Fene,1
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3011552,Itirikko Innishi,1
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3012851,Arayya Ilayai,1
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3013463,Gratwonsdinnur Kjadeland,1
+11529,Molecular Engineering,20415,Datacore - Molecular Engineering,3014470,Abenar Zindob,1
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3012877,Yekatah Naman,4
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3012883,Bummiri Nadaneh,4
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3012885,Jalshinden Sharemi,4
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3013747,Sitaleere Beene,4
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3014020,Oggand Viftuin,4
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3012846,Hoteviba Balete,3
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3014465,Eveh Pomar,3
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3014466,Gatan Falboudih,3
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3014467,Bikan Uanen,3
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3014474,Parud Vakirokiki,3
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3017101,Pucherie Pidis,3
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3010639,Ebasger Arsvald,2
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3011498,Versanen Osoni,2
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3012571,Bremmur Ensen,2
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3012844,Mesen Ghathmik,2
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3012963,Keseya Falian,2
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3014468,Yonal Janonah,2
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3014471,Bouf Chelul,2
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3014473,Fened Mazelen,2
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3014475,Sahmat Doshu,2
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3010611,Teurodedik Eodlan,1
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3010620,Mannekar Daleder,1
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3012857,Ilisaferz Jihrahan,1
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3012884,Yoti Yahta,1
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3014469,Guhden Hahran,1
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3014470,Abenar Zindob,1
+11442,Nanite Engineering,20416,Datacore - Nanite Engineering,3014472,Anatha Houn,1
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3009397,Vlan Peloelus,4
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3012666,Aldilbet Sotisarin,4
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3013455,Aetaksan Reitufung,4
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3013461,Heidirdria Bord,4
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014020,Oggand Viftuin,4
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014200,Huren Hir,4
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014211,Eindolf Fer,4
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014222,Rervedia Adgrat,4
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3012668,Beomilar Ofakilur,3
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3013458,Wingvontzen Urata,3
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3013462,Teurodedik Uarmelo,3
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014199,Edreid Lurmur,3
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014205,Adrek Reigeko,3
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014213,Gettogur Aemoin,3
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014218,Svamenzo Onibrard,3
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3011498,Versanen Osoni,2
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3012573,Gudkogi Aellelar,2
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3012617,Arngur Idulf,2
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3012654,Redurosso Sotana,2
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3012667,Zeireinn Olruin,2
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3012670,Amattold Ullbjell,2
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3012671,Agar Edonbald,2
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014201,Gnia Ebrunur,2
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014202,Akredold Teir,2
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014206,Malfit Bermedard,2
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014207,Wutild Alikia,2
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014209,Zakt Alvald,2
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014214,Ewelfill Eskar,2
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014219,Hinember Vattosbod,2
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3010638,Ebiluard Stylera,1
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3012644,Skaer Bernild,1
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3012647,Wikodlin Aren,1
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3012656,Avald Teuttewlf,1
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3012661,Oten Kekkikber,1
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3012665,Husk Alfur,1
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3013463,Gratwonsdinnur Kjadeland,1
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3013712,Marjamette Arronne,1
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014204,Gadagufert Svetestet,1
+11451,Nuclear Physics,20423,Datacore - Nuclear Physics,3014210,Brattawold Redber,1
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009329,Clel Syctonerier,4
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009368,Orlevreze Charloller,4
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009390,Mastance Seillaerdt,4
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009397,Vlan Peloelus,4
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009566,Rias Luisauir,4
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009586,Ruborraude Eyghelet,4
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3012659,Kasukell Bjaren,4
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3013455,Aetaksan Reitufung,4
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3013747,Sitaleere Beene,4
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3015332,Doppepuette Ciete,4
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3015430,Josvis Veveranne,4
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009375,Aid Hieur,3
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009378,Houvire Takaerne,3
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009560,Gryncelbois Erris,3
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009581,Aynstie Wentisagnel,3
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009582,Aleyvriman Elgent,3
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3013458,Wingvontzen Urata,3
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3013751,Charie Porelotta,3
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3015339,Avelelle Aubyrasse,3
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3015357,Allouppaire Chaldisemeur,3
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3017100,Reau Rachesiaen,3
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009358,Aunes Isolette,2
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009380,Pant Arbone,2
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009396,Apouttemes Lonraires,2
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009398,Espidoure Malenut,2
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009400,Zobydene Manc,2
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009579,Porchomette Chandrard,2
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3013716,Mesch Ouc,2
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3015356,Edent Ystre,2
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3015431,Oerman Aroo,2
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3015432,Maulckaert Arje,2
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009323,Orsetta Lexmoreau,1
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009558,Obalanes Ardarette,1
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009574,Rilz Annaschaert,1
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3009575,Nayette Rorena,1
+11441,Plasma Physics,20412,Datacore - Plasma Physics,3015340,Pesteneye Onfraville,1
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3009390,Mastance Seillaerdt,4
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3009397,Vlan Peloelus,4
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3009566,Rias Luisauir,4
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011459,Ekulela Siakkawai,4
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011470,Ya Alhunaya,4
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3012659,Kasukell Bjaren,4
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3015332,Doppepuette Ciete,4
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3016560,Arvalen Reurmanen,4
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3009375,Aid Hieur,3
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3009378,Houvire Takaerne,3
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011462,Kannanen Harpas,3
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011473,Karnuras Ulalima,3
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011481,Kaseshita Vuorila,3
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011484,Toma Iwahira,3
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011491,Poirmavas Isoya,3
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011494,Viritie Arata,3
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011510,Aulamon Ahtulen,3
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3015357,Allouppaire Chaldisemeur,3
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3009380,Pant Arbone,2
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3009396,Apouttemes Lonraires,2
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3009398,Espidoure Malenut,2
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3009579,Porchomette Chandrard,2
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011141,Asken Kuusamon,2
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011461,Sakehama Kannainen,2
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011464,Kangas Suori,2
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011466,Ichomala Nakilola,2
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011474,Heinulaila Suola,2
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011482,Aikawa Ren,2
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011486,Nuosiken Raulmanen,2
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011501,Kotsiainen Unenailen,2
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011507,Hyononeki Maan,2
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3015356,Edent Ystre,2
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3015993,Ohulainen Pesabato,2
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3009558,Obalanes Ardarette,1
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011460,Olkkenen Osa,1
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3011487,Kabe Haunanen,1
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3012854,Kheed Hakpark,1
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3013712,Marjamette Arronne,1
+11455,Quantum Physics,20414,Datacore - Quantum Physics,3015333,Dentchroose Audaille,1
+11449,Rocket Science,20420,Datacore - Rocket Science,3009390,Mastance Seillaerdt,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3009397,Vlan Peloelus,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3011524,Sakkatokka Limsen,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3011526,Elanoda Popas,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3011534,Panakiya Nakkilen,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3012659,Kasukell Bjaren,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3012666,Aldilbet Sotisarin,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3012843,Pisarpir Rooshan,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3012845,Qerray Cherti,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3012877,Yekatah Naman,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3012883,Bummiri Nadaneh,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3012885,Jalshinden Sharemi,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3013455,Aetaksan Reitufung,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3014200,Huren Hir,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3014211,Eindolf Fer,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3014222,Rervedia Adgrat,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3016569,Anuken Urpalen,4
+11449,Rocket Science,20420,Datacore - Rocket Science,3009375,Aid Hieur,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3009378,Houvire Takaerne,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3009560,Gryncelbois Erris,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3011546,Harroken Shinunula,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3011548,Eistenen Arveras,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3011551,Hielukka Kajanainen,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3012601,Skuind Aettad,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3012846,Hoteviba Balete,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3012852,Ashrat Mod,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3012863,Girned Suzihyaz,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3012866,Aher Shevooz,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3013408,Kudfa Qeritan,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3014198,Aikellulf Raudadard,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3014199,Edreid Lurmur,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3014205,Adrek Reigeko,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3014212,Olikia Ergreid,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3014218,Svamenzo Onibrard,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3014467,Bikan Uanen,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3015357,Allouppaire Chaldisemeur,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3016559,Kajayeda Ernalen,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3016562,Oichontiras Chikaroda,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3016564,Virtoh Raukomon,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3016571,Irila Issakai,3
+11449,Rocket Science,20420,Datacore - Rocket Science,3009398,Espidoure Malenut,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3009400,Zobydene Manc,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3012573,Gudkogi Aellelar,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3012628,Bamfurmulf Govuden,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3012841,Zasma Mimime,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3012844,Mesen Ghathmik,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3012860,Khadboud Bin,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3012874,Thappa Neesher,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3012875,Zegon Gairdefe,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3012882,Erghir Paja,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3012886,Zaiden Tatsa,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3012892,Lipreneh Bela,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3013716,Mesch Ouc,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3014201,Gnia Ebrunur,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3014203,Siramer Aldynbjar,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3014207,Wutild Alikia,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3014208,Atige Otrin,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3014215,Erorbert Andslar,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3014220,Badik Skangt,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3015356,Edent Ystre,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3016563,Shitsu Ashoma,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3016566,Airatomon Kidurouchi,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3016567,Hageken Ku,2
+11449,Rocket Science,20420,Datacore - Rocket Science,3009394,Lean Fene,1
+11449,Rocket Science,20420,Datacore - Rocket Science,3011517,Erokura Mikata,1
+11449,Rocket Science,20420,Datacore - Rocket Science,3011550,Armie Hinashushi,1
+11449,Rocket Science,20420,Datacore - Rocket Science,3012631,Alpur Stanuard,1
+11449,Rocket Science,20420,Datacore - Rocket Science,3012643,Omnolfan Pialt,1
+11449,Rocket Science,20420,Datacore - Rocket Science,3012655,Erulf Eudar,1
+11449,Rocket Science,20420,Datacore - Rocket Science,3012661,Oten Kekkikber,1
+11449,Rocket Science,20420,Datacore - Rocket Science,3012850,Zasrike Poona,1
+11449,Rocket Science,20420,Datacore - Rocket Science,3012851,Arayya Ilayai,1
+11449,Rocket Science,20420,Datacore - Rocket Science,3012854,Kheed Hakpark,1
+11449,Rocket Science,20420,Datacore - Rocket Science,3012864,Etsyah Labih,1
+11449,Rocket Science,20420,Datacore - Rocket Science,3012868,Raleya Inkaseemie,1
+11449,Rocket Science,20420,Datacore - Rocket Science,3012869,Pedoorah Dedan,1
+11449,Rocket Science,20420,Datacore - Rocket Science,3012880,Deen Madselkika,1
+11449,Rocket Science,20420,Datacore - Rocket Science,3013460,Mardore Haunelfard,1
+11449,Rocket Science,20420,Datacore - Rocket Science,3016570,Kiukkaa Virtoh,1
