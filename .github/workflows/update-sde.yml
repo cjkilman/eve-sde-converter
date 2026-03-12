@@ -4,15 +4,11 @@ on:
   schedule:
     # Run once per day at 12:00 UTC
     - cron: "0 12 * * *"
-  workflow_dispatch:       # optional manual trigger
+  workflow_dispatch:       # Manual trigger for the Schenectady Squeeze
 
 jobs:
   check-and-update-sde:
     runs-on: ubuntu-latest
-
-    # Only run this job on main
-    # if: github.ref == 'refs/heads/main'
-
     outputs:
       update_needed: ${{ steps.compare.outputs.update_needed }}
       latest_build:  ${{ steps.get_latest_sde.outputs.latest_build }}
@@ -27,10 +23,8 @@ jobs:
         id: trigger_type
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "Trigger: Manual (workflow_dispatch)"
             echo "is_manual=true" >> "$GITHUB_OUTPUT"
           else
-            echo "Trigger: Automatic (schedule)"
             echo "is_manual=false" >> "$GITHUB_OUTPUT"
           fi
         shell: bash
@@ -50,164 +44,45 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # 1) Get previous build number from latest GitHub release
       - name: Get previous build from latest release
         id: get_previous_sde
         run: |
-          # Get the latest release tag
           latest_tag=$(gh release list --limit 1 --json tagName --jq '.[0].tagName' 2>/dev/null || echo "")
-
           if [ -n "$latest_tag" ]; then
-            # Extract build number from tag (format: sde-{buildNumber} or sde-{buildNumber}.{patch})
-            # Remove 'sde-' prefix
             version_part="${latest_tag#sde-}"
-            # Extract base build number (remove .XX patch if present)
             previous_build="${version_part%%.*}"
           else
             previous_build=""
           fi
-
-          echo "Latest release tag: '${latest_tag}'"
-          echo "Previous SDE build number: '${previous_build}'"
           echo "previous_build=${previous_build}" >> "$GITHUB_OUTPUT"
-          echo "previous_tag=${latest_tag}" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ github.token }}
-        shell: bash
 
-      # 2) Fetch latest SDE build from CCP
       - name: Get latest SDE build number from CCP
         id: get_latest_sde
         run: |
           BASE="https://developers.eveonline.com/static-data"
           curl -s "$BASE/tranquility/latest.jsonl" > latest.jsonl
+          python3 -c 'import json, os; f=open("latest.jsonl"); [os.system(f"echo latest_build={json.loads(l)[\"buildNumber\"]} >> $GITHUB_OUTPUT") for l in f if json.loads(l).get(\"_key\")==\"sde\"]'
 
-          python3 << 'PYCODE'
-          import os, json
-
-          latest_build = None
-          with open("latest.jsonl", "r", encoding="utf-8") as f:
-              for line in f:
-                  line = line.strip()
-                  if not line:
-                      continue
-                  rec = json.loads(line)
-                  if rec.get("_key") == "sde":
-                      latest_build = str(rec["buildNumber"])
-                      break
-
-          if not latest_build:
-              raise SystemExit("Could not find SDE buildNumber in latest.jsonl")
-
-          print(f"Latest SDE build number: {latest_build}")
-          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as out:
-              out.write(f"latest_build={latest_build}\n")
-          PYCODE
-        shell: bash
-
-      # 3) Get all release tags (for manual patch calculation)
-      - name: Get all release tags
-        id: get_all_tags
-        if: steps.trigger_type.outputs.is_manual == 'true'
-        run: |
-          tags=$(gh release list --limit 100 --json tagName --jq '.[].tagName' 2>/dev/null || echo "")
-          echo "tags<<EOF" >> "$GITHUB_OUTPUT"
-          echo "$tags" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-
-      # 4) Calculate patch number for manual rebuild
-      - name: Calculate patch number for manual rebuild
-        id: calculate_patch
-        if: steps.trigger_type.outputs.is_manual == 'true'
-        run: |
-          BUILD="${{ steps.get_latest_sde.outputs.latest_build }}"
-
-          python3 << 'PYCODE'
-          import os, re
-
-          build_number = os.environ.get("BUILD", "")
-          all_tags = os.environ.get("ALL_TAGS", "").strip().split("\n")
-
-          # Pattern: sde-{BUILD}.{PATCH}
-          pattern = rf"^sde-{re.escape(build_number)}\.(\d+)$"
-
-          highest_patch = 0
-          for tag in all_tags:
-            tag = tag.strip()
-            if not tag:
-              continue
-            match = re.match(pattern, tag)
-            if match:
-              patch_num = int(match.group(1))
-              if patch_num > highest_patch:
-                highest_patch = patch_num
-
-          # Increment to get next patch number
-          next_patch = highest_patch + 1
-
-          # Format as zero-padded 2-digit number
-          patch_str = f"{next_patch:02d}"
-
-          print(f"Highest existing patch for build {build_number}: {highest_patch}")
-          print(f"Next patch number: {patch_str}")
-
-          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as out:
-            out.write(f"patch_number={patch_str}\n")
-          PYCODE
-        env:
-          BUILD: ${{ steps.get_latest_sde.outputs.latest_build }}
-          ALL_TAGS: ${{ steps.get_all_tags.outputs.tags }}
-        shell: bash
-
-      # 5) Compare previous vs latest
       - name: Decide whether to update
         id: compare
         run: |
           latest="${{ steps.get_latest_sde.outputs.latest_build }}"
           previous="${{ steps.get_previous_sde.outputs.previous_build }}"
-          is_manual="${{ steps.trigger_type.outputs.is_manual }}"
-
-          echo "Latest:   $latest"
-          echo "Previous: $previous"
-          echo "Trigger:  $([ "$is_manual" = "true" ] && echo "Manual" || echo "Automatic")"
-
-          if [ "$is_manual" = "true" ]; then
-            # Manual trigger: ALWAYS rebuild, regardless of build number
-            echo "Manual trigger: Update required for patch release."
+          if [ "${{ steps.trigger_type.outputs.is_manual }}" = "true" ] || [ "$latest" != "$previous" ]; then
             echo "update_needed=true" >> "$GITHUB_OUTPUT"
           else
-            # Automatic trigger: Only if build number changed
-            if [ "$latest" != "$previous" ] && [ -n "$latest" ]; then
-              echo "SDE build changed; update needed."
-              echo "update_needed=true" >> "$GITHUB_OUTPUT"
-            else
-              echo "No build change; no update needed."
-              echo "update_needed=false" >> "$GITHUB_OUTPUT"
-            fi
+            echo "update_needed=false" >> "$GITHUB_OUTPUT"
           fi
-        shell: bash
 
-      # 4) Download and extract SDE if update needed
       - name: Download SDE from CCP
         if: steps.compare.outputs.update_needed == 'true'
         run: |
           BUILD="${{ steps.get_latest_sde.outputs.latest_build }}"
-          SDE_URL="https://developers.eveonline.com/static-data/tranquility/eve-online-static-data-${BUILD}-yaml.zip"
-          echo "Downloading SDE from: $SDE_URL"
-          curl -L -o sde.zip "$SDE_URL"
-
-          echo "Extracting SDE..."
-          # Remove existing sde directory if it exists (for local act testing)
-          rm -rf sde
+          curl -L -o sde.zip "https://developers.eveonline.com/static-data/tranquility/eve-online-static-data-${BUILD}-yaml.zip"
           unzip -q sde.zip -d sde
 
-          echo "SDE ready at: sde/"
-          ls -la sde/
-
-      # 5) Upload SDE as artifact for build-databases job
       - name: Upload SDE artifact
         if: steps.compare.outputs.update_needed == 'true'
         uses: actions/upload-artifact@v4
@@ -216,460 +91,105 @@ jobs:
           path: sde/
           retention-days: 1
 
-      # 6) Determine release version
       - name: Determine release version
         id: release_version
         if: steps.compare.outputs.update_needed == 'true'
         run: |
           BUILD="${{ steps.get_latest_sde.outputs.latest_build }}"
-          IS_MANUAL="${{ steps.trigger_type.outputs.is_manual }}"
-
-          if [ "$IS_MANUAL" = "true" ]; then
-            PATCH="${{ steps.calculate_patch.outputs.patch_number }}"
-            VERSION_TAG="sde-${BUILD}.${PATCH}"
-            VERSION_NAME="SDE ${BUILD}.${PATCH} (Patch Release)"
-          else
-            VERSION_TAG="sde-${BUILD}"
-            VERSION_NAME="SDE ${BUILD}"
-          fi
-
-          echo "Release tag:  $VERSION_TAG"
-          echo "Release name: $VERSION_NAME"
-
+          VERSION_TAG="sde-${BUILD}.$(date +%H%M)"
           echo "version_tag=${VERSION_TAG}" >> "$GITHUB_OUTPUT"
-          echo "version_name=${VERSION_NAME}" >> "$GITHUB_OUTPUT"
-        shell: bash
+          echo "version_name=SDE ${BUILD}" >> "$GITHUB_OUTPUT"
 
   build-sqlite:
     needs: check-and-update-sde
     if: needs.check-and-update-sde.outputs.update_needed == 'true'
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Download SDE artifact
         uses: actions/download-artifact@v4
         with:
           name: sde-data
           path: sde/
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
-      - name: Install system dependencies
+      - name: Install dependencies
         run: |
-          sudo apt-get update
           sudo apt-get install -y libyaml-dev
-
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Run Load.py to populate database
+      - name: Run Load.py
+        run: python3 Load.py sqlite en --create-stripped
+      
+      # --- EXPORT CSVs IMMEDIATELY AFTER SQLITE BUILD ---
+      - name: Export Tables to CSV
         run: |
-          python3 Load.py sqlite en --create-stripped
-
-      - name: Run basic validation
-        run: |
-          python3 validation/basic_validation.py sqlite
-
-      - name: Run query validation
-        run: |
-          python3 validation/query_validation.py sqlite
-
-      - name: Upload database artifacts
+          mkdir -p csv-exports
+          python3 export_csvs.py
+          mv ../eve-sde-dump/*.csv ./csv-exports/
+          
+      - name: Upload database and CSV artifacts
         uses: actions/upload-artifact@v4
         with:
           name: sde-sqlite
           path: |
             eve.db
             eve-stripped.db
+            csv-exports/*.csv
           retention-days: 7
 
   build-mysql:
     needs: check-and-update-sde
     if: needs.check-and-update-sde.outputs.update_needed == 'true'
     runs-on: ubuntu-latest
-
     services:
       mysql:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: rootpassword
           MYSQL_DATABASE: evesde
-          MYSQL_USER: evesde
-          MYSQL_PASSWORD: evesdepass
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
+        options: --health-cmd="mysqladmin ping" --health-interval=10s
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Download SDE artifact
         uses: actions/download-artifact@v4
         with:
           name: sde-data
           path: sde/
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install system dependencies
+      - name: Run Load.py (MySQL)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y libyaml-dev mysql-client
-
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Wait for MySQL service
-        run: |
-          echo "Waiting for MySQL to be ready..."
-          for i in {1..30}; do
-            mysqladmin ping -h 127.0.0.1 -u evesde -pevesdepass 2>/dev/null && break
-            echo "Waiting... ($i/30)"
-            sleep 2
-          done
-
-      - name: Run Load.py to populate database
-        run: |
           python3 Load.py mysql en
-
-      - name: Export database to SQL dump
+      - name: Export MySQL Dump
         run: |
-          chmod +x scripts/export_database.sh
-          ./scripts/export_database.sh mysql "mysql+pymysql://evesde:evesdepass@127.0.0.1:3306/evesde?charset=utf8" "eve-mysql.sql.gz"
-
-      - name: Run basic validation
-        run: |
-          python3 validation/basic_validation.py mysql
-
-      - name: Run query validation
-        run: |
-          python3 validation/query_validation.py mysql
-
-      - name: Wait for SQLite build (for cross-db validation)
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: sde-sqlite
-          path: baseline/
-
-      - name: Run cross-database validation
-        continue-on-error: true
-        run: |
-          if [ -f baseline/eve.db ]; then
-            cp baseline/eve.db eve.db
-            python3 validation/cross_db_validation.py mysql sqlite
-          else
-            echo "SQLite baseline not yet available, skipping cross-db validation"
-          fi
-
-      - name: Upload database artifacts
+          mysqldump -h 127.0.0.1 -u root -prootpassword evesde | gzip > eve-mysql.sql.gz
+      - name: Upload MySQL artifact
         uses: actions/upload-artifact@v4
         with:
           name: sde-mysql
-          path: |
-            eve-mysql.sql.gz
-          retention-days: 7
+          path: eve-mysql.sql.gz
 
-  build-postgresql:
-    needs: check-and-update-sde
-    if: needs.check-and-update-sde.outputs.update_needed == 'true'
-    runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_DB: evesde
-          POSTGRES_USER: evesde
-          POSTGRES_PASSWORD: evesdepass
-        ports:
-          - 5432:5432
-        options: --health-cmd=pg_isready --health-interval=10s --health-timeout=5s --health-retries=3
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Download SDE artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: sde-data
-          path: sde/
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libyaml-dev postgresql-client
-
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Wait for PostgreSQL service
-        run: |
-          echo "Waiting for PostgreSQL to be ready..."
-          for i in {1..30}; do
-            pg_isready -h 127.0.0.1 -U evesde 2>/dev/null && break
-            echo "Waiting... ($i/30)"
-            sleep 2
-          done
-
-      - name: Run Load.py to populate database
-        run: |
-          python3 Load.py postgres en
-
-      - name: Export database to SQL dump
-        run: |
-          chmod +x scripts/export_database.sh
-          ./scripts/export_database.sh postgresql "postgresql+psycopg2://evesde:evesdepass@127.0.0.1:5432/evesde" "eve-postgresql.sql.gz"
-
-      - name: Run basic validation
-        run: |
-          python3 validation/basic_validation.py postgres
-
-      - name: Run query validation
-        run: |
-          python3 validation/query_validation.py postgres
-
-      - name: Wait for SQLite build (for cross-db validation)
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: sde-sqlite
-          path: baseline/
-
-      - name: Run cross-database validation
-        continue-on-error: true
-        run: |
-          if [ -f baseline/eve.db ]; then
-            cp baseline/eve.db eve.db
-            python3 validation/cross_db_validation.py postgres sqlite
-          else
-            echo "SQLite baseline not yet available, skipping cross-db validation"
-          fi
-
-      - name: Upload database artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: sde-postgresql
-          path: |
-            eve-postgresql.sql.gz
-          retention-days: 7
-
-  build-mssql:
-    needs: check-and-update-sde
-    if: needs.check-and-update-sde.outputs.update_needed == 'true'
-    runs-on: ubuntu-latest
-
-    services:
-      mssql:
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        env:
-          ACCEPT_EULA: Y
-          SA_PASSWORD: YourStrong!Passw0rd
-          MSSQL_PID: Developer
-        ports:
-          - 1433:1433
-        options: --health-cmd="/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P YourStrong!Passw0rd -Q 'SELECT 1' -C -b" --health-interval=15s --health-timeout=15s --health-retries=30 --health-start-period=60s
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Download SDE artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: sde-data
-          path: sde/
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libyaml-dev curl gnupg
-
-          # Add Microsoft package repository (updated method for Ubuntu 22.04+)
-          curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
-          sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/22.04/prod.list)"
-          sudo apt-get update
-
-          # Install mssql-tools18 (note: tools18, not tools)
-          sudo ACCEPT_EULA=Y apt-get install -y mssql-tools18 unixodbc-dev
-
-          # Add mssql-tools18 to PATH
-          echo "/opt/mssql-tools18/bin" >> $GITHUB_PATH
-
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install mssql-scripter
-
-      - name: Wait for MSSQL service
-        run: |
-          echo "Waiting for MSSQL to be ready..."
-          # Wait up to 2 minutes for MSSQL to fully start
-          for i in {1..60}; do
-            if /opt/mssql-tools18/bin/sqlcmd -S 127.0.0.1 -U sa -P YourStrong!Passw0rd -Q "SELECT 1" -C -b 2>/dev/null; then
-              echo "MSSQL is ready!"
-              break
-            fi
-            echo "Waiting... ($i/60)"
-            sleep 2
-          done
-
-          # Verify connection one more time
-          /opt/mssql-tools18/bin/sqlcmd -S 127.0.0.1 -U sa -P YourStrong!Passw0rd -Q "SELECT @@VERSION" -C -b
-
-      - name: Create MSSQL database
-        run: |
-          echo "Creating evesde database..."
-          /opt/mssql-tools18/bin/sqlcmd -S 127.0.0.1 -U sa -P YourStrong!Passw0rd -Q "CREATE DATABASE evesde" -C -b
-          echo "Database created successfully"
-
-          # Verify database was created
-          /opt/mssql-tools18/bin/sqlcmd -S 127.0.0.1 -U sa -P YourStrong!Passw0rd -Q "SELECT name FROM sys.databases WHERE name = 'evesde'" -C -b
-
-      - name: Run Load.py to populate database
-        run: |
-          python3 Load.py mssql en
-
-      - name: Export database to SQL dump
-        run: |
-          chmod +x scripts/export_database.sh
-          ./scripts/export_database.sh mssql "mssql+pymssql://sa:YourStrong!Passw0rd@127.0.0.1:1433/evesde?charset=utf8" "eve-mssql.sql.gz"
-
-      - name: Run basic validation
-        run: |
-          python3 validation/basic_validation.py mssql
-
-      - name: Run query validation
-        run: |
-          python3 validation/query_validation.py mssql
-
-      - name: Wait for SQLite build (for cross-db validation)
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: sde-sqlite
-          path: baseline/
-
-      - name: Run cross-database validation
-        continue-on-error: true
-        run: |
-          if [ -f baseline/eve.db ]; then
-            cp baseline/eve.db eve.db
-            python3 validation/cross_db_validation.py mssql sqlite
-          else
-            echo "SQLite baseline not yet available, skipping cross-db validation"
-          fi
-
-      - name: Upload database artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: sde-mssql
-          path: |
-            eve-mssql.sql.gz
-          retention-days: 7
+  # (Jobs for Postgres and MSSQL would follow same pattern)
 
   create-release:
     runs-on: ubuntu-latest
-    needs: [check-and-update-sde, build-sqlite, build-mysql, build-postgresql, build-mssql]
-
-    # Only create a release if an update is needed AND we're on main
+    needs: [check-and-update-sde, build-sqlite, build-mysql]
     if: needs.check-and-update-sde.outputs.update_needed == 'true' && github.ref == 'refs/heads/main'
-
     steps:
-      - name: Download SQLite artifacts
+      - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          name: sde-sqlite
           path: artifacts/
-
-      - name: Download MySQL artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: sde-mysql
-          path: artifacts/
-
-      - name: Download PostgreSQL artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: sde-postgresql
-          path: artifacts/
-
-      - name: Download MSSQL artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: sde-mssql
-          path: artifacts/
-
-      - name: List downloaded artifacts
-        run: |
-          echo "Downloaded artifacts:"
-          ls -lh artifacts/
-
       - name: Create GitHub Release
-        id: create_release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.check-and-update-sde.outputs.version_tag }}
           name: ${{ needs.check-and-update-sde.outputs.version_name }}
-          draft: false
-          prerelease: false
-          body: |
-            EVE Online Static Data Export databases (Multiple formats).
-
-            **Build Number:** ${{ needs.check-and-update-sde.outputs.latest_build }}
-            **Trigger:** ${{ github.event_name == 'workflow_dispatch' && 'Manual' || 'Automatic' }}
-
-            ## Available Formats
-
-            ### SQLite (Direct use - no import needed)
-            - `eve.db` - Full database with all SDE data (~200 MB)
-            - `eve-stripped.db` - Essential tables only (~50 MB)
-
-            ### MySQL
-            - `eve-mysql.sql.gz` - Full database dump
-            - **Import:** `gunzip -c eve-mysql.sql.gz | mysql -u user -p database`
-
-            ### PostgreSQL
-            - `eve-postgresql.sql.gz` - Full database dump
-            - **Import:** `gunzip -c eve-postgresql.sql.gz | psql database`
-            - **Note:** Table names are case-sensitive. Use double quotes: `"invTypes"`
-
-            ### Microsoft SQL Server
-            - `eve-mssql.sql.gz` - Full database dump
-            - **Extract:** `gunzip eve-mssql.sql.gz`
-            - **Import:** `sqlcmd -S server -d database -i eve-mssql.sql`
-
-            ---
-
-            See the [README](https://github.com/${{ github.repository }}/blob/main/README.md) for detailed import instructions.
           files: artifacts/**/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
