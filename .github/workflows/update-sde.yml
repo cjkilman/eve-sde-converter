@@ -52,13 +52,35 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
+      # 2) Fetch latest SDE build from CCP
       - name: Get latest SDE build number from CCP
         id: get_latest_sde
         run: |
           BASE="https://developers.eveonline.com/static-data"
           curl -s "$BASE/tranquility/latest.jsonl" > latest.jsonl
-          # Fixed the quotes on buildNumber to avoid the SyntaxError
-          python3 -c 'import json, os; f=open("latest.jsonl"); [os.system(f"echo latest_build={json.loads(l)[\"buildNumber\"]} >> {os.environ[\"GITHUB_OUTPUT\"]}") for l in f if json.loads(l).get(\"_key\")==\"sde\"]'
+
+          python3 << 'PYCODE'
+          import os, json
+
+          latest_build = None
+          with open("latest.jsonl", "r", encoding="utf-8") as f:
+              for line in f:
+                  line = line.strip()
+                  if not line:
+                      continue
+                  rec = json.loads(line)
+                  if rec.get("_key") == "sde":
+                      latest_build = str(rec["buildNumber"])
+                      break
+
+          if not latest_build:
+              raise SystemExit("Could not find SDE buildNumber in latest.jsonl")
+
+          print(f"Latest SDE build number: {latest_build}")
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as out:
+              out.write(f"latest_build={latest_build}\n")
+          PYCODE
+        shell: bash
 
       - name: Decide whether to update
         id: compare
