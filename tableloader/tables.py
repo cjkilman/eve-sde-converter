@@ -492,7 +492,7 @@ def metadataCreator(schema):
 
     invNames =  Table('invNames', metadata,
             Column('itemID', INTEGER(), primary_key=True, autoincrement=False, nullable=False),
-            Column('itemName', VARCHAR(length=200), nullable=False),
+            Column('itemName', VARCHAR(length=255), nullable=False),
             schema=schema
     )
 
@@ -540,7 +540,7 @@ def metadataCreator(schema):
     invTypes =  Table('invTypes', metadata,
             Column('typeID', INTEGER(), primary_key=True, autoincrement=False, nullable=False),
             Column('groupID', INTEGER(),index=True),
-            Column('typeName', VARCHAR(length=100)),
+            Column('typeName', VARCHAR(length=255)),
             Column('description',UnicodeText()),
             Column('mass', FLOAT(precision=53)),
             Column('volume', FLOAT(precision=53)),
