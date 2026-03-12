@@ -52,7 +52,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
-      # 2) Fetch latest SDE build from CCP
+      # --- THE FIX: BULLETPROOF PYTHON BLOCK ---
       - name: Get latest SDE build number from CCP
         id: get_latest_sde
         run: |
