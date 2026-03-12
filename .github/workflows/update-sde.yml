@@ -171,8 +171,11 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: rootpassword
           MYSQL_DATABASE: evesde
+          MYSQL_USER: evesde
+          MYSQL_PASSWORD: evesdepass
         ports:
           - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -186,7 +189,7 @@ jobs:
           pip install -r requirements.txt
           python3 Load.py mysql en
       - name: Export MySQL Dump
-        run: mysqldump -h 127.0.0.1 -u root -prootpassword evesde | gzip > eve-mysql.sql.gz
+        run: mysqldump -h 127.0.0.1 -u evesde -pevesdepass evesde | gzip > eve-mysql.sql.gz
       - name: Upload MySQL artifact
         uses: actions/upload-artifact@v4
         with:
