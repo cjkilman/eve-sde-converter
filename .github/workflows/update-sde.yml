@@ -52,7 +52,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
-      # --- THE FIX: BULLETPROOF PYTHON BLOCK ---
+      # --- THE MULTI-LINE PYTHON FIX ---
       - name: Get latest SDE build number from CCP
         id: get_latest_sde
         run: |
@@ -143,9 +143,7 @@ jobs:
       - name: Export Tables to CSV
         run: |
           mkdir -p csv-exports
-          # Script looks for eve.db in the root
           python3 export_csvs.py
-          # Safely move CSVs from the directory specified in your config
           if [ -d "../eve-sde-dump" ]; then
             mv ../eve-sde-dump/*.csv ./csv-exports/
           else
