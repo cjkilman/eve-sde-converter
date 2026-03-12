@@ -559,7 +559,7 @@ def metadataCreator(schema):
 
     invUniqueNames =  Table('invUniqueNames', metadata,
             Column('itemID', INTEGER(), primary_key=True, autoincrement=False, nullable=False),
-            Column('itemName', VARCHAR(length=200), nullable=False,index=True,unique=True),
+            Column('itemName', VARCHAR(length=255), nullable=False,index=True,unique=True),
             Column('groupID', INTEGER()),
             schema=schema
     )
@@ -647,7 +647,7 @@ def metadataCreator(schema):
             Column('y', FLOAT(precision=53)),
             Column('z', FLOAT(precision=53)),
             Column('radius', FLOAT(precision=53)),
-            Column('itemName', VARCHAR(length=100)),
+            Column('itemName', VARCHAR(length=255)),
             Column('security', FLOAT(precision=53)),
             Column('celestialIndex', INTEGER()),
             Column('orbitIndex', INTEGER()),
