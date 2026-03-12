@@ -25,7 +25,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
     print(f"  Opening {targetPath}")
         
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
         metagroups=load(yamlstream,Loader=SafeLoader)
         print(f"  Populating Meta Groups Table with {len(metagroups)} entries")
@@ -75,5 +80,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
             connection.execute(trnTranslations.insert(), translation_rows)
             print(f"  Inserted {len(translation_rows)} meta group translations")
 
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

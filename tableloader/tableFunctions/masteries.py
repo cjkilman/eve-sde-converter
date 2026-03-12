@@ -25,7 +25,12 @@ def importyaml(connection, metadata, sourcePath, language='en'):
     mastery_list = []
     masteryID_counter = 1
 
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
     try:
         # Data format: typeID -> { grade: [certID, certID...], ... }
         for typeID, grades in data.items():
@@ -52,10 +57,17 @@ def importyaml(connection, metadata, sourcePath, language='en'):
         if type_mastery_list:
             connection.execute(dgmTypeMasteries.insert(), type_mastery_list)
 
-        trans.commit()
+        
+        if trans:
+            trans.commit()
+
         print("  Done")
 
     except Exception as e:
         trans.rollback()
         print(f"  Error: {e}")
         raise
+
+
+
+

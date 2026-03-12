@@ -23,8 +23,16 @@ def importyaml(connection, metadata, sourcePath, language='en'):
         targetPath = os.path.join(sourcePath, 'sde', 'fsd', 'typeBonus.yaml')
 
     print(f"  Opening {targetPath}")
-    with open(targetPath, 'r', encoding='utf-8') as yamlstream:
+
+    if connection.in_transaction():
+        trans = None
+    else:
         trans = connection.begin()
+
+    with open(targetPath, 'r', encoding='utf-8') as yamlstream:
+        
+
+
         typeBonuses = load(yamlstream, Loader=SafeLoader)
         print(f"  Populating Type Bonuses Table with {len(typeBonuses)} entries")
 
@@ -76,5 +84,12 @@ def importyaml(connection, metadata, sourcePath, language='en'):
             connection.execute(invTraits.insert(), trait_rows)
             print(f"  Inserted {len(trait_rows)} traits")
 
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

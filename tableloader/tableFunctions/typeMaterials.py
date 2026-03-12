@@ -21,7 +21,14 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
     print(f"  Opening {targetPath}")
 
-    trans = connection.begin()
+    # Check if a transaction is already active
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
+
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
         materials=load(yamlstream,Loader=SafeLoader)
         print(f"  Processing {len(materials)} type materials")
@@ -44,5 +51,13 @@ def importyaml(connection,metadata,sourcePath,language='en'):
             connection.execute(invTypeMaterials.insert(), material_rows)
             print(f"  Inserted {len(material_rows)} type materials")
 
-    trans.commit()
+    # To this:
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

@@ -31,7 +31,12 @@ def importyaml(connection,metadata,sourcePath):
         targetPath = os.path.join(sourcePath, 'sde', 'fsd', 'blueprints.yaml')
 
     print(f"  Opening {targetPath}")
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
         blueprints=load(yamlstream,Loader=SafeLoader)
         print(f"  Processing {len(blueprints)} blueprints")
@@ -120,5 +125,12 @@ def importyaml(connection,metadata,sourcePath):
             connection.execute(industryActivitySkills.insert(), skill_rows)
             print(f"  Inserted {len(skill_rows)} skills")
 
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

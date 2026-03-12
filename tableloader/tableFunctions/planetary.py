@@ -26,7 +26,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
     print(f"  Opening {targetPath}")
         
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
         schematics=load(yamlstream,Loader=SafeLoader)
         print(f"  Populating Planetary Schematics Tables with {len(schematics)} entries")
@@ -70,5 +75,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
             connection.execute(planetSchematicsTypeMap.insert(), type_rows)
             print(f"  Inserted {len(type_rows)} schematic-type mappings")
 
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

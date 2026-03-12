@@ -25,7 +25,13 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
     print(f"  Opening {targetPath}")
         
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
+        
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
         dogmaAttributeCategories=load(yamlstream,Loader=SafeLoader)
         print(f"  Populating Dogma Attribute Categories Table with {len(dogmaAttributeCategories)} entries")
@@ -36,5 +42,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
                              categoryName=attribute['name'],
                              categoryDescription=attribute.get('description','')
                 ))
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

@@ -34,7 +34,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
     print(f"  Opening {targetPath}")
         
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
         categoryids=load(yamlstream,Loader=SafeLoader)
         print(f"  Processing {len(categoryids)} categories")
@@ -72,5 +77,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
             connection.execute(trnTranslations.insert(), translation_rows)
             print(f"  Inserted {len(translation_rows)} category translations")
 
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

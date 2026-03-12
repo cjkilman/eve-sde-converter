@@ -22,7 +22,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
     print(f"  Opening {targetPath}")
 
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
         marketgroups=load(yamlstream,Loader=SafeLoader)
         print(f"  Processing {len(marketgroups)} market groups")
@@ -74,5 +79,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
             connection.execute(trnTranslations.insert(), translation_rows)
             print(f"  Inserted {len(translation_rows)} market group translations")
 
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

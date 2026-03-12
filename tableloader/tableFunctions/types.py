@@ -23,8 +23,16 @@ def importyaml(connection,metadata,sourcePath,language='en'):
         targetPath = os.path.join(sourcePath, 'sde', 'fsd', 'types.yaml')
 
     print(f"  Opening {targetPath}")
-    with open(targetPath,'r', encoding='utf-8') as yamlstream:
+
+    if connection.in_transaction():
+        trans = None
+    else:
         trans = connection.begin()
+
+    with open(targetPath,'r', encoding='utf-8') as yamlstream:
+        
+
+
         typeids=load(yamlstream,Loader=SafeLoader)
         print(f"  Processing {len(typeids)} types")
 
@@ -137,5 +145,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
             connection.execute(invMetaTypes.insert(), meta_type_rows)
             print(f"  Inserted {len(meta_type_rows)} meta types")
 
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

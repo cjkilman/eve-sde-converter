@@ -24,7 +24,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
     print(f"  Opening {targetPath}")
         
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
         controlTowerResources=load(yamlstream,Loader=SafeLoader)
         print(f"  Populating Control Tower Resources Table with {len(controlTowerResources)} entries")
@@ -48,5 +53,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
             connection.execute(invControlTowerResources.insert(), resource_rows)
             print(f"  Inserted {len(resource_rows)} control tower resources")
 
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

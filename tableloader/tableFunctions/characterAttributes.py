@@ -21,7 +21,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
     print(f"  Opening {targetPath}")
 
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
         characterattributes=load(yamlstream,Loader=SafeLoader)
         print(f"  Processing {len(characterattributes)} attributes")
@@ -34,5 +39,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
                             notes=characterattributes[attributeid].get('notes',''),
                             shortDescription=characterattributes[attributeid].get('shortDescription',''),
                               ))
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

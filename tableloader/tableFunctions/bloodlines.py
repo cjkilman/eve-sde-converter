@@ -21,7 +21,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
     print(f"  Opening {targetPath}")
 
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
         bloodlines=load(yamlstream,Loader=SafeLoader)
         print(f"  Processing {len(bloodlines)} bloodlines")
@@ -50,5 +55,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
             connection.execute(chrBloodlines.insert(), bloodline_rows)
             print(f"  Inserted {len(bloodline_rows)} bloodlines")
 
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

@@ -21,7 +21,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
     print(f"  Opening {targetPath}")
 
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
         characterancestries=load(yamlstream,Loader=SafeLoader)
         print(f"  Processing {len(characterancestries)} ancestries")
@@ -49,5 +54,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
             connection.execute(chrAncestries.insert(), ancestry_rows)
             print(f"  Inserted {len(ancestry_rows)} ancestries")
 
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

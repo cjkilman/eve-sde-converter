@@ -74,7 +74,17 @@ bloodlines.importyaml(connection,metadata,sourcePath,language)
 npccorporations.importyaml(connection,metadata,sourcePath,language)
 npcDivisions.importyaml(connection,metadata,sourcePath,language)
 characterAttributes.importyaml(connection,metadata,sourcePath,language)
+
+# ... existing code ...
 agents.importyaml(connection,metadata,sourcePath,language)
+
+# --- NEW: Capture Agent IDs for filtering ---
+print("Capturing Agent IDs for name filtering...")
+result = connection.execute(metadata.tables['agtAgents'].select())
+valid_agent_ids = {row[0] for row in result}
+print(f"  Found {len(valid_agent_ids)} unique agents.")
+# --------------------------------------------
+
 typeMaterials.importyaml(connection,metadata,sourcePath,language)
 dogmaTypes.importyaml(connection,metadata,sourcePath,language)
 dogmaEffects.importyaml(connection,metadata,sourcePath,language)

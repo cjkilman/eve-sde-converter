@@ -586,3 +586,7 @@ def fixStationNames(connection,metadata):
 
     # Commit transaction (query above triggered autobegin)
     connection.commit()
+
+
+
+

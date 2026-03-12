@@ -259,7 +259,7 @@ def filters_for_rig_activity(mod_rows: Iterable[Tuple[int, str, str, int, Option
         out[key] = s if s else {None}
     return out
 
-def importRigMappings(connection,metadata):
+def importRigMappings(connection, metadata):
     print("Importing Rig Mappings")
     show_debug = True
     cache_dir = Path('.cache_hoboleaks')
@@ -282,127 +282,79 @@ def importRigMappings(connection,metadata):
     rigIndustryModifierSources = Table('rigIndustryModifierSources', metadata)
     rigAffectedProductGroups = Table('rigAffectedProductGroups', metadata)
 
-    # Begin transaction for first batch of inserts (defensive check)
-    trans = conn.begin() if not conn.in_transaction() else None
-
-    # Insert modifier source rows (authoritative)
-    if not show_debug:
-        print(f"Inserting {len(mod_rows)} rigIndustryModifierSources rows...")
-
-    for row in mod_rows:
-        conn.execute(rigIndustryModifierSources.insert().values(
-            rigTypeID=row[0],
-            activityKey=row[1],
-            bonusType=row[2],
-            dogmaAttributeID=row[3],
-            filterID=row[4]
-        ))
-
-    # Commit first batch of inserts
-    if trans is not None:
-        trans.commit()
+    # ONE clean transaction check at the start
+    if conn.in_transaction():
+        trans = None
     else:
-        conn.commit()
+        trans = conn.begin()
 
-    # Precompute which rig typeIDs exist + are real standup rig items
-    db_type_ids = rig_typeids_in_db(conn, metadata)
-    valid_rigs: Set[int] = set()
-    for rig_type_id_str in mod_sources_json.keys():
-        tid = int(rig_type_id_str)
-        if tid not in db_type_ids:
-            continue
-        if is_standup_rig_item(conn, metadata, tid):
-            valid_rigs.add(tid)
+    try:
+        # Insert modifier source rows
+        for row in mod_rows:
+            conn.execute(rigIndustryModifierSources.insert().values(
+                rigTypeID=row[0],
+                activityKey=row[1],
+                bonusType=row[2],
+                dogmaAttributeID=row[3],
+                filterID=row[4]
+            ))
 
-    if not show_debug:
-        print(f"Modifier sources in JSON: {len(mod_sources_json)}; present+valid standup items in DB: {len(valid_rigs)}")
+        # Precompute valid rigs
+        db_type_ids = rig_typeids_in_db(conn, metadata)
+        valid_rigs = {int(tid) for tid in mod_sources_json.keys() if int(tid) in db_type_ids and is_standup_rig_item(conn, metadata, int(tid))}
 
-    # Build filter union per rig+activity
-    rig_activity_filters = filters_for_rig_activity(mod_rows)
+        rig_activity_filters = filters_for_rig_activity(mod_rows)
+        total_insert = 0
 
-    total_insert = 0
-
-    for activity_key in ["manufacturing", "reaction"]:
-        activity_id = resolve_activity_id(conn, metadata, activity_key)
-        if activity_id is None:
-            print(f"[WARN] Unknown activityKey={activity_key!r} (no industryActivities table match and no fallback mapping). Skipping.")
-            continue
-
-        # Only mapping from industryActivityProducts is reliable for manufacturing/reaction.
-        producible_all, producible_cat_to_groups = build_producible_group_sets(conn, metadata, activity_id)
-
-        if not show_debug:
-            print(f"[{activity_key}] activityID={activity_id} producible productGroupIDs={len(producible_all)}")
-
-        # For each rig affecting this activity, compute targets and insert
-        # We keep bonusType dimension; targets are computed from unioned filters per rig+activity.
-        # If filters are {None}, treat as global (all producible groups).
-        affected_cache: Dict[Tuple[int, Optional[int]], Set[int]] = {}
-
-        # Get all relevant rig+bonus rows for this activity from DB (keeps in sync with what we inserted)
-        query = select(
-            rigIndustryModifierSources.c.rigTypeID,
-            rigIndustryModifierSources.c.bonusType
-        ).where(
-            rigIndustryModifierSources.c.activityKey.ilike(activity_key)
-        ).distinct()
-
-        rows = conn.execute(query).fetchall()
-
-        # Begin transaction for this activity's inserts (defensive check)
-        trans = conn.begin() if not conn.in_transaction() else None
-
-        for r in rows:
-            rig_type_id = int(r[0])  # rigTypeID
-            bonus_type = str(r[1]).lower()  # bonusType
-
-            if rig_type_id not in valid_rigs:
+        for activity_key in ["manufacturing", "reaction"]:
+            activity_id = resolve_activity_id(conn, metadata, activity_key)
+            if activity_id is None:
                 continue
 
-            fset = rig_activity_filters.get((rig_type_id, activity_key), {None})
+            producible_all, producible_cat_to_groups = build_producible_group_sets(conn, metadata, activity_id)
+            affected_cache = {}
 
-            for fid in fset:
-                if fid is None:
-                    groups = producible_all
-                else:
-                    fdef = filters.get(fid)
-                    if fdef is None:
-                        # Unknown filterID: skip (better than mis-mapping)
-                        continue
-                    key = (activity_id, fid)
-                    cache_key = (activity_id, fid)
-                    # cache per (activity_id, filterID)
-                    if cache_key not in affected_cache:
-                        affected_cache[cache_key] = compute_affected_groups_for_filter(
-                            fdef,
-                            producible_all,
-                            producible_cat_to_groups,
-                        )
-                    groups = affected_cache[cache_key]
+            query = select(
+                rigIndustryModifierSources.c.rigTypeID,
+                rigIndustryModifierSources.c.bonusType
+            ).where(rigIndustryModifierSources.c.activityKey.ilike(activity_key)).distinct()
 
-                # Insert rigAffectedProductGroups
-                for gid in groups:
-                    conn.execute(rigAffectedProductGroups.insert().values(
-                        rigTypeID=rig_type_id,
-                        activityKey=activity_key,
-                        bonusType=bonus_type,
-                        productGroupID=int(gid),
-                        filterID=fid
-                    ))
-                total_insert += len(groups)
+            rows = conn.execute(query).fetchall()
 
-        # Commit this activity's inserts
-        if trans is not None:
+            for r in rows:
+                rig_type_id, bonus_type = int(r[0]), str(r[1]).lower()
+                if rig_type_id not in valid_rigs:
+                    continue
+
+                fset = rig_activity_filters.get((rig_type_id, activity_key), {None})
+                for fid in fset:
+                    if fid is None:
+                        groups = producible_all
+                    else:
+                        fdef = filters.get(fid)
+                        if fdef is None: continue
+                        cache_key = (activity_id, fid)
+                        if cache_key not in affected_cache:
+                            affected_cache[cache_key] = compute_affected_groups_for_filter(fdef, producible_all, producible_cat_to_groups)
+                        groups = affected_cache[cache_key]
+
+                    for gid in groups:
+                        conn.execute(rigAffectedProductGroups.insert().values(
+                            rigTypeID=rig_type_id,
+                            activityKey=activity_key,
+                            bonusType=bonus_type,
+                            productGroupID=int(gid),
+                            filterID=fid
+                        ))
+                    total_insert += len(groups)
+
+        # Final Commit
+        if trans:
             trans.commit()
-        else:
-            conn.commit()
-
-    if not show_debug:
-        count_result = conn.execute(
-            select(func.count()).select_from(rigAffectedProductGroups)
-        ).fetchall()
-        c2 = count_result[0][0]
-        print(f"rigAffectedProductGroups rows: {c2} (attempted inserts pre-dedupe: {total_insert})")
-
-    if not show_debug:
         print("Imported Rig Mappings.")
+
+    except Exception as e:
+        if trans:
+            trans.rollback()
+        print(f"Error importing Rig Mappings: {e}")
+        raise

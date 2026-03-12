@@ -41,13 +41,26 @@ def importyaml(connection, metadata, sourcePath, language='en'):
             return val.get(lang, val.get('en', ''))
         return val
 
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
+
     for unitID, unit_data in units.items():
         connection.execute(eveUnits.insert().values(
             unitID=unitID,
             unitName=get_lang_text(unit_data, 'name', language),
             displayName=get_lang_text(unit_data, 'displayName', language),
             description=get_lang_text(unit_data, 'description', language)
-        ))
-    trans.commit()
+            ))
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

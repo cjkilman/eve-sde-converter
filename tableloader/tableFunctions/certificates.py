@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from yaml import load
 try:
     from yaml import CLoader as Loader
@@ -8,30 +9,40 @@ from sqlalchemy import Table
 import os
 
 def importyaml(connection, metadata, sourcePath, language='en'):
+
+
     print("Importing Certificates")
 
-    targetPath = os.path.join(sourcePath, 'certificates.yaml')
-
-    print(f"  Opening {targetPath}")
-    with open(targetPath, 'r', encoding="utf8") as f:
-        data = load(f, Loader=Loader)
-
-    crtCertificates = metadata.tables['crtCertificates']
-    crtClasses = metadata.tables['crtClasses']
-    crtRecommendations = metadata.tables['crtRecommendations']
-    crtRelationships = metadata.tables['crtRelationships']
-    invGroups = metadata.tables['invGroups']
-
-    print(f"  Processing {len(data)} certificates")
-
-    cert_list = []
-    class_list = []
-    rec_list = []
-    rel_list = []
-    processed_classes = set()
-
-    trans = connection.begin()
     try:
+        targetPath = os.path.join(sourcePath, 'certificates.yaml')
+        if not os.path.exists(targetPath):
+            targetPath = os.path.join(sourcePath, 'sde', 'fsd', 'certificates.yaml')
+
+        print(f"  Opening {targetPath}")
+
+        # 1. Transaction Management
+        if connection.in_transaction():
+            trans = None
+        else:
+            trans = connection.begin()
+            
+        with open(targetPath, 'r', encoding="utf8") as f:
+            data = load(f, Loader=Loader)
+
+        crtCertificates = metadata.tables['crtCertificates']
+        crtClasses = metadata.tables['crtClasses']
+        crtRecommendations = metadata.tables['crtRecommendations']
+        crtRelationships = metadata.tables['crtRelationships']
+        invGroups = metadata.tables['invGroups']
+
+        print(f"  Processing {len(data)} certificates")
+
+        cert_list = []
+        class_list = []
+        rec_list = []
+        rel_list = []
+        processed_classes = set()
+
         for certID, certData in data.items():
             groupID = certData.get('groupID')
             classID = groupID
@@ -61,7 +72,8 @@ def importyaml(connection, metadata, sourcePath, language='en'):
             if groupID not in processed_classes:
                 try:
                     result = connection.execute(invGroups.select().where(invGroups.c.groupID == groupID)).first()
-                    className = result.groupName if result else f"Unknown Group {groupID}"
+                    # Fixed: SQLAlchemy results are usually accessed via indexing or dot notation
+                    className = result[1] if result else f"Unknown Group {groupID}"
 
                     class_list.append({
                         'classID': groupID,
@@ -106,10 +118,15 @@ def importyaml(connection, metadata, sourcePath, language='en'):
         if rel_list:
             connection.execute(crtRelationships.insert(), rel_list)
 
-        trans.commit()
+        # 2. Commit only if we started the transaction
+        if trans:
+            trans.commit()
+
         print("  Done")
 
     except Exception as e:
-        trans.rollback()
-        print(f"  Error: {e}")
+        # 3. Rollback only if we have an active transaction we started
+        if trans:
+            trans.rollback()
+        print(f"  Error importing certificates: {e}")
         raise

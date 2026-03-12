@@ -32,8 +32,16 @@ def importyaml(connection,metadata,sourcePath,language='en'):
         return
 
     print(f"  Opening {targetPath}")
-    with open(targetPath,'r', encoding='utf-8') as yamlstream:
+
+    if connection.in_transaction():
+        trans = None
+    else:
         trans = connection.begin()
+
+    with open(targetPath,'r', encoding='utf-8') as yamlstream:
+        
+
+
         groupids=load(yamlstream,Loader=SafeLoader)
         print(f"  Processing {len(groupids)} groups")
 
@@ -72,5 +80,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
             connection.execute(trnTranslations.insert(), translation_rows)
             print(f"  Inserted {len(translation_rows)} group translations")
 
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

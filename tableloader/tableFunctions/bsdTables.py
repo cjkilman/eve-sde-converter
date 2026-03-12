@@ -24,11 +24,23 @@ def importyaml(connection,metadata,sourcePath):
         tablevar = Table(tablename,metadata)
         print("Importing {}".format(file))
         print("Opening Yaml")
+        
+    if connection.in_transaction():
+        trans = None
+    else:
         trans = connection.begin()
+
         with open(file,'r') as yamlstream:
             rows=load(yamlstream,Loader=SafeLoader)
             print("Yaml Processed into memory")
             if rows is not None:
                 for row in rows:
                     connection.execute(tablevar.insert().values(row))
+        
+    if trans:
         trans.commit()
+
+
+
+
+

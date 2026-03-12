@@ -25,7 +25,14 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
     print(f"  Opening {targetPath}")
 
-    trans = connection.begin()
+    # Check if a transaction is already active
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
+
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
         dogmaEffects=load(yamlstream,Loader=SafeLoader)
         print(f"  Processing {len(dogmaEffects)} effects")
@@ -67,6 +74,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
         if effect_rows:
             connection.execute(dgmEffects.insert(), effect_rows)
             print(f"  Inserted {len(effect_rows)} effects")
+    
+    if trans:
+        trans.commit()
 
-    trans.commit()
     print("  Done")
+
+
+
+

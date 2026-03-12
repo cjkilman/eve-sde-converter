@@ -8,7 +8,12 @@ def importVolumes(connection,metadata,sourcePath):
 
     print("Importing Volumes from hoboleaks.space")
     invVolumes = Table('invVolumes',metadata)
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
 
     try:
         # Fetch packaged volume data from hoboleaks.space
@@ -29,7 +34,10 @@ def importVolumes(connection,metadata,sourcePath):
                 invVolumes.insert().values(typeID=type_id, volume=volume_int)
             )
 
-        trans.commit()
+        
+        if trans:
+            trans.commit()
+
         print(f"  Imported {len(volume_data)} volume entries")
         print("  Done")
 
@@ -42,3 +50,7 @@ def importVolumes(connection,metadata,sourcePath):
         trans.rollback()
         print(f"Error importing volumes: {e}")
         raise
+
+
+
+

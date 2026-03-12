@@ -31,8 +31,16 @@ def importyaml(connection,metadata,sourcePath):
         return
 
     print(f"  Opening {targetPath}")
-    with open(targetPath,'r', encoding='utf-8') as yamlstream:
+
+    if connection.in_transaction():
+        trans = None
+    else:
         trans = connection.begin()
+
+    with open(targetPath,'r', encoding='utf-8') as yamlstream:
+        
+
+
         icons=load(yamlstream,Loader=SafeLoader)
         print(f"  Processing {len(icons)} icons")
 
@@ -51,5 +59,12 @@ def importyaml(connection,metadata,sourcePath):
             connection.execute(eveIcons.insert(), icon_rows)
             print(f"  Inserted {len(icon_rows)} icons")
 
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

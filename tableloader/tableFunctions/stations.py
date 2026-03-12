@@ -285,3 +285,7 @@ def importyaml(connection, metadata, sourcePath, language='en'):
 
     connection.commit()
     print("  Done")
+
+
+
+

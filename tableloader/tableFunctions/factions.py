@@ -22,7 +22,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
     print(f"  Opening {targetPath}")
         
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
         characterfactions=load(yamlstream,Loader=SafeLoader)
         print(f"  Processing {len(characterfactions)} factions")
@@ -48,7 +53,10 @@ def importyaml(connection,metadata,sourcePath,language='en'):
             connection.execute(chrFactions.insert(), faction_rows)
             print(f"  Inserted {len(faction_rows)} factions")
 
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
 
     print("Importing Races")
@@ -60,7 +68,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
     print(f"  Opening {targetPath}")
 
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
         characterRaces=load(yamlstream,Loader=SafeLoader)
         print(f"  Processing {len(characterRaces)} races")
@@ -82,5 +95,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
             connection.execute(chrRaces.insert(), race_rows)
             print(f"  Inserted {len(race_rows)} races")
 
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+

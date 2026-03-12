@@ -26,7 +26,12 @@ def importyaml(connection, metadata, sourcePath, language='en'):
 
     print(f"  Processing {len(frames)} divisions")
 
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
     try:
         for id, data in frames.items():
             # Handle localized name
@@ -61,9 +66,16 @@ def importyaml(connection, metadata, sourcePath, language='en'):
                 description=description,
                 leaderType=leaderType
             ))
-        trans.commit()
+        
+        if trans:
+            trans.commit()
+
         print("  Done")
     except Exception as e:
         trans.rollback()
         print(f"  Error: {e}")
         raise
+
+
+
+

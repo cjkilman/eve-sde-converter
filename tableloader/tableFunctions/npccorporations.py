@@ -22,7 +22,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
     print(f"  Opening {targetPath}")
 
-    trans = connection.begin()
+    
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
         npccorps=load(yamlstream,Loader=SafeLoader)
         print(f"  Processing {len(npccorps)} corporations")
@@ -52,5 +57,12 @@ def importyaml(connection,metadata,sourcePath,language='en'):
             connection.execute(crpNPCCorporations.insert(), corp_rows)
             print(f"  Inserted {len(corp_rows)} NPC corporations")
 
-    trans.commit()
+    
+    if trans:
+        trans.commit()
+
     print("  Done")
+
+
+
+
