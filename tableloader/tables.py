@@ -850,7 +850,7 @@ def metadataCreator(schema):
 
     ramAssemblyLineTypes =  Table('ramAssemblyLineTypes', metadata,
             Column('assemblyLineTypeID', INTEGER(), primary_key=True, autoincrement=False, nullable=False),
-            Column('assemblyLineTypeName', VARCHAR(length=100)),
+            Column('assemblyLineTypeName', VARCHAR(length=255)),
             Column('description', VARCHAR(length=1000)),
             Column('baseTimeMultiplier', FLOAT(precision=53)),
             Column('baseMaterialMultiplier', FLOAT(precision=53)),
