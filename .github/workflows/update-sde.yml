@@ -36,7 +36,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libyaml-dev
-          # Note: requirements.txt skipped here to save time on the initial check.
 
       - name: Get previous build from latest release
         id: get_previous_sde
@@ -137,7 +136,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install -y libyaml-dev
-          pip install -r requirements.txt
+          pip install --no-input -q -r requirements.txt
       
       - name: Run Load.py
         run: python3 -u Load.py sqlite en --create-stripped
@@ -163,58 +162,9 @@ jobs:
             csv-exports/*.csv
           retention-days: 7
 
-  build-mysql:
-    needs: check-and-update-sde
-    if: needs.check-and-update-sde.outputs.update_needed == 'true'
-    runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: rootpassword
-          MYSQL_DATABASE: evesde
-          MYSQL_USER: evesde
-          MYSQL_PASSWORD: evesdepass
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: 'pip'
-
-      - name: Download SDE artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: sde-data
-          path: sde/
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libyaml-dev
-          pip install --no-input -q -r requirements.txt
-
-      - name: Run Load.py (MySQL)
-        run: python3 -u Load.py mysql en
-
-      - name: Export MySQL Dump
-        run: mysqldump -h 127.0.0.1 -u evesde -pevesdepass evesde | gzip > eve-mysql.sql.gz
-
-      - name: Upload MySQL artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: sde-mysql
-          path: eve-mysql.sql.gz
-
   create-release:
     runs-on: ubuntu-latest
-    needs: [check-and-update-sde, build-sqlite, build-mysql]
+    needs: [check-and-update-sde, build-sqlite]
     if: needs.check-and-update-sde.outputs.update_needed == 'true' && github.ref == 'refs/heads/main'
     steps:
       - name: Download all artifacts
