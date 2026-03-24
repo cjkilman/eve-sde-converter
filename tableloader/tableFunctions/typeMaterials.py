@@ -14,10 +14,10 @@ except ImportError:
 # Format: { Item_TypeID: [ {materialTypeID: qty}, ... ] }
 # ==========================================
 CUSTOM_INJECTIONS = {
-    27: [ # Station Container
-        {'materialTypeID': 34, 'quantity': 10000}, # Replace 10000 with the actual Base Tritanium yield
-        {'materialTypeID': 35, 'quantity': 2000},  # Replace with Base Pyerite
-        {'materialTypeID': 36, 'quantity': 500}    # Replace with Base Mexallon (Add more lines as needed)
+    27: [ 
+        {'materialTypeID': 34, 'quantity': 2224}, # Tritanium
+        {'materialTypeID': 35, 'quantity': 2224}, # Pyerite
+        {'materialTypeID': 36, 'quantity': 368}   # Mexallon
     ]
 }
 
