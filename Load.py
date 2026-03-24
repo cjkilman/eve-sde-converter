@@ -31,80 +31,90 @@ sourcePath = config.get('Files', 'sourcePath')
 from tableloader.tableFunctions import *
 from tableloader.tables import metadataCreator
 
-# 2. DATABASE CONNECTION (Keep this at the top)
+# 2. DATABASE CONNECTION
 print("connecting to DB")
-engine = create_engine(destination)
-connection = engine.connect()
+connection = None
+saved_indexes = {}  # Initialize early so it exists for the indexing phase
 
-schema = "evesde" if database == "postgresschema" else None
-metadata = metadataCreator(schema)
+try:
+    engine = create_engine(destination)
+    connection = engine.connect()
 
-# 3. TABLE PREPARATION
-print("Creating Tables (indexes will be created after data load)")
-metadata.drop_all(engine, checkfirst=True)
+    schema = "evesde" if database == "postgresschema" else None
+    metadata = metadataCreator(schema)
 
-# Store all indexes for later creation
-saved_indexes = {}
-for table in metadata.sorted_tables:
-    if table.indexes:
-        saved_indexes[table.name] = list(table.indexes)
-        table.indexes.clear()
+    # 3. TABLE PREPARATION
+    print("Creating Tables (indexes will be created after data load)")
+    metadata.drop_all(engine, checkfirst=True)
 
-metadata.create_all(engine, checkfirst=True)
-print("Tables created (without indexes)")
+    # Store all indexes for later creation
+    for table in metadata.sorted_tables:
+        if table.indexes:
+            saved_indexes[table.name] = list(table.indexes)
+            table.indexes.clear()
 
-# 4. DATA IMPORT PHASE
-# Run all your imports while the connection is active
-factions.importyaml(connection,metadata,sourcePath,language)
-ancestries.importyaml(connection,metadata,sourcePath,language)
-bloodlines.importyaml(connection,metadata,sourcePath,language)
-npccorporations.importyaml(connection,metadata,sourcePath,language)
-npcDivisions.importyaml(connection,metadata,sourcePath,language)
-characterAttributes.importyaml(connection,metadata,sourcePath,language)
-agents.importyaml(connection,metadata,sourcePath,language)
+    metadata.create_all(engine, checkfirst=True)
+    print("Tables created (without indexes)")
 
-# Capture Agent IDs for filtering
-result = connection.execute(metadata.tables['agtAgents'].select())
-valid_agent_ids = {row[0] for row in result}
+    # 4. DATA IMPORT PHASE
+    factions.importyaml(connection, metadata, sourcePath, language)
+    ancestries.importyaml(connection, metadata, sourcePath, language)
+    bloodlines.importyaml(connection, metadata, sourcePath, language)
+    npccorporations.importyaml(connection, metadata, sourcePath, language)
+    npcDivisions.importyaml(connection, metadata, sourcePath, language)
+    characterAttributes.importyaml(connection, metadata, sourcePath, language)
+    agents.importyaml(connection, metadata, sourcePath, language)
 
-typeMaterials.importyaml(connection,metadata,sourcePath,language)
-dogmaTypes.importyaml(connection,metadata,sourcePath,language)
-dogmaEffects.importyaml(connection,metadata,sourcePath,language)
-dogmaAttributes.importyaml(connection,metadata,sourcePath,language)
-dogmaAttributeCategories.importyaml(connection,metadata,sourcePath,language)
-blueprints.importyaml(connection,metadata,sourcePath)
-marketGroups.importyaml(connection,metadata,sourcePath,language)
-metaGroups.importyaml(connection,metadata,sourcePath,language)
-controlTowerResources.importyaml(connection,metadata,sourcePath,language)
-categories.importyaml(connection,metadata,sourcePath,language)
-graphics.importyaml(connection,metadata,sourcePath)
-groups.importyaml(connection,metadata,sourcePath,language)
-certificates.importyaml(connection,metadata,sourcePath,language)
-icons.importyaml(connection,metadata,sourcePath)
-skins.importyaml(connection,metadata,sourcePath)
-types.importyaml(connection,metadata,sourcePath,language)
-typeBonus.importyaml(connection,metadata,sourcePath,language)
-masteries.importyaml(connection,metadata,sourcePath,language)
-eveUnits.importyaml(connection,metadata,sourcePath,language)
-planetary.importyaml(connection,metadata,sourcePath,language)
-volumes.importVolumes(connection,metadata,sourcePath)
-universe.importyaml(connection,metadata,sourcePath,language)
-universe.buildJumps(connection,metadata)
-stations.importyaml(connection,metadata,sourcePath,language)
-universe.fixStationNames(connection,metadata)
-invNames.importyaml(connection,metadata,sourcePath,language)
-invItems.importyaml(connection,metadata,sourcePath,language)
-rigAffectedProductGroups.importRigMappings(connection,metadata)
+    # Capture Agent IDs for filtering
+    result = connection.execute(metadata.tables['agtAgents'].select())
+    valid_agent_ids = {row[0] for row in result}
 
-# 5. PHASE 2: INDEX CREATION (Must be at the very bottom)
-print("\nFinalizing data load and releasing database locks...")
-connection.close()
-engine.dispose()
+    typeMaterials.importyaml(connection, metadata, sourcePath, language)
+    dogmaTypes.importyaml(connection, metadata, sourcePath, language)
+    dogmaEffects.importyaml(connection, metadata, sourcePath, language)
+    dogmaAttributes.importyaml(connection, metadata, sourcePath, language)
+    dogmaAttributeCategories.importyaml(connection, metadata, sourcePath, language)
+    blueprints.importyaml(connection, metadata, sourcePath)
+    marketGroups.importyaml(connection, metadata, sourcePath, language)
+    metaGroups.importyaml(connection, metadata, sourcePath, language)
+    controlTowerResources.importyaml(connection, metadata, sourcePath, language)
+    categories.importyaml(connection, metadata, sourcePath, language)
+    graphics.importyaml(connection, metadata, sourcePath)
+    groups.importyaml(connection, metadata, sourcePath, language)
+    certificates.importyaml(connection, metadata, sourcePath, language)
+    icons.importyaml(connection, metadata, sourcePath)
+    skins.importyaml(connection, metadata, sourcePath)
+    types.importyaml(connection, metadata, sourcePath, language)
+    typeBonus.importyaml(connection, metadata, sourcePath, language)
+    masteries.importyaml(connection, metadata, sourcePath, language)
+    eveUnits.importyaml(connection, metadata, sourcePath, language)
+    planetary.importyaml(connection, metadata, sourcePath, language)
+    volumes.importVolumes(connection, metadata, sourcePath)
+    universe.importyaml(connection, metadata, sourcePath, language)
+    universe.buildJumps(connection, metadata)
+    stations.importyaml(connection, metadata, sourcePath, language)
+    universe.fixStationNames(connection, metadata)
+    invNames.importyaml(connection, metadata, sourcePath, language)
+    invItems.importyaml(connection, metadata, sourcePath, language)
+    rigAffectedProductGroups.importRigMappings(connection, metadata)
 
-# Wait for file handles to clear (GitHub runner buffer)
+except Exception as e:
+    print(f"An error occurred during data load: {e}")
+    sys.exit(1)
+
+finally:
+    # 5. PHASE 2: INDEX CREATION
+    if connection is not None:
+        print("\nFinalizing data load and releasing database locks...")
+        connection.close()
+    
+    if 'engine' in locals():
+        engine.dispose()
+
+# Wait for file handles to clear
 time.sleep(3)
 
-# Re-connect specifically for indexing with a generous timeout
+# Re-connect specifically for indexing
 print("Re-connecting for indexing phase...")
 engine = create_engine(destination, connect_args={'timeout': 60})
 
@@ -112,7 +122,6 @@ print("\n" + "="*60)
 print("Creating Indexes...")
 print("="*60)
 
-start_time = time.time()
 index_count = 0
 for table_name, indexes in saved_indexes.items():
     if indexes:
