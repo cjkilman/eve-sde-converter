@@ -10,7 +10,7 @@ except ImportError:
     from yaml import SafeLoader
 
 CUSTOM_INJECTIONS = {
-    27: [ # Station Container (Manual override)
+    17366: [ # Station Container (Manual override)
         {'materialTypeID': 34, 'quantity': 2224},
         {'materialTypeID': 35, 'quantity': 2224},
         {'materialTypeID': 36, 'quantity': 368}
