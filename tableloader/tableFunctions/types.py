@@ -1,117 +1,86 @@
 # -*- coding: utf-8 -*-
-import os
-import math
-from sqlalchemy import Table
 from yaml import load
-
 try:
     from yaml import CSafeLoader as SafeLoader
 except ImportError:
     from yaml import SafeLoader
 
-# ==========================================
-# CUSTOM MATERIAL INJECTIONS
-# Safety net for items with no blueprints
-# ==========================================
-CUSTOM_INJECTIONS = {
-    27: [ 
-        {'materialTypeID': 34, 'quantity': 2224},
-        {'materialTypeID': 35, 'quantity': 2224},
-        {'materialTypeID': 36, 'quantity': 368}
-    ]
-}
+import os
+from sqlalchemy import Table
 
 def importyaml(connection,metadata,sourcePath,language='en'):
-    print("Importing Type Materials")
-    invTypeMaterials = Table('invTypeMaterials',metadata)
-    
-    # Path Resolution
-    targetPath = os.path.join(sourcePath, 'typeMaterials.yaml')
-    if not os.path.exists(targetPath):
-        targetPath = os.path.join(sourcePath, 'sde', 'fsd', 'typeMaterials.yaml')
+    invTypes = Table('invTypes',metadata)
+    trnTranslations = Table('trnTranslations',metadata)
+    invMetaTypes = Table('invMetaTypes',metadata)
+    print("Importing Types")
 
-    blueprintPath = os.path.join(sourcePath, 'blueprints.yaml')
-    if not os.path.exists(blueprintPath):
-        blueprintPath = os.path.join(sourcePath, 'sde', 'fsd', 'blueprints.yaml')
+    targetPath = os.path.join(sourcePath, 'types.yaml')
+    if not os.path.exists(targetPath):
+        targetPath = os.path.join(sourcePath, 'sde', 'fsd', 'types.yaml')
 
     if connection.in_transaction():
         trans = None
     else:
         trans = connection.begin()
 
-    material_rows = []
-    processed_types = set()
-    
-    # 1. LOAD OFFICIAL MATERIALS
-    if os.path.exists(targetPath):
-        print(f"  Opening {targetPath}")
-        with open(targetPath,'r', encoding='utf-8') as yamlstream:
-            materials = load(yamlstream, Loader=SafeLoader)
-            if materials:
-                print(f"  Processing {len(materials)} official type materials")
-                for typeid in materials:
-                    if 'materials' in materials[typeid]:
-                        # Ensure ID is an integer for set lookups
-                        t_id = int(typeid)
-                        processed_types.add(t_id)
-                        for material in materials[typeid]['materials']:
-                            material_rows.append({
-                                'typeID': t_id,
-                                'materialTypeID': int(material['materialTypeID']),
-                                'quantity': int(material['quantity'])
-                            })
-            else:
-                print("  Warning: typeMaterials.yaml is empty.")
-    else:
-        print(f"  Warning: {targetPath} not found.")
+    with open(targetPath,'r', encoding='utf-8') as yamlstream:
+        typeids=load(yamlstream,Loader=SafeLoader)
+        print(f"  Processing {len(typeids)} types")
 
-    # 2. BLUEPRINT FALLBACK
-    if os.path.exists(blueprintPath):
-        print(f"  Opening {blueprintPath} for fallback yields...")
-        with open(blueprintPath, 'r', encoding='utf-8') as bpstream:
-            blueprints = load(bpstream, Loader=SafeLoader)
-            if blueprints:
-                fallback_count = 0
-                for bpID in blueprints:
-                    activities = blueprints[bpID].get('activities', {})
-                    manuf = activities.get('manufacturing', {})
-                    
-                    products = manuf.get('products', [])
-                    mats = manuf.get('materials', [])
-                    
-                    if products and mats:
-                        # Safety check: ensure at least one product exists
-                        productTypeID = int(products[0]['typeID'])
-                        
-                        if productTypeID not in processed_types:
-                            processed_types.add(productTypeID)
-                            fallback_count += 1
-                            for m in mats:
-                                material_rows.append({
-                                    'typeID': productTypeID,
-                                    'materialTypeID': int(m['typeID']),
-                                    'quantity': int(math.floor(m['quantity'] * 0.5))
-                                })
-                print(f"  Auto-generated fallback yields for {fallback_count} items.")
-            else:
-                print("  Warning: blueprints.yaml is empty.")
+        type_rows = []
+        translation_rows = []
+        meta_type_rows = []
 
-    # 3. MANUAL INJECTIONS
-    for custom_typeid, custom_mats in CUSTOM_INJECTIONS.items():
-        c_id = int(custom_typeid)
-        if c_id not in processed_types:
-            for mat in custom_mats:
-                material_rows.append({
-                    'typeID': c_id,
-                    'materialTypeID': int(mat['materialTypeID']),
-                    'quantity': int(mat['quantity'])
+        for typeid in typeids:
+            type_rows.append({
+                'typeID': typeid,
+                'groupID': typeids[typeid].get('groupID',0),
+                'typeName': typeids[typeid].get('name',{}).get(language,''),
+                'description': typeids[typeid].get('description',{}).get(language,''),
+                'mass': typeids[typeid].get('mass',0),
+                'volume': typeids[typeid].get('volume',0),
+                'capacity': typeids[typeid].get('capacity',0),
+                'portionSize': typeids[typeid].get('portionSize'),
+                'raceID': typeids[typeid].get('raceID'),
+                'basePrice': typeids[typeid].get('basePrice'),
+                'published': typeids[typeid].get('published',0),
+                'marketGroupID': typeids[typeid].get('marketGroupID'),
+                'graphicID': typeids[typeid].get('graphicID',0),
+                'iconID': typeids[typeid].get('iconID'),
+                'soundID': typeids[typeid].get('soundID')
+            })
+
+            if 'name' in typeids[typeid]:
+                for lang in typeids[typeid]['name']:
+                    translation_rows.append({
+                        'tcID': 8, 'keyID': typeid, 'languageID': lang, 'text': typeids[typeid]['name'][lang]
+                    })
+
+            if 'description' in typeids[typeid]:
+                for lang in typeids[typeid]['description']:
+                    translation_rows.append({
+                        'tcID': 33, 'keyID': typeid, 'languageID': lang, 'text': typeids[typeid]['description'][lang]
+                    })
+
+            if 'metaGroupID' in typeids[typeid] or 'variationParentTypeID' in typeids[typeid]:
+                meta_type_rows.append({
+                    'typeID': typeid,
+                    'metaGroupID': typeids[typeid].get('metaGroupID'),
+                    'parentTypeID': typeids[typeid].get('variationParentTypeID')
                 })
 
-    # 4. BULK INSERT
-    if material_rows:
-        connection.execute(invTypeMaterials.insert(), material_rows)
-        print(f"  Inserted {len(material_rows)} total rows into invTypeMaterials.")
+        if type_rows:
+            connection.execute(invTypes.insert(), type_rows)
+            print(f"  Inserted {len(type_rows)} types")
 
+        if translation_rows:
+            connection.execute(trnTranslations.insert(), translation_rows)
+            print(f"  Inserted {len(translation_rows)} translations")
+
+        if meta_type_rows:
+            connection.execute(invMetaTypes.insert(), meta_type_rows)
+            print(f"  Inserted {len(meta_type_rows)} meta types")
+    
     if trans:
         trans.commit()
     print("  Done")
