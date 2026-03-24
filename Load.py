@@ -31,7 +31,7 @@ sourcePath = config.get('Files', 'sourcePath')
 from tableloader.tableFunctions import *
 from tableloader.tables import metadataCreator
 
-# 2. DATABASE CONNECTION
+# 2. DATABASE CONNECTION (Keep this at the top)
 print("connecting to DB")
 engine = create_engine(destination)
 connection = engine.connect()
@@ -53,7 +53,8 @@ for table in metadata.sorted_tables:
 metadata.create_all(engine, checkfirst=True)
 print("Tables created (without indexes)")
 
-# 4. DATA IMPORT PHASE (Run all imports while connection is open)
+# 4. DATA IMPORT PHASE
+# Run all your imports while the connection is active
 factions.importyaml(connection,metadata,sourcePath,language)
 ancestries.importyaml(connection,metadata,sourcePath,language)
 bloodlines.importyaml(connection,metadata,sourcePath,language)
@@ -95,7 +96,7 @@ invNames.importyaml(connection,metadata,sourcePath,language)
 invItems.importyaml(connection,metadata,sourcePath,language)
 rigAffectedProductGroups.importRigMappings(connection,metadata)
 
-# 5. PHASE 2: INDEX CREATION (Now that data is loaded)
+# 5. PHASE 2: INDEX CREATION (Must be at the very bottom)
 print("\nFinalizing data load and releasing database locks...")
 connection.close()
 engine.dispose()
@@ -103,8 +104,8 @@ engine.dispose()
 # Wait for file handles to clear (GitHub runner buffer)
 time.sleep(3)
 
-# Re-connect specifically for indexing
-print(f"Re-connecting for indexing phase...")
+# Re-connect specifically for indexing with a generous timeout
+print("Re-connecting for indexing phase...")
 engine = create_engine(destination, connect_args={'timeout': 60})
 
 print("\n" + "="*60)
@@ -115,16 +116,16 @@ start_time = time.time()
 index_count = 0
 for table_name, indexes in saved_indexes.items():
     if indexes:
-        print(f"\nIndexing table: {table_name}")
+        print("\nIndexing table: {}".format(table_name))
         for index in indexes:
             try:
                 index.create(engine)
                 index_count += 1
-                print(f"  ✓ Created index: {index.name}")
+                print("  ✓ Created index: {}".format(index.name))
             except Exception as e:
-                print(f"  ⚠ Warning: Could not create index {index.name}: {e}")
+                print("  ⚠ Warning: Could not create index {}: {}".format(index.name, e))
 
-print(f"\nIndex creation complete! Created {index_count} indexes.")
+print("\nIndex creation complete! Created {} indexes.".format(index_count))
 
 # 6. OPTIONAL: STRIPPED DATABASE CREATION
 if create_stripped and database == 'sqlite':
@@ -147,7 +148,7 @@ if create_stripped and database == 'sqlite':
     }
 
     if os.path.exists(source_db_path):
-        print(f"\nCreating stripped database: {dest_db_path}")
+        print("\nCreating stripped database: {}".format(dest_db_path))
         shutil.copy2(source_db_path, dest_db_path)
         conn = sqlite3.connect(dest_db_path, timeout=60)
         cursor = conn.cursor()
@@ -156,7 +157,7 @@ if create_stripped and database == 'sqlite':
         all_tables = [row[0] for row in cursor.fetchall()]
         
         for table in [t for t in all_tables if t not in TABLES_TO_KEEP]:
-            cursor.execute(f"DROP TABLE IF EXISTS {table}")
+            cursor.execute("DROP TABLE IF EXISTS {}".format(table))
         
         print("  Optimizing (VACUUM)...")
         conn.commit()
