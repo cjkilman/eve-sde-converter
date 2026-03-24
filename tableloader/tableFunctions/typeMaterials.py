@@ -76,9 +76,13 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
     # 3. Manual Injections
     for c_id, custom_mats in CUSTOM_INJECTIONS.items():
-        if int(c_id) not in processed_types:
-            for mat in custom_mats:
-                material_rows.append({'typeID': int(c_id), 'materialTypeID': int(mat['materialTypeID']), 'quantity': int(mat['quantity'])})
+        print(f"   Injecting manual override for TypeID {c_id}")
+        for mat in custom_mats:
+            material_rows.append({
+                'typeID': int(c_id), 
+                'materialTypeID': int(mat['materialTypeID']), 
+                'quantity': int(mat['quantity'])
+            })
 
     if material_rows:
         connection.execute(invTypeMaterials.insert(), material_rows)
