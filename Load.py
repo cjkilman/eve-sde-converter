@@ -31,10 +31,10 @@ sourcePath = config.get('Files', 'sourcePath')
 from tableloader.tableFunctions import *
 from tableloader.tables import metadataCreator
 
-# 2. DATABASE CONNECTION (Keep this at the top)
+# 2. DATABASE CONNECTION
 print("connecting to DB")
 connection = None
-saved_indexes = {} # Initialize this early so Phase 5 doesn't fail if the try block fails
+saved_indexes = {}  # Initialized early so Phase 5 always has a variable to look at
 
 try:
     engine = create_engine(destination)
@@ -57,47 +57,50 @@ try:
     print("Tables created (without indexes)")
 
     # 4. DATA IMPORT PHASE
-    # All imports MUST be indented here so they are part of the 'try' block
-    factions.importyaml(connection,metadata,sourcePath,language)
-    ancestries.importyaml(connection,metadata,sourcePath,language)
-    bloodlines.importyaml(connection,metadata,sourcePath,language)
-    npccorporations.importyaml(connection,metadata,sourcePath,language)
-    npcDivisions.importyaml(connection,metadata,sourcePath,language)
-    characterAttributes.importyaml(connection,metadata,sourcePath,language)
-    agents.importyaml(connection,metadata,sourcePath,language)
+    factions.importyaml(connection, metadata, sourcePath, language)
+    ancestries.importyaml(connection, metadata, sourcePath, language)
+    bloodlines.importyaml(connection, metadata, sourcePath, language)
+    npccorporations.importyaml(connection, metadata, sourcePath, language)
+    npcDivisions.importyaml(connection, metadata, sourcePath, language)
+    characterAttributes.importyaml(connection, metadata, sourcePath, language)
+    agents.importyaml(connection, metadata, sourcePath, language)
 
     # Capture Agent IDs for filtering
     result = connection.execute(metadata.tables['agtAgents'].select())
     valid_agent_ids = {row[0] for row in result}
 
-    typeMaterials.importyaml(connection,metadata,sourcePath,language)
-    dogmaTypes.importyaml(connection,metadata,sourcePath,language)
-    dogmaEffects.importyaml(connection,metadata,sourcePath,language)
-    dogmaAttributes.importyaml(connection,metadata,sourcePath,language)
-    dogmaAttributeCategories.importyaml(connection,metadata,sourcePath,language)
-    blueprints.importyaml(connection,metadata,sourcePath)
-    marketGroups.importyaml(connection,metadata,sourcePath,language)
-    metaGroups.importyaml(connection,metadata,sourcePath,language)
-    controlTowerResources.importyaml(connection,metadata,sourcePath,language)
-    categories.importyaml(connection,metadata,sourcePath,language)
-    graphics.importyaml(connection,metadata,sourcePath)
-    groups.importyaml(connection,metadata,sourcePath,language)
-    certificates.importyaml(connection,metadata,sourcePath,language)
-    icons.importyaml(connection,metadata,sourcePath)
-    skins.importyaml(connection,metadata,sourcePath)
-    types.importyaml(connection,metadata,sourcePath,language)
-    typeBonus.importyaml(connection,metadata,sourcePath,language)
-    masteries.importyaml(connection,metadata,sourcePath,language)
-    eveUnits.importyaml(connection,metadata,sourcePath,language)
-    planetary.importyaml(connection,metadata,sourcePath,language)
-    volumes.importVolumes(connection,metadata,sourcePath)
-    universe.importyaml(connection,metadata,sourcePath,language)
-    universe.buildJumps(connection,metadata)
-    stations.importyaml(connection,metadata,sourcePath,language)
-    universe.fixStationNames(connection,metadata)
-    invNames.importyaml(connection,metadata,sourcePath,language)
-    invItems.importyaml(connection,metadata,sourcePath,language)
-    rigAffectedProductGroups.importRigMappings(connection,metadata)
+    typeMaterials.importyaml(connection, metadata, sourcePath, language)
+    dogmaTypes.importyaml(connection, metadata, sourcePath, language)
+    dogmaEffects.importyaml(connection, metadata, sourcePath, language)
+    dogmaAttributes.importyaml(connection, metadata, sourcePath, language)
+    dogmaAttributeCategories.importyaml(connection, metadata, sourcePath, language)
+    blueprints.importyaml(connection, metadata, sourcePath)
+    marketGroups.importyaml(connection, metadata, sourcePath, language)
+    metaGroups.importyaml(connection, metadata, sourcePath, language)
+    controlTowerResources.importyaml(connection, metadata, sourcePath, language)
+    categories.importyaml(connection, metadata, sourcePath, language)
+    graphics.importyaml(connection, metadata, sourcePath)
+    groups.importyaml(connection, metadata, sourcePath, language)
+    certificates.importyaml(connection, metadata, sourcePath, language)
+    icons.importyaml(connection, metadata, sourcePath)
+    skins.importyaml(connection, metadata, sourcePath)
+    types.importyaml(connection, metadata, sourcePath, language)
+    typeBonus.importyaml(connection, metadata, sourcePath, language)
+    masteries.importyaml(connection, metadata, sourcePath, language)
+    eveUnits.importyaml(connection, metadata, sourcePath, language)
+    planetary.importyaml(connection, metadata, sourcePath, language)
+    volumes.importVolumes(connection, metadata, sourcePath)
+    universe.importyaml(connection, metadata, sourcePath, language)
+    universe.buildJumps(connection, metadata)
+    stations.importyaml(connection, metadata, sourcePath, language)
+    universe.fixStationNames(connection, metadata)
+    invNames.importyaml(connection, metadata, sourcePath, language)
+    invItems.importyaml(connection, metadata, sourcePath, language)
+    rigAffectedProductGroups.importRigMappings(connection, metadata)
+
+except Exception as e:
+    print(f"Error during import: {e}")
+    sys.exit(1)
 
 finally:
     # 5. PHASE 2: INDEX CREATION cleanup
@@ -108,10 +111,10 @@ finally:
     if 'engine' in locals():
         engine.dispose()
 
-# Wait for file handles to clear
+# Wait for file handles to clear (GitHub runner buffer)
 time.sleep(3)
 
-# Re-connect specifically for indexing
+# Re-connect specifically for indexing phase
 print("Re-connecting for indexing phase...")
 engine = create_engine(destination, connect_args={'timeout': 60})
 
