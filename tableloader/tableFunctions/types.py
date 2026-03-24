@@ -1,156 +1,105 @@
 # -*- coding: utf-8 -*-
+import os
+import math
+from sqlalchemy import Table
 from yaml import load
+
 try:
     from yaml import CSafeLoader as SafeLoader
 except ImportError:
     from yaml import SafeLoader
 
-import os
-from sqlalchemy import Table
+# ==========================================
+# CUSTOM MATERIAL INJECTIONS
+# Still kept for items that have no blueprint at all
+# ==========================================
+CUSTOM_INJECTIONS = {
+    # Manual overrides if needed
+}
 
 def importyaml(connection,metadata,sourcePath,language='en'):
-    invTypes = Table('invTypes',metadata)
-    trnTranslations = Table('trnTranslations',metadata)
-    certMasteries = Table('certMasteries',metadata)
-    invTraits = Table('invTraits',metadata)
-    invMetaTypes = Table('invMetaTypes',metadata)
-    print("Importing Types")
-
-    targetPath = os.path.join(sourcePath, 'types.yaml')
+    print("Importing Type Materials")
+    invTypeMaterials = Table('invTypeMaterials',metadata)
+    
+    # Path Resolution
+    targetPath = os.path.join(sourcePath, 'typeMaterials.yaml')
     if not os.path.exists(targetPath):
-        targetPath = os.path.join(sourcePath, 'fsd', 'types.yaml')
-    if not os.path.exists(targetPath):
-        targetPath = os.path.join(sourcePath, 'sde', 'fsd', 'types.yaml')
+        targetPath = os.path.join(sourcePath, 'sde', 'fsd', 'typeMaterials.yaml')
 
-    print(f"  Opening {targetPath}")
+    blueprintPath = os.path.join(sourcePath, 'blueprints.yaml')
+    if not os.path.exists(blueprintPath):
+        blueprintPath = os.path.join(sourcePath, 'sde', 'fsd', 'blueprints.yaml')
 
     if connection.in_transaction():
         trans = None
     else:
         trans = connection.begin()
 
+    # 1. LOAD OFFICIAL MATERIALS
+    material_rows = []
+    processed_types = set()
+    
+    print(f"  Opening {targetPath}")
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
-        
-
-
-        typeids=load(yamlstream,Loader=SafeLoader)
-        print(f"  Processing {len(typeids)} types")
-
-        # Build bulk insert lists
-        type_rows = []
-        translation_rows = []
-        meta_type_rows = []
-
-        for typeid in typeids:
-            type_rows.append({
-                'typeID': typeid,
-                'groupID': typeids[typeid].get('groupID',0),
-                'typeName': typeids[typeid].get('name',{}).get(language,''),
-                'description': typeids[typeid].get('description',{}).get(language,''),
-                'mass': typeids[typeid].get('mass',0),
-                'volume': typeids[typeid].get('volume',0),
-                'capacity': typeids[typeid].get('capacity',0),
-                'portionSize': typeids[typeid].get('portionSize'),
-                'raceID': typeids[typeid].get('raceID'),
-                'basePrice': typeids[typeid].get('basePrice'),
-                'published': typeids[typeid].get('published',0),
-                'marketGroupID': typeids[typeid].get('marketGroupID'),
-                'graphicID': typeids[typeid].get('graphicID',0),
-                'iconID': typeids[typeid].get('iconID'),
-                'soundID': typeids[typeid].get('soundID')
-            })
-
-            # @TODO: Fix 'masteries' fetch from certificates.yaml(?)
-            # if  "masteries" in typeids[typeid]:
-            #     for level in typeids[typeid]["masteries"]:
-            #         for cert in typeids[typeid]["masteries"][level]:
-            #             connection.execute(certMasteries.insert().values(
-            #                                 typeID=typeid,
-            #                                 masteryLevel=level,
-            #                                 certID=cert))
-
-            if ('name' in typeids[typeid]):
-                for lang in typeids[typeid]['name']:
-                    translation_rows.append({
-                        'tcID': 8,
-                        'keyID': typeid,
-                        'languageID': lang,
-                        'text': typeids[typeid]['name'][lang]
+        materials = load(yamlstream, Loader=SafeLoader)
+        print(f"  Processing {len(materials)} official type materials")
+        for typeid in materials:
+            if 'materials' in materials[typeid]:
+                processed_types.add(typeid)
+                for material in materials[typeid]['materials']:
+                    material_rows.append({
+                        'typeID': typeid,
+                        'materialTypeID': material['materialTypeID'],
+                        'quantity': material['quantity']
                     })
 
-            if ('description' in typeids[typeid]):
-                for lang in typeids[typeid]['description']:
-                    translation_rows.append({
-                        'tcID': 33,
-                        'keyID': typeid,
-                        'languageID': lang,
-                        'text': typeids[typeid]['description'][lang]
-                    })
+    # 2. BLUEPRINT FALLBACK (AUTO-GRAB MISSING ITEMS)
+    # Most deployables use 50% of manufacturing inputs as reprocessing yield
+    if os.path.exists(blueprintPath):
+        print(f"  Opening {blueprintPath} for fallback yields...")
+        with open(blueprintPath, 'r', encoding='utf-8') as bpstream:
+            blueprints = load(bpstream, Loader=SafeLoader)
+            fallback_count = 0
+            
+            for bpID in blueprints:
+                # Activity 1 is Manufacturing
+                activities = blueprints[bpID].get('activities', {})
+                manuf = activities.get('manufacturing', {})
+                
+                products = manuf.get('products', [])
+                mats = manuf.get('materials', [])
+                
+                if products and mats:
+                    # Identify what this blueprint actually makes
+                    productTypeID = products[0]['typeID']
+                    
+                    # If this item is MISSING from typeMaterials.yaml, generate 50% yield
+                    if productTypeID not in processed_types:
+                        processed_types.add(productTypeID)
+                        fallback_count += 1
+                        for m in mats:
+                            material_rows.append({
+                                'typeID': productTypeID,
+                                'materialTypeID': m['typeID'],
+                                'quantity': math.floor(m['quantity'] * 0.5)
+                            })
+            print(f"  Auto-generated fallback yields for {fallback_count} items from blueprints.")
 
-            # @TODO: Fix 'traits' and figure out what they are and where they went..?
-            # Traits moved to the TypeBonus.yaml file and are now handled in the typeBonus.py.
-            # if ('traits' in typeids[typeid]):
-            #     if 'types' in typeids[typeid]['traits']:
-            #         for skill in typeids[typeid]['traits']['types']:
-            #             for trait in typeids[typeid]['traits']['types'][skill]:
-            #                 result=connection.execute(invTraits.insert().values(
-            #                                     typeID=typeid,
-            #                                     skillID=skill,
-            #                                     bonus=trait.get('bonus'),
-            #                                     bonusText=trait.get('bonusText',{}).get(language,''),
-            #                                     unitID=trait.get('unitID')))
-            #                 traitid=result.inserted_primary_key
-            #                 for languageid in trait.get('bonusText',{}):
-            #                     connection.execute(trnTranslations.insert().values(tcID=1002,keyID=traitid[0],languageID=languageid,text=trait['bonusText'][languageid]))
-            #     if 'roleBonuses' in typeids[typeid]['traits']:
-            #         for trait in typeids[typeid]['traits']['roleBonuses']:
-            #             result=connection.execute(invTraits.insert().values(
-            #                     typeID=typeid,
-            #                     skillID=-1,
-            #                     bonus=trait.get('bonus'),
-            #                     bonusText=trait.get('bonusText',{}).get(language,''),
-            #                     unitID=trait.get('unitID')))
-            #             traitid=result.inserted_primary_key
-            #             for languageid in trait.get('bonusText',{}):
-            #                 connection.execute(trnTranslations.insert().values(tcID=1002,keyID=traitid[0],languageID=languageid,text=trait['bonusText'][languageid]))
-            #     if 'miscBonuses' in typeids[typeid]['traits']:
-            #         for trait in typeids[typeid]['traits']['miscBonuses']:
-            #             result=connection.execute(invTraits.insert().values(
-            #                     typeID=typeid,
-            #                     skillID=-2,
-            #                     bonus=trait.get('bonus'),
-            #                     bonusText=trait.get('bonusText',{}).get(language,''),
-            #                     unitID=trait.get('unitID')))
-            #             traitid=result.inserted_primary_key
-            #             for languageid in trait.get('bonusText',{}):
-            #                 connection.execute(trnTranslations.insert().values(tcID=1002,keyID=traitid[0],languageID=languageid,text=trait['bonusText'][languageid]))
-
-            if 'metaGroupID' in typeids[typeid] or 'variationParentTypeID' in typeids[typeid]:
-                meta_type_rows.append({
-                    'typeID': typeid,
-                    'metaGroupID': typeids[typeid].get('metaGroupID'),
-                    'parentTypeID': typeids[typeid].get('variationParentTypeID')
+    # 3. MANUAL INJECTIONS
+    for custom_typeid, custom_mats in CUSTOM_INJECTIONS.items():
+        if custom_typeid not in processed_types:
+            for mat in custom_mats:
+                material_rows.append({
+                    'typeID': custom_typeid,
+                    'materialTypeID': mat['materialTypeID'],
+                    'quantity': mat['quantity']
                 })
 
-        # BULK INSERTS - 3 calls instead of 30,000+
-        if type_rows:
-            connection.execute(invTypes.insert(), type_rows)
-            print(f"  Inserted {len(type_rows)} types")
+    # 4. BULK INSERT
+    if material_rows:
+        connection.execute(invTypeMaterials.insert(), material_rows)
+        print(f"  Inserted {len(material_rows)} total rows into invTypeMaterials.")
 
-        if translation_rows:
-            connection.execute(trnTranslations.insert(), translation_rows)
-            print(f"  Inserted {len(translation_rows)} translations")
-
-        if meta_type_rows:
-            connection.execute(invMetaTypes.insert(), meta_type_rows)
-            print(f"  Inserted {len(meta_type_rows)} meta types")
-
-    
     if trans:
         trans.commit()
-
     print("  Done")
-
-
-
-
