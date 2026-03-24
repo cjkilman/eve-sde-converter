@@ -14,7 +14,11 @@ except ImportError:
 # Still kept for items that have no blueprint at all
 # ==========================================
 CUSTOM_INJECTIONS = {
-    # Manual overrides if needed
+    27: [ 
+        {'materialTypeID': 34, 'quantity': 2224}, # Tritanium
+        {'materialTypeID': 35, 'quantity': 2224}, # Pyerite
+        {'materialTypeID': 36, 'quantity': 368}   # Mexallon
+    ]
 }
 
 def importyaml(connection,metadata,sourcePath,language='en'):
