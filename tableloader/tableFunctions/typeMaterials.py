@@ -77,6 +77,11 @@ def importyaml(connection,metadata,sourcePath,language='en'):
     # 3. Manual Injections
     for c_id, custom_mats in CUSTOM_INJECTIONS.items():
         print(f"   Injecting manual override for TypeID {c_id}")
+        
+        # FIX: Delete any auto-generated materials for this ID so we don't cause duplicates
+        material_rows = [row for row in material_rows if row['typeID'] != int(c_id)]
+
+        # Now safely inject your custom overrides
         for mat in custom_mats:
             material_rows.append({
                 'typeID': int(c_id), 
