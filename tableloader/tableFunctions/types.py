@@ -25,7 +25,7 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
         typeids=load(yamlstream,Loader=SafeLoader)
-        print(f"  Processing {len(typeids)} types")
+        print("  Processing {} types".format(len(typeids)))
 
         type_rows = []
         translation_rows = []
@@ -71,15 +71,15 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
         if type_rows:
             connection.execute(invTypes.insert(), type_rows)
-            print(f"  Inserted {len(type_rows)} types")
+            print("  Inserted {} types".format(len(type_rows)))
 
         if translation_rows:
             connection.execute(trnTranslations.insert(), translation_rows)
-            print(f"  Inserted {len(translation_rows)} translations")
+            print("  Inserted {} translations".format(len(translation_rows)))
 
         if meta_type_rows:
             connection.execute(invMetaTypes.insert(), meta_type_rows)
-            print(f"  Inserted {len(meta_type_rows)} meta types")
+            print("  Inserted {} meta types".format(len(meta_type_rows)))
     
     if trans:
         trans.commit()
