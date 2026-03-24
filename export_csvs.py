@@ -8,6 +8,57 @@ DB_NAME = "eve.db"
 # Points to your clean repo next door
 OUTPUT_DIR = "../eve-sde-dump" 
 
+def export_repro_bonuses(conn, output_dir):
+    """Generates the custom specializedReprocessingBonuses.csv for the Google Sheet Omni-Map."""
+    print("Generating specializedReprocessingBonuses.csv (Custom Omni-Map)...")
+    cursor = conn.cursor()
+    
+    # Query Dogma for Attribute 379: 'refiningYieldMutator' (Skills & Implants)
+    query = """
+        SELECT 
+            t.typeName, 
+            c.categoryName, 
+            COALESCE(a.valueFloat, a.valueInt) as bonusValue
+        FROM dgmTypeAttributes a
+        JOIN invTypes t ON a.typeID = t.typeID
+        JOIN invGroups g ON t.groupID = g.groupID
+        JOIN invCategories c ON g.categoryID = c.categoryID
+        WHERE a.attributeID = 379 
+        AND t.published = 1
+        AND c.categoryName IN ('Skill', 'Implant')
+    """
+    
+    try:
+        cursor.execute(query)
+        results = cursor.fetchall()
+        
+        file_path = os.path.join(output_dir, "specializedReprocessingBonuses.csv")
+        
+        with open(file_path, mode='w', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerow(['ItemName', 'Category', 'Multiplier'])
+
+            for row in results:
+                name, category, raw_bonus = row
+                
+                # Convert EVE's integer percentage (e.g., 4.0) to multiplier (1.04)
+                multiplier = 1.0 + (raw_bonus / 100.0)
+                writer.writerow([name, category, round(multiplier, 4)])
+
+            # --- Inject Static Structure/Rig Base Yields ---
+            writer.writerow(['Standard NPC Station', 'Rig_Base_Scrap', 0.50])
+            writer.writerow(['Unrigged Structure', 'Rig_Base_Scrap', 0.50])
+            writer.writerow(['Athanor (T1 Ore Rig - High Sec)', 'Rig_Base_Ore', 0.51])
+            writer.writerow(['Athanor (T2 Ore Rig - High Sec)', 'Rig_Base_Ore', 0.52])
+            writer.writerow(['Tatara (T1 Ore Rig - High Sec)', 'Rig_Base_Ore', 0.52])
+            writer.writerow(['Tatara (T2 Ore Rig - High Sec)', 'Rig_Base_Ore', 0.54])
+            writer.writerow(['Tatara (T2 Ore Rig - Low/Null/WH)', 'Rig_Base_Ore', 0.552])
+
+        print(f"  -> Success! Wrote {len(results)} dynamic modifiers and structure bases to {file_path}")
+        
+    except Exception as e:
+        print(f"  [!] Error generating repro bonuses: {e}")
+
 def export_all_tables():
     # 1. Check for Database
     if not os.path.exists(DB_NAME):
@@ -62,8 +113,12 @@ def export_all_tables():
         except Exception as e:
             print(f"  [!] Error exporting {table_name}: {e}")
 
+    # --- 4. GENERATE CUSTOM OMNI-MAP CSV ---
+    print("\n--- Starting Custom Data Exports ---")
+    export_repro_bonuses(conn, OUTPUT_DIR)
+
     conn.close()
-    print(f"--- Full Export Complete. Check the folder: {OUTPUT_DIR} ---")
+    print(f"\n--- Full Export Complete. Check the folder: {OUTPUT_DIR} ---")
 
 if __name__ == "__main__":
     export_all_tables()
