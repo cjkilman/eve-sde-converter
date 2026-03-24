@@ -21,6 +21,7 @@ CUSTOM_INJECTIONS = {
     ]
 }
 
+
 def importyaml(connection,metadata,sourcePath,language='en'):
     print("Importing Type Materials")
     invTypeMaterials = Table('invTypeMaterials',metadata)
