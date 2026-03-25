@@ -152,32 +152,6 @@ jobs:
             exit 1
           fi
 
-      # ---> NEW CROSS-REPO PUSH STEPS <---
-      - name: Checkout eve-sde-dump repository
-        uses: actions/checkout@v4
-        with:
-          repository: cjkilman/eve-sde-dump
-          path: eve-sde-dump-repo
-          token: ${{ secrets.SDE_DUMP_PAT }}
-
-      - name: Push all CSVs to eve-sde-dump
-        run: |
-          # Copy all fresh CSVs from the export folder into the cloned dump repo
-          cp ./csv-exports/*.csv ./eve-sde-dump-repo/
-          
-          # Move into the dump repo directory
-          cd eve-sde-dump-repo
-          
-          # Configure Git identity for the bot
-          git config --global user.name "GitHub Actions Bot"
-          git config --global user.email "actions@github.com"
-          
-          # Stage, commit, and push directly to cjkilman/eve-sde-dump
-          git add *.csv
-          git commit -m "Auto-update SDE CSVs including Omni-Map [skip ci]" || echo "No changes to commit"
-          git push
-      # ----------------------------------
-
       - name: Upload database and CSV artifacts
         uses: actions/upload-artifact@v4
         with:
