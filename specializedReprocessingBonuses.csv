@@ -1,0 +1,31 @@
+ItemName,Category,Multiplier
+Reprocessing,Skill,1.03
+Reprocessing Efficiency,Skill,1.02
+Mercoxit Ore Processing,Skill,1.02
+Scrapmetal Processing,Skill,1.02
+Ice Processing,Skill,1.02
+Zainou 'Beancounter' Reprocessing RX-802,Implant,1.02
+Zainou 'Beancounter' Reprocessing RX-804,Implant,1.04
+Zainou 'Beancounter' Reprocessing RX-801,Implant,1.01
+Ubiquitous Moon Ore Processing,Skill,1.02
+Common Moon Ore Processing,Skill,1.02
+Uncommon Moon Ore Processing,Skill,1.02
+Rare Moon Ore Processing,Skill,1.02
+Exceptional Moon Ore Processing,Skill,1.02
+Serenity Poteque 'Prospector' Harvesting MC-108,Implant,1.08
+Serenity Poteque 'Prospector' Harvesting MC-308,Implant,1.08
+Serenity Poteque 'Prospector' Harvesting MC-708,Implant,1.08
+Simple Ore Processing,Skill,1.02
+Coherent Ore Processing,Skill,1.02
+Variegated Ore Processing,Skill,1.02
+Complex Ore Processing,Skill,1.02
+Abyssal Ore Processing,Skill,1.02
+Erratic Ore Processing,Skill,1.02
+Unrefined Minerals Processing,Skill,1.02
+Standard NPC Station,Rig_Base_Scrap,0.5
+Unrigged Structure,Rig_Base_Scrap,0.5
+Athanor (T1 Ore Rig - High Sec),Rig_Base_Ore,0.51
+Athanor (T2 Ore Rig - High Sec),Rig_Base_Ore,0.52
+Tatara (T1 Ore Rig - High Sec),Rig_Base_Ore,0.52
+Tatara (T2 Ore Rig - High Sec),Rig_Base_Ore,0.54
+Tatara (T2 Ore Rig - Low/Null/WH),Rig_Base_Ore,0.552
