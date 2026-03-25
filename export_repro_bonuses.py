@@ -2,15 +2,20 @@ import sqlite3
 import csv
 import os
 
-def build_repro_bonuses(db_path="sqlite-latest.sqlite", output_file="specializedReprocessingBonuses.csv"):
+# Updated to match the standard output of the converter project
+def build_repro_bonuses(db_path="eve.db", output_file="specializedReprocessingBonuses.csv"):
     if not os.path.exists(db_path):
-        print(f"Error: {db_path} not found. Run the main SDE converter first.")
-        return
+        # Fallback check for common SDE filenames
+        if os.path.exists("eve-stripped.db"):
+            db_path = "eve-stripped.db"
+        else:
+            print(f"Error: {db_path} not found.")
+            return
 
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
-    # Attribute 379: 'refiningYieldMutator' (Used by Skills and Implants)
+    # Attribute 379: 'refiningYieldMutator'
     query = """
         SELECT 
             t.typeName, 
@@ -34,23 +39,31 @@ def build_repro_bonuses(db_path="sqlite-latest.sqlite", output_file="specialized
 
         for row in results:
             name, category, raw_bonus = row
-            
-            # EVE stores 4% as 4.0. We convert this to the 1.04 format for the spreadsheet math.
+            # Converts SDE format (5.0) to multiplier format (1.05)
             multiplier = 1.0 + (raw_bonus / 100.0)
             writer.writerow([name, category, round(multiplier, 4)])
 
-        # --- Structure/Rig Base Yields ---
-        # Structures use location-based dogma that is brutal to query cleanly.
-        # Injecting the known base yields here keeps the Google Sheet Omni-Map perfect.
-        writer.writerow(['Standard NPC Station', 'Rig_Base_Scrap', 0.50])
-        writer.writerow(['Unrigged Structure', 'Rig_Base_Scrap', 0.50])
-        writer.writerow(['Athanor (T1 Ore Rig - High Sec)', 'Rig_Base_Ore', 0.51])
-        writer.writerow(['Athanor (T2 Ore Rig - High Sec)', 'Rig_Base_Ore', 0.52])
-        writer.writerow(['Tatara (T1 Ore Rig - High Sec)', 'Rig_Base_Ore', 0.52])
-        writer.writerow(['Tatara (T2 Ore Rig - High Sec)', 'Rig_Base_Ore', 0.54])
-        writer.writerow(['Tatara (T2 Ore Rig - Low/Null/WH)', 'Rig_Base_Ore', 0.552])
+        # --- Base Components ---
+        writer.writerow(['Base Yield', 'Base_Value', 0.50])
+        
+        # --- Structures ---
+        writer.writerow(['Athanor', 'Structure_Bonus', 1.02])
+        writer.writerow(['Tatara', 'Structure_Bonus', 1.04])
 
-    print(f"Generated {output_file} with {len(results)} dynamic modifiers.")
+        # --- Rigs ---
+        writer.writerow(['T1 Refining Rig', 'Rig_Multiplier', 1.01])
+        writer.writerow(['T2 Refining Rig', 'Rig_Multiplier', 1.03])
+
+        # --- Security Zone Multipliers ---
+        writer.writerow(['High Sec', 'Security_Multiplier', 1.00])
+        writer.writerow(['Low Sec', 'Security_Multiplier', 1.06])
+        writer.writerow(['Null/WH', 'Security_Multiplier', 1.12])
+        
+        # --- Pre-Calculated Presets (Optional but helpful) ---
+        writer.writerow(['NPC Station', 'Net_Facility_Base', 0.50])
+        writer.writerow(['Tatara T2 HighSec', 'Net_Facility_Base', 0.5408]) # 0.5 * 1.04 * 1.04
+
+    print(f"Generated {output_file} with {len(results) + 8} modifiers.")
     conn.close()
 
 if __name__ == "__main__":
