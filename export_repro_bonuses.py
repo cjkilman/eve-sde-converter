@@ -3,123 +3,49 @@ import csv
 import os
 
 # --- CONFIGURATION ---
-# Matches the standard output of the eve-sde-converter project
 DB_NAME = "eve.db"
 OUTPUT_DIR = "../eve-sde-dump" 
 
-def export_repro_bonuses(conn, output_dir):
-    """
-    Generates specializedReprocessingBonuses.csv by querying the SDE 
-    dogma system for dynamic multipliers.
-    """
-    print("Generating specializedReprocessingBonuses.csv (Fully Dynamic)...")
-    cursor = conn.cursor()
-    all_bonus_rows = []
-
+def is_tq_safe(name, description):
+    """Checks for Serenity keywords and non-ASCII litter."""
+    if not name: return False
+    desc_text = str(description or "").lower()
+    if "available on serenity" in desc_text or "designed for serenity" in desc_text:
+        return False
     try:
-        # 1. Global Skills & Implants
-        # Attribute 379: refiningYieldMutator
-        query_global = """
-            SELECT t.typeName, c.categoryName, COALESCE(a.valueFloat, a.valueInt) as bonus
-            FROM dgmTypeAttributes a
-            JOIN invTypes t ON a.typeID = t.typeID
-            JOIN invGroups g ON t.groupID = g.groupID
-            JOIN invCategories c ON g.categoryID = c.categoryID
-            WHERE a.attributeID = 379 AND t.published = 1 AND c.categoryName IN ('Skill', 'Implant')
-        """
-        cursor.execute(query_global)
-        for name, cat, val in cursor.fetchall():
-            all_bonus_rows.append([name, cat, round(1.0 + (val / 100.0), 4)])
+        name.encode('ascii')
+    except UnicodeEncodeError:
+        return False 
+    return True
 
-        # 2. Specialized Ore/Ice Skills (Veldspar Processing, etc.)
-        # Attribute 158: refiningYieldPercent
-        query_ore_skills = """
-            SELECT t.typeName, 'Skill_Specialized', COALESCE(a.valueFloat, a.valueInt) as bonus
-            FROM dgmTypeAttributes a
-            JOIN invTypes t ON a.typeID = t.typeID
-            WHERE a.attributeID = 158 AND t.published = 1
-        """
-        cursor.execute(query_ore_skills)
-        for name, cat, val in cursor.fetchall():
-            all_bonus_rows.append([name, cat, round(1.0 + (val / 100.0), 4)])
-
-        # 3. Structure Hull Bonuses (Athanor/Tatara Role Bonuses)
-        # Attribute 2795: strRefiningYieldBonus
-        query_hulls = """
-            SELECT t.typeName, 'Hull_Bonus', COALESCE(a.valueFloat, a.valueInt) as bonus
-            FROM dgmTypeAttributes a
-            JOIN invTypes t ON a.typeID = t.typeID
-            WHERE a.attributeID = 2795 AND t.published = 1 AND t.typeName IN ('Athanor', 'Tatara')
-        """
-        cursor.execute(query_hulls)
-        for name, cat, val in cursor.fetchall():
-            all_bonus_rows.append([name, cat, round(1.0 + (val / 100.0), 4)])
-
-        # 4. Rig Tier Bonuses (Standup Refining Rigs)
-        # Attribute 717: reprocessingYieldBonus
-        query_rigs = """
-            SELECT 
-                CASE WHEN t.typeName LIKE '% II' THEN 'Tech 2 Refining Rig' ELSE 'Tech 1 Refining Rig' END as Tier,
-                'Rig_Tier_Bonus',
-                MAX(COALESCE(a.valueFloat, a.valueInt)) as bonus
-            FROM dgmTypeAttributes a
-            JOIN invTypes t ON a.typeID = t.typeID
-            WHERE a.attributeID = 717 AND t.published = 1 AND t.typeName LIKE 'Standup % Reprocessing %'
-            GROUP BY Tier
-        """
-        cursor.execute(query_rigs)
-        for name, cat, val in cursor.fetchall():
-            all_bonus_rows.append([name, cat, round(val / 100.0, 4)])
-
-        # 5. Core Constants (Unchangeables in SDE)
-        all_bonus_rows.append(['Base Yield', 'Base_Value', 0.50])
-        all_bonus_rows.append(['High Sec', 'Sec_Multiplier', 1.00])
-        all_bonus_rows.append(['Low Sec', 'Sec_Multiplier', 1.06])
-        all_bonus_rows.append(['Null/WH', 'Sec_Multiplier', 1.12])
-
-        # 6. Faction/Special Edition Rigs (Thukker, Outpost, etc.)
-        query_faction_rigs = """
-            SELECT 
-                t.typeName, 
-                'Rig_Faction_Bonus', 
-                COALESCE(a.valueFloat, a.valueInt) / 100.0
-            FROM dgmTypeAttributes a
-            JOIN invTypes t ON a.typeID = t.typeID
-            WHERE a.attributeID = 717 
-            AND t.published = 1 
-            AND t.typeName LIKE 'Standup %'
-            AND t.typeName NOT LIKE '% I' 
-            AND t.typeName NOT LIKE '% II'
-        """
-        cursor.execute(query_faction_rigs)
-        for name, cat, val in cursor.fetchall():
-            all_bonus_rows.append([name, cat, round(val, 4)])
-
-        # Write to CSV
-        file_path = os.path.join(output_dir, "specializedReprocessingBonuses.csv")
-        with open(file_path, mode='w', newline='', encoding='utf-8') as f:
-            writer = csv.writer(f)
-            writer.writerow(['ItemName', 'Category', 'Multiplier'])
-            writer.writerows(all_bonus_rows)
-
-        print(f"  -> Success! Wrote {len(all_bonus_rows)} modifiers to {file_path}")
-
-    except Exception as e:
-        print(f"  [!] Error generating repro bonuses: {e}")
+def get_serenity_blacklist(conn):
+    """Returns a SET of typeIDs that are flagged as Serenity-only."""
+    print("Scanning invTypes to build Serenity Blacklist...")
+    blacklist = set()
+    cursor = conn.cursor()
+    # We grab ID, Name, and Description to run our safety check
+    cursor.execute("SELECT typeID, typeName, description FROM invTypes")
+    for tid, name, desc in cursor.fetchall():
+        if not is_tq_safe(name, desc):
+            blacklist.add(tid)
+    print(f" -> Found {len(blacklist)} Serenity-only items to prune.")
+    return blacklist
 
 def export_all_tables():
-    """Loops through all SQLite tables and exports them to individual CSV files."""
+    """Loops through all tables and prunes any row referencing a Blacklisted typeID."""
     if not os.path.exists(DB_NAME):
-        print(f"CRITICAL ERROR: {DB_NAME} not found. Build the database first.")
+        print(f"CRITICAL ERROR: {DB_NAME} not found.")
         return
 
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
 
     conn = sqlite3.connect(DB_NAME)
+    
+    # STEP 1: Build the Blacklist
+    blacklist = get_serenity_blacklist(conn)
+    
     cursor = conn.cursor()
-
-    # Get list of all user-defined tables
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
     tables = cursor.fetchall()
 
@@ -134,17 +60,31 @@ def export_all_tables():
             rows = cursor.fetchall()
             headers = [description[0] for description in cursor.description]
             
+            # STEP 2: Check if this table uses typeID
+            # If it does, we filter the rows based on our blacklist
+            if "typeID" in headers:
+                tid_idx = headers.index("typeID")
+                pre_count = len(rows)
+                rows = [r for r in rows if r[tid_idx] not in blacklist]
+                post_count = len(rows)
+                if pre_count != post_count:
+                    print(f"Exporting {table_name}.csv (Pruned {pre_count - post_count} Serenity rows)")
+                else:
+                    print(f"Exported {table_name}.csv")
+            else:
+                print(f"Exported {table_name}.csv (No typeID column)")
+
+            # STEP 3: Write the (now clean) data to CSV
             with open(file_path, "w", newline="", encoding="utf-8") as f:
                 writer = csv.writer(f)
                 writer.writerow(headers)
                 if rows:
+                    # Optional: Round floats here if you want to kill ISK artifacts
                     writer.writerows(rows)
-            print(f"Exported {table_name}.csv")
+            
         except Exception as e:
             print(f"  [!] Error exporting {table_name}: {e}")
 
-    print("\n--- Starting Custom Data Exports ---")
-    export_repro_bonuses(conn, OUTPUT_DIR)
     conn.close()
 
 if __name__ == "__main__":
