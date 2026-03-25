@@ -152,6 +152,21 @@ jobs:
             exit 1
           fi
 
+      # ---> NEW STEP: COMMIT SPECIFIC CSV TO GITHUB <---
+      - name: Commit Omni-Map to Repository
+        run: |
+          # Copy our specific file from the exports folder to the root of the repo
+          cp ./csv-exports/specializedReprocessingBonuses.csv ./specializedReprocessingBonuses.csv
+          
+          # Configure Git identity for the bot
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          
+          # Stage, commit, and push just this one file
+          git add specializedReprocessingBonuses.csv
+          git commit -m "Auto-update specialized reprocessing bonuses [skip ci]" || echo "No changes to commit"
+          git push
+
       - name: Upload database and CSV artifacts
         uses: actions/upload-artifact@v4
         with:
