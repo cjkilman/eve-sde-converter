@@ -167,9 +167,10 @@ jobs:
     needs: [check-and-update-sde, build-sqlite]
     if: needs.check-and-update-sde.outputs.update_needed == 'true' && github.ref == 'refs/heads/main'
     steps:
-      - name: Download all artifacts
+      - name: Download processed artifacts
         uses: actions/download-artifact@v4
         with:
+          name: sde-sqlite
           path: artifacts/
 
       - name: Create GitHub Release
