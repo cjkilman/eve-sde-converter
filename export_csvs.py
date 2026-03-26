@@ -151,7 +151,8 @@ def export_all_tables():
     # --- 4. GENERATE CUSTOM OMNI-MAP CSV ---
     print("\n--- Starting Custom Data Exports ---")
     export_repro_bonuses(conn, OUTPUT_DIR)
-
+    export_slim_planets(conn, OUTPUT_DIR)
+    
     conn.close()
     print(f"\n--- Full Export Complete. Check the folder: {OUTPUT_DIR} ---")
 
