@@ -59,6 +59,41 @@ def export_repro_bonuses(conn, output_dir):
     except Exception as e:
         print(f"  [!] Error generating repro bonuses: {e}")
 
+def export_slim_planets(conn, output_dir):
+    """Generates a lean SDE_Planets.csv for Google Sheets name resolution."""
+    print("Generating SDE_Planets.csv (Slim Celestial Map)...")
+    cursor = conn.cursor()
+    
+    # We join mapDenormalize with mapSolarSystems to get clean human names
+    # Modern SDE often stores Planet Name as [System Name] + [Celestial Index]
+    query = """
+        SELECT 
+            d.itemID as planetID,
+            s.solarSystemName || ' ' || 
+            CASE d.celestialIndex 
+                WHEN 1 THEN 'I' WHEN 2 THEN 'II' WHEN 3 THEN 'III' WHEN 4 THEN 'IV' 
+                WHEN 5 THEN 'V' WHEN 6 THEN 'VI' WHEN 7 THEN 'VII' WHEN 8 THEN 'VIII' 
+                WHEN 9 THEN 'IX' WHEN 10 THEN 'X' ELSE d.celestialIndex END as planetName,
+            s.solarSystemName
+        FROM mapDenormalize d
+        JOIN mapSolarSystems s ON d.solarSystemID = s.solarSystemID
+        WHERE d.groupID = (SELECT groupID FROM invGroups WHERE groupName = 'Planet')
+    """
+    
+    try:
+        cursor.execute(query)
+        results = cursor.fetchall()
+        file_path = os.path.join(output_dir, "SDE_Planets.csv")
+        
+        with open(file_path, mode='w', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerow(['planetID', 'planetName', 'solarSystemName'])
+            writer.writerows(results)
+            
+        print(f"  -> Success! Wrote {len(results)} planets to {file_path}")
+    except Exception as e:
+        print(f"  [!] Error generating slim planets: {e}")
+
 def export_all_tables():
     # 1. Check for Database
     if not os.path.exists(DB_NAME):
