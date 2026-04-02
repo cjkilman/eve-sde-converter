@@ -8,6 +8,10 @@ DB_NAME = "eve.db"
 # Points to your clean repo next door
 OUTPUT_DIR = "../eve-sde-dump" 
 
+def is_tq_safe(text):
+    if not text: return True
+    return all(ord(char) < 128 for char in text)
+
 def export_repro_bonuses(conn, output_dir):
     """Generates the custom specializedReprocessingBonuses.csv for the Google Sheet Omni-Map."""
     print("Generating specializedReprocessingBonuses.csv (Custom Omni-Map)...")
@@ -40,6 +44,10 @@ def export_repro_bonuses(conn, output_dir):
 
             for row in results:
                 name, category, raw_bonus = row
+
+                # THE GATEKEEPER: Ensure no "Serenity" artifacts hit the Google Sheet
+                if not is_tq_safe(name):
+                    continue
                 
                 # Convert EVE's integer percentage (e.g., 4.0) to multiplier (1.04)
                 multiplier = 1.0 + (raw_bonus / 100.0)
@@ -93,6 +101,44 @@ def export_slim_planets(conn, output_dir):
         print(f"  -> Success! Wrote {len(results)} planets to {file_path}")
     except Exception as e:
         print(f"  [!] Error generating slim planets: {e}")
+
+def export_ore_skill_map(conn, output_dir):
+    """Generates the bridge between Ore/Ice and the 2% bonus skills."""
+    print("Generating SDE_oreProcessingGroups.csv (The Skill Bridge)...")
+    cursor = conn.cursor()
+    
+    query = """
+    SELECT 
+        it.typeID,
+        CASE 
+            WHEN ig.groupID IN (450, 451, 452, 453) THEN 'Simple Ore Processing'
+            WHEN ig.groupID IN (454, 455, 456, 457, 458) THEN 'Coherent Ore Processing'
+            WHEN ig.groupID IN (459, 460, 461) THEN 'Variegated Ore Processing'
+            WHEN ig.groupID IN (467, 468, 469) THEN 'Complex Ore Processing'
+            WHEN ig.groupID = 465 THEN 'Ice Processing'
+            WHEN ig.categoryID = 65 THEN 'Moon Ore Processing'
+            WHEN ig.categoryID = 16 THEN 'Gas Cloud Harvesting'
+            ELSE 'Scrapmetal Processing'
+        END as requiredSkill
+    FROM invTypes it
+    JOIN invGroups ig ON it.groupID = ig.groupID
+    WHERE ig.categoryID IN (16, 25, 42, 65) 
+    AND ig.groupID != 4030 
+    """
+    
+    try:
+        cursor.execute(query)
+        results = cursor.fetchall()
+        file_path = os.path.join(output_dir, "SDE_oreProcessingGroups.csv")
+        
+        with open(file_path, mode='w', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerow(['typeID', 'requiredSkill'])
+            writer.writerows(results)
+            
+        print(f"  -> Success! Wrote {len(results)} skill mappings to {file_path}")
+    except Exception as e:
+        print(f"  [!] Error generating skill map: {e}")
 
 def export_all_tables():
     # 1. Check for Database
@@ -152,6 +198,7 @@ def export_all_tables():
     print("\n--- Starting Custom Data Exports ---")
     export_repro_bonuses(conn, OUTPUT_DIR)
     export_slim_planets(conn, OUTPUT_DIR)
+    export_ore_skill_map(conn, OUTPUT_DIR)
     
     conn.close()
     print(f"\n--- Full Export Complete. Check the folder: {OUTPUT_DIR} ---")

@@ -8,6 +8,11 @@ except ImportError:
 import os
 from sqlalchemy import Table
 
+def is_tq_safe(text):
+    """Returns True if string is pure ASCII (Tranquility safe)"""
+    if not text: return True
+    return all(ord(char) < 128 for char in text)
+
 def importyaml(connection,metadata,sourcePath,language='en'):
     invTypes = Table('invTypes',metadata)
     trnTranslations = Table('trnTranslations',metadata)
@@ -32,6 +37,13 @@ def importyaml(connection,metadata,sourcePath,language='en'):
         meta_type_rows = []
 
         for typeid in typeids:
+            name = typeids[typeid].get('name', {}).get(language, '')
+            desc = typeids[typeid].get('description', {}).get(language, '')
+
+            # THE GATEKEEPER: Skip the item if it contains Chinese characters
+            if not is_tq_safe(name):
+              continue
+
             type_rows.append({
                 'typeID': typeid,
                 'groupID': typeids[typeid].get('groupID',0),
