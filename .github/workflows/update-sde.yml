@@ -464,7 +464,6 @@ jobs:
           name: sde-mssql
           path: |
             eve-mssql.sql.gz
->>>>>>> noirsoldats/main
           retention-days: 7
 
   create-release:
