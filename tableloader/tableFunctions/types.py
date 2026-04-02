@@ -42,7 +42,7 @@ def importyaml(connection,metadata,sourcePath,language='en'):
 
             # THE GATEKEEPER: Skip the item if it contains Chinese characters
             if not is_tq_safe(name):
-              continue
+                continue
 
             type_rows.append({
                 'typeID': typeid,
