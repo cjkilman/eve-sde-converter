@@ -9,13 +9,7 @@ try:
 except ImportError:
     from yaml import SafeLoader
 
-CUSTOM_INJECTIONS = {
-    17366: [ # Station Container (Manual override)
-        {'materialTypeID': 34, 'quantity': 2224},
-        {'materialTypeID': 35, 'quantity': 2224},
-        {'materialTypeID': 36, 'quantity': 368}
-    ]
-}
+CUSTOM_INJECTIONS = {}
 
 def importyaml(connection,metadata,sourcePath,language='en'):
     print("Importing Type Materials")
@@ -70,7 +64,7 @@ def importyaml(connection,metadata,sourcePath,language='en'):
                             material_rows.append({
                                 'typeID': p_id,
                                 'materialTypeID': int(m['typeID']),
-                                'quantity': int(math.floor(m['quantity'] * 0.5))
+                                'quantity': int(m['quantity'])
                             })
             print(f"  Auto-generated yields for {fallback_count} items.")
 
