@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Detect trigger type
         id: trigger_type
@@ -36,7 +36,7 @@ jobs:
         shell: bash
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -210,7 +210,7 @@ jobs:
       # 5) Upload SDE as artifact for build-databases job
       - name: Upload SDE artifact
         if: steps.compare.outputs.update_needed == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sde-data
           path: sde/
@@ -247,16 +247,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download SDE artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: sde-data
           path: sde/
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -283,7 +283,7 @@ jobs:
           python3 validation/query_validation.py sqlite
 
       - name: Upload database artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sde-sqlite
           path: |
@@ -310,16 +310,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download SDE artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: sde-data
           path: sde/
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -360,7 +360,7 @@ jobs:
           python3 validation/query_validation.py mysql
 
       - name: Wait for SQLite build (for cross-db validation)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         continue-on-error: true
         with:
           name: sde-sqlite
@@ -377,7 +377,7 @@ jobs:
           fi
 
       - name: Upload database artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sde-mysql
           path: |
@@ -402,16 +402,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download SDE artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: sde-data
           path: sde/
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -452,7 +452,7 @@ jobs:
           python3 validation/query_validation.py postgres
 
       - name: Wait for SQLite build (for cross-db validation)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         continue-on-error: true
         with:
           name: sde-sqlite
@@ -469,7 +469,7 @@ jobs:
           fi
 
       - name: Upload database artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sde-postgresql
           path: |
@@ -494,16 +494,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download SDE artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: sde-data
           path: sde/
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -571,7 +571,7 @@ jobs:
           python3 validation/query_validation.py mssql
 
       - name: Wait for SQLite build (for cross-db validation)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         continue-on-error: true
         with:
           name: sde-sqlite
@@ -588,7 +588,7 @@ jobs:
           fi
 
       - name: Upload database artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sde-mssql
           path: |
@@ -604,25 +604,25 @@ jobs:
 
     steps:
       - name: Download SQLite artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: sde-sqlite
           path: artifacts/
 
       - name: Download MySQL artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: sde-mysql
           path: artifacts/
 
       - name: Download PostgreSQL artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: sde-postgresql
           path: artifacts/
 
       - name: Download MSSQL artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: sde-mssql
           path: artifacts/
@@ -634,7 +634,7 @@ jobs:
 
       - name: Create GitHub Release
         id: create_release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.check-and-update-sde.outputs.version_tag }}
           name: ${{ needs.check-and-update-sde.outputs.version_name }}
