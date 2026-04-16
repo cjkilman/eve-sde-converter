@@ -145,6 +145,8 @@ $steps = @(
     "Planetary",
     # Volumes
     "Volumes",
+    # Compressible types
+    "Compressible Types",
     # Universe data
     "Universe", "Regions", "Constellations", "Solar Systems", "Stargates", "Planets", "Moons", "Asteroid Belts", "Stars",
     # Stations

@@ -283,6 +283,7 @@ STEPS=(
     "Masteries" "Units"
     "Planetary"
     "Volumes"
+    "Compressible Types"
     "Universe" "Regions" "Constellations" "Solar Systems" "Stargates" "Planets" "Moons" "Asteroid Belts" "Stars"
     "Stations" "Station Operations" "NPC Stations" "Station Services"
     "Inventory Names" "Inventory Items"

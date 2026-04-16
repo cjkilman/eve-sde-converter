@@ -101,6 +101,7 @@ eveUnits.importyaml(connection,metadata,sourcePath,language)
 planetary.importyaml(connection,metadata,sourcePath,language)
 # bsdTables.importyaml(connection,metadata,sourcePath)
 volumes.importVolumes(connection,metadata,sourcePath)
+compressibleTypes.importyaml(connection,metadata,sourcePath,language)
 universe.importyaml(connection,metadata,sourcePath,language)
 universe.buildJumps(connection,metadata)
 stations.importyaml(connection,metadata,sourcePath,language)
@@ -166,7 +167,8 @@ def create_stripped_database(source_db_path='eve.db', dest_db_path='eve-stripped
         'invTypeMaterials', 'invMarketGroups', 'industryBlueprints',
         'planetSchematics', 'planetSchematicsPinMap', 'planetSchematicsTypeMap',
         'invTypeReactions',
-        'rigAffectedProductGroups', 'rigIndustryModifierSources'
+        'rigAffectedProductGroups', 'rigIndustryModifierSources',
+        'invCompressibleTypes'
     }
 
     # Check source exists

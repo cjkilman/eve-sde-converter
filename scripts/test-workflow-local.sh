@@ -358,6 +358,73 @@ test_manual() {
     test_manual_single "$db_type"
 }
 
+# Fetch the latest SDE from CCP into the sde/ directory.
+# Mirrors the download/extract logic in runconversion.sh.
+fetch_sde() {
+    local base_url="https://developers.eveonline.com/static-data/tranquility"
+    local sde_dir="$PROJECT_ROOT/sde"
+
+    print_info "Fetching latest SDE from CCP..."
+
+    # Require curl
+    if ! command -v curl &> /dev/null; then
+        print_error "curl is required to fetch the SDE but was not found."
+        exit 1
+    fi
+
+    # Get latest build number
+    local jsonl_file="$sde_dir/latest.jsonl"
+    mkdir -p "$sde_dir"
+    if ! curl -fsS -o "$jsonl_file" "$base_url/latest.jsonl"; then
+        print_error "Could not fetch version info from CCP. Check your internet connection."
+        exit 1
+    fi
+
+    local build_number
+    build_number="$(grep -Eo '"buildNumber"[[:space:]]*:[[:space:]]*[0-9]+' "$jsonl_file" \
+        | head -n1 | grep -Eo '[0-9]+' || true)"
+
+    if [ -z "$build_number" ]; then
+        print_error "Could not parse build number from latest.jsonl."
+        exit 1
+    fi
+
+    print_info "Latest SDE build: $build_number"
+
+    # Download zip if not already present
+    local zip_name="eve-online-static-data-${build_number}-yaml.zip"
+    local zip_path="$sde_dir/$zip_name"
+    local download_url="$base_url/$zip_name"
+
+    if [ -f "$zip_path" ]; then
+        print_info "SDE zip already downloaded: $zip_path"
+    else
+        print_info "Downloading $zip_name (~500 MB)..."
+        if ! curl -fL --retry 3 --retry-delay 2 -o "$zip_path" "$download_url"; then
+            print_error "Failed to download SDE: $download_url"
+            exit 1
+        fi
+    fi
+
+    # Extract
+    print_info "Extracting SDE..."
+    if ! command -v unzip &> /dev/null; then
+        print_error "unzip is required to extract the SDE but was not found."
+        exit 1
+    fi
+    rm -rf "$sde_dir/fsd" "$sde_dir/bsd" "$sde_dir/universe"  # remove old SDE content
+    unzip -q -o "$zip_path" -d "$sde_dir"
+
+    # Flatten nested sde/sde/ structure if present
+    if [ -d "$sde_dir/sde" ]; then
+        print_info "Flattening nested structure..."
+        find "$sde_dir/sde" -mindepth 1 -maxdepth 1 -print0 | xargs -0 -I{} mv {} "$sde_dir/"
+        rm -rf "$sde_dir/sde"
+    fi
+
+    print_success "SDE ready (build $build_number)"
+}
+
 # Function to test a single database manually
 test_manual_single() {
     local db_type="$1"
@@ -376,11 +443,16 @@ test_manual_single() {
         print_warning "No virtual environment found. Using system Python."
     fi
 
-    # Check if SDE directory exists
+    # Fetch SDE if requested via --fetch-sde flag
+    if [ "${FETCH_SDE:-false}" = "true" ]; then
+        fetch_sde
+    fi
+
+    # Check if SDE directory exists (after optional fetch)
     if [ ! -d "sde" ]; then
-        print_error "SDE directory not found. Please download the SDE first:"
-        print_info "Run: ./runconversion.sh"
-        print_info "Or manually download from https://developers.eveonline.com/resource/resources"
+        print_error "SDE directory not found. Options:"
+        print_info "  1. Run with --fetch-sde to download automatically: $0 test-manual $db_type --fetch-sde"
+        print_info "  2. Run ./runconversion.sh to download and convert in one step"
         exit 1
     fi
 
@@ -495,11 +567,16 @@ DATABASE TYPES:
     mssql               Microsoft SQL Server
     all                 Run all database conversions sequentially
 
+FLAGS:
+    --fetch-sde         Download the latest SDE from CCP before running test-manual.
+                        Reuses an already-downloaded zip if present; only re-extracts.
+                        Without this flag, test-manual uses whatever is in sde/ already.
+
 PREREQUISITES:
     All database types:
       - Docker and docker-compose
       - Python 3.12+ with project dependencies installed (pip install -r requirements.txt)
-      - SDE data in the sde/ directory
+      - SDE data in the sde/ directory (or pass --fetch-sde to download automatically)
 
     test-manual mysql requires mysqldump on the host:
       macOS:          brew install mysql-client && export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
@@ -514,13 +591,15 @@ PREREQUISITES:
     test-manual mssql uses mssql_export.py (pymssql) — no extra host tools needed.
 
 EXAMPLES:
-    $0 setup                    # Start all database services
-    $0 validate                 # Check workflow syntax
-    $0 test-manual postgres     # Test PostgreSQL conversion manually (creates SQL dump)
-    $0 test-manual all          # Test all database conversions sequentially
-    $0 test-act                 # Test full workflow with act (requires SDE download)
-    $0 logs mysql               # Show MySQL container logs
-    $0 cleanup                  # Stop and remove all containers
+    $0 setup                              # Start all database services
+    $0 validate                           # Check workflow syntax
+    $0 test-manual postgres               # Test PostgreSQL (uses existing sde/)
+    $0 test-manual postgres --fetch-sde   # Test PostgreSQL with fresh SDE download
+    $0 test-manual all                    # Test all database conversions sequentially
+    $0 test-manual all --fetch-sde        # Fetch SDE once, then test all databases
+    $0 test-act                           # Test full workflow with act (requires SDE download)
+    $0 logs mysql                         # Show MySQL container logs
+    $0 cleanup                            # Stop and remove all containers
 
 OUTPUTS:
     test-manual sqlite          # Creates: eve.db, eve-stripped.db
@@ -530,13 +609,15 @@ OUTPUTS:
     test-manual all             # Creates: all of the above
 
 FULL WORKFLOW:
-    $0 validate                 # 1. Validate syntax
-    $0 setup                    # 2. Start services
-    $0 test-manual mysql        # 3. Test manually (creates SQL dump)
-    $0 cleanup                  # 4. Cleanup
+    $0 validate                           # 1. Validate syntax
+    $0 setup                              # 2. Start services
+    $0 test-manual mysql --fetch-sde      # 3. Fetch latest SDE and test (first run)
+    $0 test-manual mysql                  # 3. Re-test without re-downloading (iteration)
+    $0 cleanup                            # 4. Cleanup
 
 NOTE:
     - test-manual is RECOMMENDED for testing database conversions
+    - --fetch-sde downloads ~70 MB; omit it when iterating on code changes
     - test-act runs the full GitHub Actions workflow (including SDE download)
     - test-act may take 20+ minutes, download ~500MB, and requires 4-6GB RAM
     - test-act often fails with OOM (exit code 137) due to Docker memory limits
@@ -547,8 +628,20 @@ EOF
 
 # Main script logic
 main() {
-    local command="${1:-help}"
-    local option="$2"
+    # Parse --fetch-sde flag from any position in the argument list
+    FETCH_SDE=false
+    local filtered_args=()
+    for arg in "$@"; do
+        if [ "$arg" = "--fetch-sde" ]; then
+            FETCH_SDE=true
+        else
+            filtered_args+=("$arg")
+        fi
+    done
+    export FETCH_SDE
+
+    local command="${filtered_args[0]:-help}"
+    local option="${filtered_args[1]:-}"
 
     case "$command" in
         setup)
@@ -568,7 +661,7 @@ main() {
         test-manual)
             if [ -z "$option" ]; then
                 print_error "Database type required for manual test"
-                print_info "Usage: $0 test-manual [sqlite|mysql|postgres|mssql|all]"
+                print_info "Usage: $0 test-manual [sqlite|mysql|postgres|mssql|all] [--fetch-sde]"
                 exit 1
             fi
             check_prerequisites "$option"

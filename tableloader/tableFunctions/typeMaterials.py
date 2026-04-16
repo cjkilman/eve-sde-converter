@@ -36,7 +36,8 @@ def importyaml(connection,metadata,sourcePath,language='en'):
                     material_rows.append({
                         'typeID': typeid,
                         'materialTypeID': material['materialTypeID'],
-                        'quantity': material['quantity']
+                        'quantity': material['quantity'],
+                        'randomizedMaterials': material.get('randomizedMaterials')
                     })
 
         # BULK INSERT

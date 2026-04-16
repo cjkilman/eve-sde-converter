@@ -49,7 +49,8 @@ def importyaml(connection,metadata,sourcePath,language='en'):
                 'marketGroupID': typeids[typeid].get('marketGroupID'),
                 'graphicID': typeids[typeid].get('graphicID',0),
                 'iconID': typeids[typeid].get('iconID'),
-                'soundID': typeids[typeid].get('soundID')
+                'soundID': typeids[typeid].get('soundID'),
+                'metaLevel': typeids[typeid].get('metaLevel')
             })
 
             # @TODO: Fix 'masteries' fetch from certificates.yaml(?)

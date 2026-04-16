@@ -237,6 +237,10 @@ def validate_referential_integrity(connection, db_type):
         ("Blueprint type IDs reference valid types",
          "SELECT COUNT(*) FROM industryActivity ia LEFT JOIN invTypes t ON ia.typeID = t.typeID WHERE t.typeID IS NULL",
          0, False),
+
+        ("Compressible types reference valid invTypes",
+         "SELECT COUNT(*) FROM invCompressibleTypes c LEFT JOIN invTypes t ON c.typeID = t.typeID WHERE t.typeID IS NULL",
+         0, False),
     ]
 
     results = []
