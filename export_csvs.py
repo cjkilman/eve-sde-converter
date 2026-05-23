@@ -139,6 +139,40 @@ def export_ore_skill_map(conn, output_dir):
         print(f"  -> Success! Wrote {len(results)} skill mappings to {file_path}")
     except Exception as e:
         print(f"  [!] Error generating skill map: {e}")
+def export_pi_structures(conn, output_dir):
+    """Generates SDE_PI_Structures.csv for Planetary Infrastructure pins."""
+    print("Generating SDE_PI_Structures.csv (Planetary Infrastructure)...")
+    cursor = conn.cursor()
+    
+    # Category 41 is 'Planetary Infrastructure' (The actual pins placed on the planet)
+    query = """
+        SELECT 
+            t.typeID,
+            t.groupID,
+            t.typeName,
+            t.volume,
+            t.capacity
+        FROM invTypes t
+        JOIN invGroups g ON t.groupID = g.groupID
+        WHERE g.categoryID = 41
+    """
+    
+    try:
+        cursor.execute(query)
+        results = cursor.fetchall()
+        
+        file_path = os.path.join(output_dir, "SDE_PI_Structures.csv")
+        
+        with open(file_path, mode='w', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            # Write headers
+            writer.writerow(['typeID', 'groupID', 'typeName', 'volume', 'capacity'])
+            writer.writerows(results)
+
+        print(f"  -> Success! Wrote {len(results)} PI structures to {file_path}")
+        
+    except Exception as e:
+        print(f"  [!] Error generating PI structures map: {e}")
 
 def export_all_tables():
     # 1. Check for Database
@@ -199,6 +233,7 @@ def export_all_tables():
     export_repro_bonuses(conn, OUTPUT_DIR)
     export_slim_planets(conn, OUTPUT_DIR)
     export_ore_skill_map(conn, OUTPUT_DIR)
+    export_pi_structures(conn, OUTPUT_DIR)
     
     conn.close()
     print(f"\n--- Full Export Complete. Check the folder: {OUTPUT_DIR} ---")
