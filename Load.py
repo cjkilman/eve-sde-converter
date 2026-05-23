@@ -99,6 +99,7 @@ masteries.importyaml(connection,metadata,sourcePath,language)
 
 eveUnits.importyaml(connection,metadata,sourcePath,language)
 planetary.importyaml(connection,metadata,sourcePath,language)
+planetResources.importyaml(connection,metadata,sourcePath,language)
 # bsdTables.importyaml(connection,metadata,sourcePath)
 volumes.importVolumes(connection,metadata,sourcePath)
 compressibleTypes.importyaml(connection,metadata,sourcePath,language)
@@ -165,6 +166,7 @@ def create_stripped_database(source_db_path='eve.db', dest_db_path='eve-stripped
         'dgmAttributeCategories', 'dgmExpressions',
         'mapRegions', 'mapSolarSystems', 'staStations',
         'invTypeMaterials', 'invMarketGroups', 'industryBlueprints',
+        'planetResources', 'planetResourceReagents',
         'planetSchematics', 'planetSchematicsPinMap', 'planetSchematicsTypeMap',
         'invTypeReactions',
         'rigAffectedProductGroups', 'rigIndustryModifierSources',

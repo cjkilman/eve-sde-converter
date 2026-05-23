@@ -791,6 +791,26 @@ def metadataCreator(schema):
     )
 
 
+    planetResources = Table('planetResources', metadata,
+            Column('planetID', INTEGER(), primary_key=True, autoincrement=False, nullable=False),
+            Column('resourceType', VARCHAR(length=20), nullable=False),
+            Column('workforce', INTEGER()),
+            Column('power', INTEGER()),
+            schema=schema
+    )
+
+
+    planetResourceReagents = Table('planetResourceReagents', metadata,
+            Column('planetID', INTEGER(), primary_key=True, autoincrement=False, nullable=False),
+            Column('typeID', INTEGER(), index=True),
+            Column('amountPerCycle', INTEGER()),
+            Column('cyclePeriod', INTEGER()),
+            Column('securedCapacity', INTEGER()),
+            Column('unsecuredCapacity', INTEGER()),
+            schema=schema
+    )
+
+
     planetSchematics =  Table('planetSchematics', metadata,
             Column('schematicID', INTEGER(), primary_key=True, autoincrement=False, nullable=False),
             Column('schematicName', VARCHAR(length=255)),
