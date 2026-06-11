@@ -174,6 +174,55 @@ def export_pi_structures(conn, output_dir):
     except Exception as e:
         print(f"  [!] Error generating PI structures map: {e}")
 
+def export_encryptor_matrix(conn, output_dir):
+    """Generates the custom SDE_Encryptor_Matrix.csv mapping Type IDs to their Dogma multipliers."""
+    print("Generating SDE_Encryptor_Matrix.csv (The Encryptor Matrix)...")
+    cursor = conn.cursor()
+    
+    # Using the explicit attributes: 1112 (Prob Mod), 1113 (Run Mod), 1114 (ME Mod), 1115 (TE Mod)
+    query = """
+        SELECT 
+            t.typeID,
+            t.typeName,
+            MAX(CASE WHEN ta.attributeID = 1112 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as probModifier,
+            MAX(CASE WHEN ta.attributeID = 1113 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as runModifier,
+            MAX(CASE WHEN ta.attributeID = 1114 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as meModifier,
+            MAX(CASE WHEN ta.attributeID = 1115 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as teModifier
+        FROM invTypes t
+        JOIN dgmTypeAttributes ta ON t.typeID = ta.typeID
+        WHERE t.marketGroupID = 1313 AND t.published = 1
+        GROUP BY t.typeID, t.typeName
+    """
+    
+    try:
+        cursor.execute(query)
+        results = cursor.fetchall()
+        
+        file_path = os.path.join(output_dir, "SDE_Encryptor_Matrix.csv")
+        
+        with open(file_path, mode='w', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerow(['typeID', 'typeName', 'probModifier', 'runModifier', 'meModifier', 'teModifier'])
+            
+            for row in results:
+                type_id, name, prob, run, me, te = row
+                
+                # Filter out Serenity localizations using your gatekeeper
+                if not is_tq_safe(name):
+                    continue
+                    
+                # Standardize null values to 0 or 1.0 (defaults) for clean Apps Script reading
+                prob_val = round(prob, 2) if prob is not None else 1.0
+                run_val  = int(run) if run is not None else 0
+                me_val   = int(me) if me is not None else 0
+                te_val   = int(te) if te is not None else 0
+                
+                writer.writerow([type_id, name, prob_val, run_val, me_val, te_val])
+                
+        print(f"  -> Success! Wrote {len(results)} encryptor profiles to {file_path}")
+    except Exception as e:
+        print(f"  [!] Error generating encryptor matrix: {e}")
+
 def export_all_tables():
     # 1. Check for Database
     if not os.path.exists(DB_NAME):
@@ -234,6 +283,7 @@ def export_all_tables():
     export_slim_planets(conn, OUTPUT_DIR)
     export_ore_skill_map(conn, OUTPUT_DIR)
     export_pi_structures(conn, OUTPUT_DIR)
+    export_encryptor_matrix(conn, OUTPUT_DIR)
     
     conn.close()
     print(f"\n--- Full Export Complete. Check the folder: {OUTPUT_DIR} ---")
