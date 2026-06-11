@@ -601,6 +601,8 @@ jobs:
 
     # Only create a release if an update is needed AND we're on main
     if: needs.check-and-update-sde.outputs.update_needed == 'true' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
 
     steps:
       - name: Download SQLite artifacts
