@@ -139,47 +139,14 @@ def export_ore_skill_map(conn, output_dir):
         print(f"  -> Success! Wrote {len(results)} skill mappings to {file_path}")
     except Exception as e:
         print(f"  [!] Error generating skill map: {e}")
-def export_pi_structures(conn, output_dir):
-    """Generates SDE_PI_Structures.csv for Planetary Infrastructure pins."""
-    print("Generating SDE_PI_Structures.csv (Planetary Infrastructure)...")
-    cursor = conn.cursor()
-    
-    # Category 41 is 'Planetary Infrastructure' (The actual pins placed on the planet)
-    query = """
-        SELECT 
-            t.typeID,
-            t.groupID,
-            t.typeName,
-            t.volume,
-            t.capacity
-        FROM invTypes t
-        JOIN invGroups g ON t.groupID = g.groupID
-        WHERE g.categoryID = 41
-    """
-    
-    try:
-        cursor.execute(query)
-        results = cursor.fetchall()
-        
-        file_path = os.path.join(output_dir, "SDE_PI_Structures.csv")
-        
-        with open(file_path, mode='w', newline='', encoding='utf-8') as f:
-            writer = csv.writer(f)
-            # Write headers
-            writer.writerow(['typeID', 'groupID', 'typeName', 'volume', 'capacity'])
-            writer.writerows(results)
-
-        print(f"  -> Success! Wrote {len(results)} PI structures to {file_path}")
-        
-    except Exception as e:
-        print(f"  [!] Error generating PI structures map: {e}")
 
 def export_encryptor_matrix(conn, output_dir):
     """Generates the custom SDE_Encryptor_Matrix.csv mapping Type IDs to their Dogma multipliers."""
     print("Generating SDE_Encryptor_Matrix.csv (The Encryptor Matrix)...")
     cursor = conn.cursor()
     
-    # Corrected attributes: 1112 (Prob), 1124 (Runs), 1113 (ME), 1114 (TE)
+    # We select ONLY items that actually possess the Invention Probability Multiplier (1112)
+    # This guarantees we only get Decryptors (and their variants) and absolutely zero Fighters.
     query = """
         SELECT 
             t.typeID,
@@ -190,9 +157,10 @@ def export_encryptor_matrix(conn, output_dir):
             MAX(CASE WHEN ta.attributeID = 1114 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as teModifier
         FROM invTypes t
         JOIN dgmTypeAttributes ta ON t.typeID = ta.typeID
-        JOIN invGroups g ON t.groupID = g.groupID
-        WHERE (g.groupName LIKE '%Decryptor%' OR t.typeName LIKE '%Decryptor')
-        AND t.published = 1
+        WHERE t.published = 1 
+        AND t.typeID IN (
+            SELECT typeID FROM dgmTypeAttributes WHERE attributeID = 1112
+        )
         GROUP BY t.typeID, t.typeName
     """
     
@@ -206,17 +174,15 @@ def export_encryptor_matrix(conn, output_dir):
             writer = csv.writer(f)
             writer.writerow(['typeID', 'typeName', 'probModifier', 'runModifier', 'meModifier', 'teModifier'])
             
-            # THE FIX: Inject the baseline "No Decryptor" state
+            # Inject the baseline "No Decryptor" state
             writer.writerow([0, 'None', 1.0, 0, 0, 0])
             
             for row in results:
                 type_id, name, prob, run, me, te = row
                 
-                # Filter out Serenity localizations using your gatekeeper
                 if not is_tq_safe(name):
                     continue
                     
-                # Standardize null values to 0 or 1.0 (defaults) for clean Apps Script reading
                 prob_val = round(prob, 2) if prob is not None else 1.0
                 run_val  = int(run) if run is not None else 0
                 me_val   = int(me) if me is not None else 0
