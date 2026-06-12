@@ -194,59 +194,58 @@ def export_encryptor_matrix(conn, output_dir):
     except Exception as e:
         print(f"  [!] Error generating encryptor matrix: {e}")
 
-def export_all_tables():
-    # 1. Check for Database
-    if not os.path.exists(DB_NAME):
-        print(f"CRITICAL ERROR: {DB_NAME} not found.")
-        print("Please run the builder (run_windows.ps1) first.")
-        return
-
-    # 2. Ensure output directory exists
-    if not os.path.exists(OUTPUT_DIR):
-        try:
-            os.makedirs(OUTPUT_DIR)
-            print(f"Created output directory: {OUTPUT_DIR}")
-        except OSError as e:
-            print(f"Error creating directory {OUTPUT_DIR}: {e}")
-            return
-
-    conn = sqlite3.connect(DB_NAME)
+def export_encryptor_matrix(conn, output_dir):
+    """Generates the custom SDE_Encryptor_Matrix.csv mapping Type IDs to their Dogma multipliers."""
+    print("Generating SDE_Encryptor_Matrix.csv (The Encryptor Matrix)...")
     cursor = conn.cursor()
-
-    # 3. Get list of ALL tables
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-    tables = cursor.fetchall()
-
-    print(f"--- Found {len(tables)} tables. Exporting to '{OUTPUT_DIR}'... ---")
-
-    for table_tuple in tables:
-        table_name = table_tuple[0]
+    
+    # We are directly querying Market Group 1873, which is definitively the "Decryptors" group.
+    query = """
+        SELECT 
+            t.typeID,
+            t.typeName,
+            MAX(CASE WHEN ta.attributeID = 1112 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as probModifier,
+            MAX(CASE WHEN ta.attributeID = 1124 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as runModifier,
+            MAX(CASE WHEN ta.attributeID = 1113 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as meModifier,
+            MAX(CASE WHEN ta.attributeID = 1114 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as teModifier
+        FROM invTypes t
+        LEFT JOIN dgmTypeAttributes ta ON t.typeID = ta.typeID
+        WHERE t.marketGroupID = 1873 
+        AND t.published = 1
+        GROUP BY t.typeID, t.typeName
+    """
+    
+    try:
+        cursor.execute(query)
+        results = cursor.fetchall()
         
-        # Skip internal system tables
-        if table_name.startswith("sqlite_") or table_name == "alembic_version":
-            continue
-
-        print(f"Exporting {table_name}.csv...")
+        file_path = os.path.join(output_dir, "SDE_Encryptor_Matrix.csv")
         
-        # Define the full path to the separate folder
-        file_path = os.path.join(OUTPUT_DIR, f"{table_name}.csv")
-        
-        try:
-            cursor.execute(f"SELECT * FROM {table_name}")
-            rows = cursor.fetchall()
+        with open(file_path, mode='w', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerow(['typeID', 'typeName', 'probModifier', 'runModifier', 'meModifier', 'teModifier'])
             
-            # Get Headers
-            headers = [description[0] for description in cursor.description]
+            # THE FIX: Inject the baseline "No Decryptor" state
+            writer.writerow([0, 'None', 1.0, 0, 0, 0])
             
-            # Write Data to the SPECIFIC path
-            with open(file_path, "w", newline="", encoding="utf-8") as f:
-                writer = csv.writer(f)
-                writer.writerow(headers)
-                if rows:
-                    writer.writerows(rows)
+            for row in results:
+                type_id, name, prob, run, me, te = row
                 
-        except Exception as e:
-            print(f"  [!] Error exporting {table_name}: {e}")
+                # Filter out Serenity localizations using your gatekeeper
+                if not is_tq_safe(name):
+                    continue
+                    
+                # Standardize null values to 0 or 1.0 (defaults) for clean Apps Script reading
+                prob_val = round(prob, 2) if prob is not None else 1.0
+                run_val  = int(run) if run is not None else 0
+                me_val   = int(me) if me is not None else 0
+                te_val   = int(te) if te is not None else 0
+                
+                writer.writerow([type_id, name, prob_val, run_val, me_val, te_val])
+                
+        print(f"  -> Success! Wrote {len(results)} encryptor profiles to {file_path}")
+    except Exception as e:
+        print(f"  [!] Error generating encryptor matrix: {e}")
 
     # --- 4. GENERATE CUSTOM OMNI-MAP CSV ---
     print("\n--- Starting Custom Data Exports ---")
