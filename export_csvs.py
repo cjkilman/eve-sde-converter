@@ -161,6 +161,7 @@ def export_encryptor_matrix(conn, output_dir):
     print("Generating SDE_Encryptor_Matrix.csv (The Encryptor Matrix)...")
     cursor = conn.cursor()
     
+    # Using Market Group 1873 (Decryptors) to ensure clean data
     query = """
         SELECT 
             t.typeID,
@@ -183,19 +184,16 @@ def export_encryptor_matrix(conn, output_dir):
         with open(file_path, mode='w', newline='', encoding='utf-8') as f:
             writer = csv.writer(f)
             writer.writerow(['typeID', 'typeName', 'probModifier', 'runModifier', 'meModifier', 'teModifier'])
-            
             writer.writerow([0, 'None', 1.0, 0, 0, 0])
             
             for row in results:
                 type_id, name, prob, run, me, te = row
-                if not is_tq_safe(name):
-                    continue
+                if not is_tq_safe(name): continue
                     
                 prob_val = round(prob, 2) if prob is not None else 1.0
                 run_val  = int(run) if run is not None else 0
                 me_val   = int(me) if me is not None else 0
                 te_val   = int(te) if te is not None else 0
-                
                 writer.writerow([type_id, name, prob_val, run_val, me_val, te_val])
                 
         print(f"  -> Success! Wrote {len(results)} encryptor profiles to {file_path}")
