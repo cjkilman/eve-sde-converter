@@ -190,7 +190,9 @@ def export_encryptor_matrix(conn, output_dir):
             MAX(CASE WHEN ta.attributeID = 1114 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as teModifier
         FROM invTypes t
         JOIN dgmTypeAttributes ta ON t.typeID = ta.typeID
-        WHERE t.marketGroupID = 1313 AND t.published = 1
+        JOIN invGroups g ON t.groupID = g.groupID
+        WHERE (g.groupName LIKE '%Decryptor%' OR t.typeName LIKE '%Decryptor')
+        AND t.published = 1
         GROUP BY t.typeID, t.typeName
     """
     
