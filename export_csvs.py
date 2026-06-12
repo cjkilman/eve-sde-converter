@@ -179,15 +179,15 @@ def export_encryptor_matrix(conn, output_dir):
     print("Generating SDE_Encryptor_Matrix.csv (The Encryptor Matrix)...")
     cursor = conn.cursor()
     
-    # Using the explicit attributes: 1112 (Prob Mod), 1113 (Run Mod), 1114 (ME Mod), 1115 (TE Mod)
+    # Corrected attributes: 1112 (Prob), 1124 (Runs), 1113 (ME), 1114 (TE)
     query = """
         SELECT 
             t.typeID,
             t.typeName,
             MAX(CASE WHEN ta.attributeID = 1112 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as probModifier,
-            MAX(CASE WHEN ta.attributeID = 1113 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as runModifier,
-            MAX(CASE WHEN ta.attributeID = 1114 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as meModifier,
-            MAX(CASE WHEN ta.attributeID = 1115 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as teModifier
+            MAX(CASE WHEN ta.attributeID = 1124 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as runModifier,
+            MAX(CASE WHEN ta.attributeID = 1113 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as meModifier,
+            MAX(CASE WHEN ta.attributeID = 1114 THEN COALESCE(ta.valueFloat, ta.valueInt) END) as teModifier
         FROM invTypes t
         JOIN dgmTypeAttributes ta ON t.typeID = ta.typeID
         WHERE t.marketGroupID = 1313 AND t.published = 1
