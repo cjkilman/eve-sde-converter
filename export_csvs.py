@@ -204,6 +204,9 @@ def export_encryptor_matrix(conn, output_dir):
             writer = csv.writer(f)
             writer.writerow(['typeID', 'typeName', 'probModifier', 'runModifier', 'meModifier', 'teModifier'])
             
+            # THE FIX: Inject the baseline "No Decryptor" state
+            writer.writerow([0, 'None', 1.0, 0, 0, 0])
+            
             for row in results:
                 type_id, name, prob, run, me, te = row
                 
