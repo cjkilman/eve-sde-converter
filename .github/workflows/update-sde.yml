@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Detect trigger type
         id: trigger_type
@@ -28,7 +28,7 @@ jobs:
           fi
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -98,7 +98,7 @@ jobs:
 
       - name: Upload SDE artifact
         if: steps.compare.outputs.update_needed == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sde-data
           path: sde/
@@ -119,16 +119,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download SDE artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: sde-data
           path: sde/
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: 'pip'
@@ -152,8 +152,25 @@ jobs:
             exit 1
           fi
 
+<<<<<<< HEAD
       - name: Upload database and CSV artifacts
         uses: actions/upload-artifact@v4
+=======
+      - name: Run Load.py to populate database
+        run: |
+          python3 Load.py sqlite en --create-stripped
+
+      - name: Run basic validation
+        run: |
+          python3 validation/basic_validation.py sqlite
+
+      - name: Run query validation
+        run: |
+          python3 validation/query_validation.py sqlite
+
+      - name: Upload database artifacts
+        uses: actions/upload-artifact@v7
+>>>>>>> noirsoldats/main
         with:
           name: sde-sqlite
           path: |
@@ -181,16 +198,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download SDE artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: sde-data
           path: sde/
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -231,7 +248,7 @@ jobs:
           python3 validation/query_validation.py mysql
 
       - name: Wait for SQLite build (for cross-db validation)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         continue-on-error: true
         with:
           name: sde-sqlite
@@ -248,7 +265,7 @@ jobs:
           fi
 
       - name: Upload database artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sde-mysql
           path: |
@@ -273,16 +290,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download SDE artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: sde-data
           path: sde/
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -323,7 +340,7 @@ jobs:
           python3 validation/query_validation.py postgres
 
       - name: Wait for SQLite build (for cross-db validation)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         continue-on-error: true
         with:
           name: sde-sqlite
@@ -340,7 +357,7 @@ jobs:
           fi
 
       - name: Upload database artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sde-postgresql
           path: |
@@ -365,16 +382,16 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download SDE artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: sde-data
           path: sde/
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -442,7 +459,7 @@ jobs:
           python3 validation/query_validation.py mssql
 
       - name: Wait for SQLite build (for cross-db validation)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         continue-on-error: true
         with:
           name: sde-sqlite
@@ -459,7 +476,7 @@ jobs:
           fi
 
       - name: Upload database artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sde-mssql
           path: |
@@ -470,15 +487,53 @@ jobs:
     runs-on: ubuntu-latest
     needs: [check-and-update-sde, build-sqlite]
     if: needs.check-and-update-sde.outputs.update_needed == 'true' && github.ref == 'refs/heads/main'
+<<<<<<< HEAD
     steps:
       - name: Download processed artifacts
         uses: actions/download-artifact@v4
+=======
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download SQLite artifacts
+        uses: actions/download-artifact@v8
+>>>>>>> noirsoldats/main
         with:
           name: sde-sqlite
           path: artifacts/
 
+<<<<<<< HEAD
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
+=======
+      - name: Download MySQL artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: sde-mysql
+          path: artifacts/
+
+      - name: Download PostgreSQL artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: sde-postgresql
+          path: artifacts/
+
+      - name: Download MSSQL artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: sde-mssql
+          path: artifacts/
+
+      - name: List downloaded artifacts
+        run: |
+          echo "Downloaded artifacts:"
+          ls -lh artifacts/
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v3
+>>>>>>> noirsoldats/main
         with:
           tag_name: ${{ needs.check-and-update-sde.outputs.version_tag }}
           name: ${{ needs.check-and-update-sde.outputs.version_name }}

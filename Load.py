@@ -102,6 +102,7 @@ except Exception as e:
     print(f"Error during import: {e}")
     sys.exit(1)
 
+<<<<<<< HEAD
 finally:
     # 5. PHASE 2: INDEX CREATION cleanup
     if connection is not None:
@@ -117,6 +118,21 @@ time.sleep(3)
 # Re-connect specifically for indexing phase
 print("Re-connecting for indexing phase...")
 engine = create_engine(destination, connect_args={'timeout': 60})
+=======
+eveUnits.importyaml(connection,metadata,sourcePath,language)
+planetary.importyaml(connection,metadata,sourcePath,language)
+planetResources.importyaml(connection,metadata,sourcePath,language)
+# bsdTables.importyaml(connection,metadata,sourcePath)
+volumes.importVolumes(connection,metadata,sourcePath)
+compressibleTypes.importyaml(connection,metadata,sourcePath,language)
+universe.importyaml(connection,metadata,sourcePath,language)
+universe.buildJumps(connection,metadata)
+stations.importyaml(connection,metadata,sourcePath,language)
+universe.fixStationNames(connection,metadata)
+invNames.importyaml(connection,metadata,sourcePath,language)
+invItems.importyaml(connection,metadata,sourcePath,language)
+rigAffectedProductGroups.importRigMappings(connection,metadata)
+>>>>>>> noirsoldats/main
 
 print("\n" + "="*60)
 print("Creating Indexes...")
@@ -152,8 +168,15 @@ if create_stripped and database == 'sqlite':
         'dgmAttributeCategories', 'dgmExpressions',
         'mapRegions', 'mapSolarSystems', 'staStations',
         'invTypeMaterials', 'invMarketGroups', 'industryBlueprints',
+        'planetResources', 'planetResourceReagents',
         'planetSchematics', 'planetSchematicsPinMap', 'planetSchematicsTypeMap',
+<<<<<<< HEAD
         'invTypeReactions', 'rigAffectedProductGroups', 'rigIndustryModifierSources'
+=======
+        'invTypeReactions',
+        'rigAffectedProductGroups', 'rigIndustryModifierSources',
+        'invCompressibleTypes'
+>>>>>>> noirsoldats/main
     }
 
     if os.path.exists(source_db_path):

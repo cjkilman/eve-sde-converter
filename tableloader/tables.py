@@ -306,7 +306,8 @@ def metadataCreator(schema):
             Column('graphicFile', VARCHAR(length=256)),
             Column('sofHullName', VARCHAR(length=100)),
             Column('sofRaceName', VARCHAR(length=100)),
-            Column('description',UnicodeText()),
+            Column('iconFolder', VARCHAR(length=256)),
+            Column('sofMaterialSetID', INTEGER()),
             schema=schema
     )
 
@@ -520,10 +521,17 @@ def metadataCreator(schema):
     )
 
 
+    invCompressibleTypes =  Table('invCompressibleTypes', metadata,
+            Column('typeID', INTEGER(), primary_key=True, autoincrement=False, nullable=False),
+            schema=schema
+    )
+
+
     invTypeMaterials =  Table('invTypeMaterials', metadata,
             Column('typeID', INTEGER(), primary_key=True, autoincrement=False, nullable=False),
             Column('materialTypeID', INTEGER(), primary_key=True, autoincrement=False, nullable=False),
             Column('quantity', INTEGER(), nullable=False, default=text(u"'0'")),
+            Column('randomizedMaterials', Boolean()),
             schema=schema
     )
 
@@ -553,6 +561,7 @@ def metadataCreator(schema):
             Column('iconID', INTEGER()),
             Column('soundID', INTEGER()),
             Column('graphicID', INTEGER()),
+            Column('metaLevel', INTEGER()),
             schema=schema
     )
 
@@ -778,6 +787,26 @@ def metadataCreator(schema):
             Column('zMin', FLOAT(precision=53)),
             Column('zMax', FLOAT(precision=53)),
             Column('radius', FLOAT(precision=53)),
+            schema=schema
+    )
+
+
+    planetResources = Table('planetResources', metadata,
+            Column('planetID', INTEGER(), primary_key=True, autoincrement=False, nullable=False),
+            Column('resourceType', VARCHAR(length=20), nullable=False),
+            Column('workforce', INTEGER()),
+            Column('power', INTEGER()),
+            schema=schema
+    )
+
+
+    planetResourceReagents = Table('planetResourceReagents', metadata,
+            Column('planetID', INTEGER(), primary_key=True, autoincrement=False, nullable=False),
+            Column('typeID', INTEGER(), index=True),
+            Column('amountPerCycle', INTEGER()),
+            Column('cyclePeriod', INTEGER()),
+            Column('securedCapacity', INTEGER()),
+            Column('unsecuredCapacity', INTEGER()),
             schema=schema
     )
 

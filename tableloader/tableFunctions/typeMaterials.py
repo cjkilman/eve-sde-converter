@@ -40,9 +40,10 @@ def importyaml(connection,metadata,sourcePath,language='en'):
                 processed_types.add(t_id)
                 for material in materials[typeid]['materials']:
                     material_rows.append({
-                        'typeID': t_id,
+                        'typeID': int(typeid),
                         'materialTypeID': int(material['materialTypeID']),
-                        'quantity': int(material['quantity'])
+                        'quantity': int(material['quantity']),
+                        'randomizedMaterials': material.get('randomizedMaterials')
                     })
 
     # 2. Blueprint Fallback (Auto-Grab)

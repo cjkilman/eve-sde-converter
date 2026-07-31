@@ -38,6 +38,7 @@ EXPECTED_COUNTS = {
     'invCategories': 40,
     'mapRegions': 100,
     'dgmAttributeTypes': 500,
+    'invCompressibleTypes': 100,
 }
 
 # Tables that must exist
@@ -46,6 +47,7 @@ REQUIRED_TABLES = [
     'dgmTypeAttributes', 'dgmAttributeTypes', 'dgmEffects',
     'mapRegions', 'mapConstellations', 'mapSolarSystems',
     'industryBlueprints', 'industryActivity',
+    'invCompressibleTypes',
 ]
 
 
