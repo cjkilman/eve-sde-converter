@@ -152,14 +152,6 @@ jobs:
             exit 1
           fi
 
-<<<<<<< HEAD
-      - name: Upload database and CSV artifacts
-        uses: actions/upload-artifact@v4
-=======
-      - name: Run Load.py to populate database
-        run: |
-          python3 Load.py sqlite en --create-stripped
-
       - name: Run basic validation
         run: |
           python3 validation/basic_validation.py sqlite
@@ -168,9 +160,9 @@ jobs:
         run: |
           python3 validation/query_validation.py sqlite
 
-      - name: Upload database artifacts
+      - name: Upload database and CSV artifacts
         uses: actions/upload-artifact@v7
->>>>>>> noirsoldats/main
+
         with:
           name: sde-sqlite
           path: |
@@ -483,30 +475,21 @@ jobs:
             eve-mssql.sql.gz
           retention-days: 7
 
-  create-release:
+ create-release:
     runs-on: ubuntu-latest
     needs: [check-and-update-sde, build-sqlite]
     if: needs.check-and-update-sde.outputs.update_needed == 'true' && github.ref == 'refs/heads/main'
-<<<<<<< HEAD
-    steps:
-      - name: Download processed artifacts
-        uses: actions/download-artifact@v4
-=======
+
     permissions:
       contents: write
 
     steps:
       - name: Download SQLite artifacts
         uses: actions/download-artifact@v8
->>>>>>> noirsoldats/main
         with:
           name: sde-sqlite
           path: artifacts/
 
-<<<<<<< HEAD
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-=======
       - name: Download MySQL artifacts
         uses: actions/download-artifact@v8
         with:
@@ -533,7 +516,6 @@ jobs:
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v3
->>>>>>> noirsoldats/main
         with:
           tag_name: ${{ needs.check-and-update-sde.outputs.version_tag }}
           name: ${{ needs.check-and-update-sde.outputs.version_name }}
