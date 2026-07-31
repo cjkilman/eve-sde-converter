@@ -16,13 +16,17 @@ def importyaml(connection, metadata, sourcePath, language='en'):
 
     targetPath = os.path.join(sourcePath, 'planetResources.yaml')
     if not os.path.exists(targetPath):
-        targetPath = os.path.join(sourcePath, 'fsd', 'planetResources.yaml')
+        targetPath = os.path.join(sourcePath, 'sde', 'fsd', 'planetResources.yaml')
     if not os.path.exists(targetPath):
         targetPath = os.path.join(sourcePath, 'sde', 'fsd', 'planetResources.yaml')
 
     print(f"  Opening {targetPath}")
 
-    trans = connection.begin()
+    if connection.in_transaction():
+        trans = None
+    else:
+        trans = connection.begin()
+
     with open(targetPath, 'r', encoding='utf-8') as yamlstream:
         data = load(yamlstream, Loader=SafeLoader)
         print(f"  Populating Planet Resource tables with {len(data)} entries")
@@ -70,5 +74,6 @@ def importyaml(connection, metadata, sourcePath, language='en'):
             connection.execute(planetResourceReagents.insert(), reagent_rows)
             print(f"  Inserted {len(reagent_rows)} planet reagent rows")
 
-    trans.commit()
+    if trans:
+        trans.commit()
     print("  Done")
