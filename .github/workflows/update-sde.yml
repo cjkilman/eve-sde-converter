@@ -475,7 +475,7 @@ jobs:
             eve-mssql.sql.gz
           retention-days: 7
 
- create-release:
+  create-release:
     runs-on: ubuntu-latest
     needs: [check-and-update-sde, build-sqlite]
     if: needs.check-and-update-sde.outputs.update_needed == 'true' && github.ref == 'refs/heads/main'
