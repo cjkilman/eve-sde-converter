@@ -37,20 +37,13 @@ def importyaml(connection, metadata, sourcePath):
         for graphic in graphics:
             graphic_rows.append({
                 'graphicID': graphic,
-<<<<<<< HEAD
                 'sofFactionName': graphics[graphic].get('sofFactionName', ''),
                 'graphicFile': graphics[graphic].get('graphicFile', ''),
                 'sofHullName': graphics[graphic].get('sofHullName', ''),
                 'sofRaceName': graphics[graphic].get('sofRaceName', ''),
-                'description': ''
-=======
-                'sofFactionName': graphics[graphic].get('sofFactionName'),
-                'graphicFile': graphics[graphic].get('graphicFile'),
-                'sofHullName': graphics[graphic].get('sofHullName'),
-                'sofRaceName': graphics[graphic].get('sofRaceName'),
-                'iconFolder': graphics[graphic].get('iconFolder'),
+                'description': '',
+                'iconFolder': graphics[graphic].get('iconFolder', ''),
                 'sofMaterialSetID': graphics[graphic].get('sofMaterialSetID')
->>>>>>> noirsoldats/main
             })
 
         # BULK INSERT
