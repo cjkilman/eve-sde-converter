@@ -65,7 +65,8 @@ def importyaml(connection,metadata,sourcePath,language='en'):
                             material_rows.append({
                                 'typeID': p_id,
                                 'materialTypeID': int(m['typeID']),
-                                'quantity': int(m['quantity'])
+                                'quantity': int(m['quantity']),
+                                'randomizedMaterials': m.get('randomizedMaterials')
                             })
             print(f"  Auto-generated yields for {fallback_count} items.")
 
@@ -81,7 +82,8 @@ def importyaml(connection,metadata,sourcePath,language='en'):
             material_rows.append({
                 'typeID': int(c_id), 
                 'materialTypeID': int(mat['materialTypeID']), 
-                'quantity': int(mat['quantity'])
+                'quantity': int(mat['quantity']),
+                'randomizedMaterials': mat.get('randomizedMaterials')
             })
 
     if material_rows:
