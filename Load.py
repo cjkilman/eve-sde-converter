@@ -102,7 +102,13 @@ except Exception as e:
     print(f"Error during import: {e}")
     sys.exit(1)
 
-<<<<<<< HEAD
+    planetResources.importyaml(connection, metadata, sourcePath, language)
+    compressibleTypes.importyaml(connection, metadata, sourcePath, language)
+
+except Exception as e:
+    print(f"Error during import: {e}")
+    sys.exit(1)
+
 finally:
     # 5. PHASE 2: INDEX CREATION cleanup
     if connection is not None:
@@ -118,7 +124,6 @@ time.sleep(3)
 # Re-connect specifically for indexing phase
 print("Re-connecting for indexing phase...")
 engine = create_engine(destination, connect_args={'timeout': 60})
-=======
 eveUnits.importyaml(connection,metadata,sourcePath,language)
 planetary.importyaml(connection,metadata,sourcePath,language)
 planetResources.importyaml(connection,metadata,sourcePath,language)
@@ -170,13 +175,9 @@ if create_stripped and database == 'sqlite':
         'invTypeMaterials', 'invMarketGroups', 'industryBlueprints',
         'planetResources', 'planetResourceReagents',
         'planetSchematics', 'planetSchematicsPinMap', 'planetSchematicsTypeMap',
-<<<<<<< HEAD
-        'invTypeReactions', 'rigAffectedProductGroups', 'rigIndustryModifierSources'
-=======
         'invTypeReactions',
         'rigAffectedProductGroups', 'rigIndustryModifierSources',
         'invCompressibleTypes'
->>>>>>> noirsoldats/main
     }
 
     if os.path.exists(source_db_path):
