@@ -89,7 +89,9 @@ try:
     masteries.importyaml(connection, metadata, sourcePath, language)
     eveUnits.importyaml(connection, metadata, sourcePath, language)
     planetary.importyaml(connection, metadata, sourcePath, language)
+    planetResources.importyaml(connection, metadata, sourcePath, language)
     volumes.importVolumes(connection, metadata, sourcePath)
+    compressibleTypes.importyaml(connection, metadata, sourcePath, language)
     universe.importyaml(connection, metadata, sourcePath, language)
     universe.buildJumps(connection, metadata)
     stations.importyaml(connection, metadata, sourcePath, language)
@@ -97,13 +99,6 @@ try:
     invNames.importyaml(connection, metadata, sourcePath, language)
     invItems.importyaml(connection, metadata, sourcePath, language)
     rigAffectedProductGroups.importRigMappings(connection, metadata)
-
-except Exception as e:
-    print(f"Error during import: {e}")
-    sys.exit(1)
-
-    planetResources.importyaml(connection, metadata, sourcePath, language)
-    compressibleTypes.importyaml(connection, metadata, sourcePath, language)
 
 except Exception as e:
     print(f"Error during import: {e}")
@@ -124,20 +119,6 @@ time.sleep(3)
 # Re-connect specifically for indexing phase
 print("Re-connecting for indexing phase...")
 engine = create_engine(destination, connect_args={'timeout': 60})
-eveUnits.importyaml(connection,metadata,sourcePath,language)
-planetary.importyaml(connection,metadata,sourcePath,language)
-planetResources.importyaml(connection,metadata,sourcePath,language)
-# bsdTables.importyaml(connection,metadata,sourcePath)
-volumes.importVolumes(connection,metadata,sourcePath)
-compressibleTypes.importyaml(connection,metadata,sourcePath,language)
-universe.importyaml(connection,metadata,sourcePath,language)
-universe.buildJumps(connection,metadata)
-stations.importyaml(connection,metadata,sourcePath,language)
-universe.fixStationNames(connection,metadata)
-invNames.importyaml(connection,metadata,sourcePath,language)
-invItems.importyaml(connection,metadata,sourcePath,language)
-rigAffectedProductGroups.importRigMappings(connection,metadata)
->>>>>>> noirsoldats/main
 
 print("\n" + "="*60)
 print("Creating Indexes...")
@@ -151,9 +132,9 @@ for table_name, indexes in saved_indexes.items():
             try:
                 index.create(engine)
                 index_count += 1
-                print("  ✓ Created index: {}".format(index.name))
+                print("  [OK] Created index: {}".format(index.name))
             except Exception as e:
-                print("  ⚠ Warning: Could not create index {}: {}".format(index.name, e))
+                print("  [WARNING] Could not create index {}: {}".format(index.name, e))
 
 print("\nIndex creation complete! Created {} indexes.".format(index_count))
 
