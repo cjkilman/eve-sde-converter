@@ -6,6 +6,25 @@ import configparser
 import warnings
 from sqlalchemy import create_engine, Table
 
+import sqlalchemy.engine.base
+
+# 0. THE SHIELD: Intercept and neutralize legacy transaction calls
+original_begin = sqlalchemy.engine.base.Connection.begin
+
+class DummyTransaction:
+    def commit(self): pass
+    def rollback(self): pass
+    def close(self): pass
+    def __enter__(self): return self
+    def __exit__(self, type, value, traceback): pass
+
+def safe_begin(self, *args, **kwargs):
+    if self.in_transaction():
+        return DummyTransaction()
+    return original_begin(self, *args, **kwargs)
+
+sqlalchemy.engine.base.Connection.begin = safe_begin
+
 # Suppress SQLAlchemy warnings
 warnings.filterwarnings('ignore', '^Unicode type received non-unicode bind param value')
 
