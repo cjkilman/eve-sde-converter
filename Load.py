@@ -101,7 +101,7 @@ try:
     graphics.importyaml(connection, metadata, sourcePath)
     groups.importyaml(connection, metadata, sourcePath, language)
     certificates.importyaml(connection, metadata, sourcePath, language)
-    icons.importyaml(connection, metadata, sourcePath)
+    icons.importyaml(connection, metadata, sourcePath, language)
     skins.importyaml(connection, metadata, sourcePath)
     types.importyaml(connection, metadata, sourcePath, language)
     typeBonus.importyaml(connection, metadata, sourcePath, language)
@@ -118,6 +118,15 @@ try:
     invNames.importyaml(connection, metadata, sourcePath, language)
     invItems.importyaml(connection, metadata, sourcePath, language)
     rigAffectedProductGroups.importRigMappings(connection, metadata)
+
+    # --- Clean up CCP's orphaned SDE data ---
+    from sqlalchemy import text
+    print("Cleaning up orphaned blueprints...")
+    trans = connection.begin() if not connection.in_transaction() else None
+    connection.execute(text('DELETE FROM "industryBlueprints" WHERE "typeID" NOT IN (SELECT "typeID" FROM "invTypes")'))
+    if trans:
+        trans.commit()
+    # ----------------------------------------
 
 except Exception as e:
     print(f"Error during import: {e}")
