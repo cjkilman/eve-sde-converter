@@ -8,42 +8,32 @@ except ImportError:
 import os
 from sqlalchemy import Table
 
-def is_tq_safe(text):
-    """Returns True if string is pure ASCII (Tranquility safe)"""
-    if not text: return True
-    return all(ord(char) < 128 for char in text)
-
 def importyaml(connection,metadata,sourcePath,language='en'):
     invTypes = Table('invTypes',metadata)
     trnTranslations = Table('trnTranslations',metadata)
+    certMasteries = Table('certMasteries',metadata)
+    invTraits = Table('invTraits',metadata)
     invMetaTypes = Table('invMetaTypes',metadata)
     print("Importing Types")
 
     targetPath = os.path.join(sourcePath, 'types.yaml')
     if not os.path.exists(targetPath):
+        targetPath = os.path.join(sourcePath, 'fsd', 'types.yaml')
+    if not os.path.exists(targetPath):
         targetPath = os.path.join(sourcePath, 'sde', 'fsd', 'types.yaml')
 
-    if connection.in_transaction():
-        trans = None
-    else:
-        trans = connection.begin()
-
+    print(f"  Opening {targetPath}")
     with open(targetPath,'r', encoding='utf-8') as yamlstream:
+        trans = connection.begin()
         typeids=load(yamlstream,Loader=SafeLoader)
         print(f"  Processing {len(typeids)} types")
 
+        # Build bulk insert lists
         type_rows = []
         translation_rows = []
         meta_type_rows = []
 
         for typeid in typeids:
-            name = typeids[typeid].get('name', {}).get(language, '')
-            desc = typeids[typeid].get('description', {}).get(language, '')
-
-            # THE GATEKEEPER: Skip the item if it contains Chinese characters
-            if not is_tq_safe(name):
-                continue
-
             type_rows.append({
                 'typeID': typeid,
                 'groupID': typeids[typeid].get('groupID',0),
@@ -63,17 +53,70 @@ def importyaml(connection,metadata,sourcePath,language='en'):
                 'metaLevel': typeids[typeid].get('metaLevel')
             })
 
-            if 'name' in typeids[typeid]:
+            # @TODO: Fix 'masteries' fetch from certificates.yaml(?)
+            # if  "masteries" in typeids[typeid]:
+            #     for level in typeids[typeid]["masteries"]:
+            #         for cert in typeids[typeid]["masteries"][level]:
+            #             connection.execute(certMasteries.insert().values(
+            #                                 typeID=typeid,
+            #                                 masteryLevel=level,
+            #                                 certID=cert))
+
+            if ('name' in typeids[typeid]):
                 for lang in typeids[typeid]['name']:
                     translation_rows.append({
-                        'tcID': 8, 'keyID': typeid, 'languageID': lang, 'text': typeids[typeid]['name'][lang]
+                        'tcID': 8,
+                        'keyID': typeid,
+                        'languageID': lang,
+                        'text': typeids[typeid]['name'][lang]
                     })
 
-            if 'description' in typeids[typeid]:
+            if ('description' in typeids[typeid]):
                 for lang in typeids[typeid]['description']:
                     translation_rows.append({
-                        'tcID': 33, 'keyID': typeid, 'languageID': lang, 'text': typeids[typeid]['description'][lang]
+                        'tcID': 33,
+                        'keyID': typeid,
+                        'languageID': lang,
+                        'text': typeids[typeid]['description'][lang]
                     })
+
+            # @TODO: Fix 'traits' and figure out what they are and where they went..?
+            # Traits moved to the TypeBonus.yaml file and are now handled in the typeBonus.py.
+            # if ('traits' in typeids[typeid]):
+            #     if 'types' in typeids[typeid]['traits']:
+            #         for skill in typeids[typeid]['traits']['types']:
+            #             for trait in typeids[typeid]['traits']['types'][skill]:
+            #                 result=connection.execute(invTraits.insert().values(
+            #                                     typeID=typeid,
+            #                                     skillID=skill,
+            #                                     bonus=trait.get('bonus'),
+            #                                     bonusText=trait.get('bonusText',{}).get(language,''),
+            #                                     unitID=trait.get('unitID')))
+            #                 traitid=result.inserted_primary_key
+            #                 for languageid in trait.get('bonusText',{}):
+            #                     connection.execute(trnTranslations.insert().values(tcID=1002,keyID=traitid[0],languageID=languageid,text=trait['bonusText'][languageid]))
+            #     if 'roleBonuses' in typeids[typeid]['traits']:
+            #         for trait in typeids[typeid]['traits']['roleBonuses']:
+            #             result=connection.execute(invTraits.insert().values(
+            #                     typeID=typeid,
+            #                     skillID=-1,
+            #                     bonus=trait.get('bonus'),
+            #                     bonusText=trait.get('bonusText',{}).get(language,''),
+            #                     unitID=trait.get('unitID')))
+            #             traitid=result.inserted_primary_key
+            #             for languageid in trait.get('bonusText',{}):
+            #                 connection.execute(trnTranslations.insert().values(tcID=1002,keyID=traitid[0],languageID=languageid,text=trait['bonusText'][languageid]))
+            #     if 'miscBonuses' in typeids[typeid]['traits']:
+            #         for trait in typeids[typeid]['traits']['miscBonuses']:
+            #             result=connection.execute(invTraits.insert().values(
+            #                     typeID=typeid,
+            #                     skillID=-2,
+            #                     bonus=trait.get('bonus'),
+            #                     bonusText=trait.get('bonusText',{}).get(language,''),
+            #                     unitID=trait.get('unitID')))
+            #             traitid=result.inserted_primary_key
+            #             for languageid in trait.get('bonusText',{}):
+            #                 connection.execute(trnTranslations.insert().values(tcID=1002,keyID=traitid[0],languageID=languageid,text=trait['bonusText'][languageid]))
 
             if 'metaGroupID' in typeids[typeid] or 'variationParentTypeID' in typeids[typeid]:
                 meta_type_rows.append({
@@ -82,6 +125,7 @@ def importyaml(connection,metadata,sourcePath,language='en'):
                     'parentTypeID': typeids[typeid].get('variationParentTypeID')
                 })
 
+        # BULK INSERTS - 3 calls instead of 30,000+
         if type_rows:
             connection.execute(invTypes.insert(), type_rows)
             print(f"  Inserted {len(type_rows)} types")
@@ -93,7 +137,6 @@ def importyaml(connection,metadata,sourcePath,language='en'):
         if meta_type_rows:
             connection.execute(invMetaTypes.insert(), meta_type_rows)
             print(f"  Inserted {len(meta_type_rows)} meta types")
-    
-    if trans:
-        trans.commit()
+
+    trans.commit()
     print("  Done")

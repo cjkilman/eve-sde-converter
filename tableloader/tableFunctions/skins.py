@@ -16,12 +16,7 @@ def importyaml(connection,metadata,sourcePath,language='en'):
     
     print("Importing Skins")
 
-    
-    if connection.in_transaction():
-        trans = None
-    else:
-        trans = connection.begin()
-
+    trans = connection.begin()
 
     # Build bulk insert lists
     skin_rows = []
@@ -104,12 +99,5 @@ def importyaml(connection,metadata,sourcePath,language='en'):
         connection.execute(skinMaterials.insert(), material_rows)
         print(f"  Inserted {len(material_rows)} skin materials")
 
-    
-    if trans:
-        trans.commit()
-
+    trans.commit()
     print("  Done")
-
-
-
-
