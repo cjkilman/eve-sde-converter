@@ -477,7 +477,7 @@ jobs:
 
   create-release:
     runs-on: ubuntu-latest
-    needs: [check-and-update-sde, build-sqlite]
+    needs: [check-and-update-sde, build-sqlite, build-mysql, build-postgresql, build-mssql]
     if: needs.check-and-update-sde.outputs.update_needed == 'true' && github.ref == 'refs/heads/main'
 
     permissions:
