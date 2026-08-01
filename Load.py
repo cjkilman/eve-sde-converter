@@ -8,7 +8,7 @@ from sqlalchemy import create_engine, Table
 
 import sqlalchemy.engine.base
 
-# 0. THE SHIELD: Intercept and neutralize legacy transaction calls
+# --- THE SHIELD: Intercept and neutralize legacy transaction calls ---
 original_begin = sqlalchemy.engine.base.Connection.begin
 
 class DummyTransaction:
@@ -24,6 +24,7 @@ def safe_begin(self, *args, **kwargs):
     return original_begin(self, *args, **kwargs)
 
 sqlalchemy.engine.base.Connection.begin = safe_begin
+# ---------------------------------------------------------------------
 
 # Suppress SQLAlchemy warnings
 warnings.filterwarnings('ignore', '^Unicode type received non-unicode bind param value')
@@ -100,12 +101,14 @@ try:
     categories.importyaml(connection, metadata, sourcePath, language)
     graphics.importyaml(connection, metadata, sourcePath)
     groups.importyaml(connection, metadata, sourcePath, language)
-    certificates.importyaml(connection, metadata, sourcePath, language)
-    icons.importyaml(connection, metadata, sourcePath, language)
+    certificates.importyaml(connection, metadata, sourcePath, language=language)
+    icons.importyaml(connection, metadata, sourcePath)
     skins.importyaml(connection, metadata, sourcePath)
     types.importyaml(connection, metadata, sourcePath, language)
     typeBonus.importyaml(connection, metadata, sourcePath, language)
     masteries.importyaml(connection, metadata, sourcePath, language)
+    
+    # --- Cleanly merged table imports ---
     eveUnits.importyaml(connection, metadata, sourcePath, language)
     planetary.importyaml(connection, metadata, sourcePath, language)
     planetResources.importyaml(connection, metadata, sourcePath, language)
@@ -118,18 +121,10 @@ try:
     invNames.importyaml(connection, metadata, sourcePath, language)
     invItems.importyaml(connection, metadata, sourcePath, language)
     rigAffectedProductGroups.importRigMappings(connection, metadata)
-
-    # --- Clean up CCP's orphaned SDE data ---
-    from sqlalchemy import text
-    print("Cleaning up orphaned blueprints...")
-    trans = connection.begin() if not connection.in_transaction() else None
-    connection.execute(text('DELETE FROM "industryBlueprints" WHERE "typeID" NOT IN (SELECT "typeID" FROM "invTypes")'))
-    if trans:
-        trans.commit()
-    # ----------------------------------------
+    # -------------------------------------
 
 except Exception as e:
-    print(f"Error during import: {e}")
+    print("Error during import: {}".format(e))
     sys.exit(1)
 
 finally:
@@ -184,8 +179,7 @@ if create_stripped and database == 'sqlite':
         'invTypeMaterials', 'invMarketGroups', 'industryBlueprints',
         'planetResources', 'planetResourceReagents',
         'planetSchematics', 'planetSchematicsPinMap', 'planetSchematicsTypeMap',
-        'invTypeReactions',
-        'rigAffectedProductGroups', 'rigIndustryModifierSources',
+        'invTypeReactions', 'rigAffectedProductGroups', 'rigIndustryModifierSources',
         'invCompressibleTypes'
     }
 
