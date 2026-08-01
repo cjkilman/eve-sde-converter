@@ -101,7 +101,7 @@ try:
     categories.importyaml(connection, metadata, sourcePath, language)
     graphics.importyaml(connection, metadata, sourcePath)
     groups.importyaml(connection, metadata, sourcePath, language)
-    certificates.importyaml(connection, metadata, sourcePath, language=language)
+    certificates.importyaml(connection, metadata, sourcePath)
     icons.importyaml(connection, metadata, sourcePath)
     skins.importyaml(connection, metadata, sourcePath)
     types.importyaml(connection, metadata, sourcePath, language)
